@@ -10,7 +10,7 @@ from Module.Strings import *
 
 
 lang = de
-ordner = "/run/media/va/BCA3-A549/ESM/06-11-14-gxsmneu21/"
+ordner = "/ESM/06-11-14-gxsmneu21/"
 
 
 def hinweis(nachricht):
