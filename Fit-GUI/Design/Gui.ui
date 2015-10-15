@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>Gui</class>
+ <widget class="QMainWindow" name="Gui">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>429</width>
+    <height>424</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Resonanz Fit</string>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QWidget" name="verticalLayoutWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>0</y>
+      <width>411</width>
+      <height>391</height>
+     </rect>
+    </property>
+    <layout class="QVBoxLayout" name="verticallayout">
+     <item>
+      <widget class="QLabel" name="label_name">
+       <property name="text">
+        <string/>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QGridLayout" name="gridlayout">
+       <item row="0" column="0">
+        <widget class="QLabel" name="label_amplitude">
+         <property name="text">
+          <string>Amplitude</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QLabel" name="label_phase">
+         <property name="text">
+          <string>Phase</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QListView" name="list_amplitude">
+         <property name="uniformItemSizes">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="1">
+        <widget class="QListView" name="list_phase">
+         <property name="uniformItemSizes">
+          <bool>true</bool>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+    </layout>
+   </widget>
+  </widget>
+  <widget class="QMenuBar" name="menubar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>429</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <widget class="QMenu" name="menu_messung">
+    <property name="title">
+     <string>Auswertung</string>
+    </property>
+    <addaction name="action_laden"/>
+    <addaction name="action_speichern"/>
+   </widget>
+   <widget class="QMenu" name="menu_ansicht">
+    <property name="title">
+     <string>Ansicht</string>
+    </property>
+    <addaction name="action_resonanzkurve"/>
+    <addaction name="action_phase_schnitt"/>
+    <addaction name="action_amp_schnitt"/>
+    <addaction name="separator"/>
+    <addaction name="action_resfreq"/>
+    <addaction name="action_amplitude"/>
+    <addaction name="action_phase"/>
+    <addaction name="action_qfaktor"/>
+    <addaction name="separator"/>
+    <addaction name="action_alles"/>
+   </widget>
+   <widget class="QMenu" name="menu_darstellung">
+    <property name="title">
+     <string>Darstellung</string>
+    </property>
+    <addaction name="action_aktualisieren"/>
+    <addaction name="separator"/>
+    <addaction name="action_glaetten"/>
+    <addaction name="action_prozent"/>
+   </widget>
+   <addaction name="menu_messung"/>
+   <addaction name="menu_ansicht"/>
+   <addaction name="menu_darstellung"/>
+  </widget>
+  <action name="action_laden">
+   <property name="text">
+    <string>Öffnen...</string>
+   </property>
+  </action>
+  <action name="action_messparameter">
+   <property name="text">
+    <string>Messparameter...</string>
+   </property>
+  </action>
+  <action name="action_phase_schnitt">
+   <property name="text">
+    <string>Phasenschnitt</string>
+   </property>
+  </action>
+  <action name="action_amplitude">
+   <property name="text">
+    <string>Amplitude</string>
+   </property>
+  </action>
+  <action name="action_phase">
+   <property name="text">
+    <string>Phase</string>
+   </property>
+  </action>
+  <action name="action_qfaktor">
+   <property name="text">
+    <string>Q-Faktor</string>
+   </property>
+  </action>
+  <action name="action_alles">
+   <property name="text">
+    <string>Alles anzeigen</string>
+   </property>
+  </action>
+  <action name="action_glaetten">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="checked">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Glätten</string>
+   </property>
+  </action>
+  <action name="action_aktualisieren">
+   <property name="text">
+    <string>Aktualisieren</string>
+   </property>
+  </action>
+  <action name="action_prozent">
+   <property name="checkable">
+    <bool>true</bool>
+   </property>
+   <property name="text">
+    <string>Fehler in Prozent</string>
+   </property>
+  </action>
+  <action name="action_resfreq">
+   <property name="text">
+    <string>Resonanzfrequenz</string>
+   </property>
+  </action>
+  <action name="action_amp_schnitt">
+   <property name="text">
+    <string>Amplitudenschnitt</string>
+   </property>
+  </action>
+  <action name="action_resonanzkurve">
+   <property name="text">
+    <string>Resonanzkurve</string>
+   </property>
+  </action>
+  <action name="action_speichern">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Fit speichern...</string>
+   </property>
+  </action>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
