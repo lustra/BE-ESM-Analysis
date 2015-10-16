@@ -1,4 +1,9 @@
 # coding=utf-8
+"""
+@author: Valon Lushta
+@author: Sebastian Badur
+"""
+
 from PyQt4 import QtGui
 from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure

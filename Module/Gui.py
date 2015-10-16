@@ -1,4 +1,9 @@
 # coding=utf-8
+"""
+@author: Valon Lushta
+@author: Sebastian Badur
+"""
+
 import sys
 from PyQt4 import QtGui
 

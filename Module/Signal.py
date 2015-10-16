@@ -1,4 +1,9 @@
 # coding=utf-8
+"""
+@author: Valon Lushta
+@author: Sebastian Badur
+"""
+
 from PyQt4.QtCore import SIGNAL
 
 

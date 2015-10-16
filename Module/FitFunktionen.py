@@ -1,4 +1,9 @@
 # coding=utf-8
+"""
+@author: Valon Lushta
+@author: Sebastian Badur
+"""
+
 import numpy as np
 from scipy.signal import savgol_filter
 from scipy.optimize import leastsq

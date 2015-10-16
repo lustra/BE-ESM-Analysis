@@ -1,4 +1,9 @@
 # coding=utf-8
+"""
+@author: Valon Lushta
+@author: Sebastian Badur
+"""
+
 import numpy as np
 from nptdms import TdmsFile
 from glob import glob

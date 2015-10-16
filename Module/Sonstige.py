@@ -1,4 +1,10 @@
 # coding=utf-8
+"""
+@author: Valon Lushta
+@author: Sebastian Badur
+"""
+
+
 class Parameter:
     """ Alle nötigen Messparameter """
     def __init__(self, verzeichnis, pixel, messpunkte, fmin, fmax):

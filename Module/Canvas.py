@@ -1,4 +1,9 @@
 # coding=utf-8
+"""
+@author: Valon Lushta
+@author: Sebastian Badur
+"""
+
 from PyQt4 import QtGui
 
 from Module.Plotter import Plotter
