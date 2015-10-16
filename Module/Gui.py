@@ -101,7 +101,7 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
 
     def speichern(self):
         wohin = QtGui.QFileDialog().getSaveFileName(self, rf_ordner[lang], self.fit.par.verzeichnis)
-        self.fit.erg.speichern(wohin.__str__())
+        self.fit.erg.speichern(str(wohin))
         hinweis(gui_gespeichert[lang] + wohin)
 
     def fit_fertig(self):

@@ -44,7 +44,7 @@ class Messwerte:
 
 def lade_tdms(par, typ):
     daten = []
-    fnames = glob(par.verzeichnis.__str__() + typ + "*.tdms")  # alle Dateien in diesem Ordner mit der Endung TDMS
+    fnames = glob(str(par.verzeichnis) + typ + "*.tdms")  # alle Dateien in diesem Ordner mit der Endung TDMS
     # Dateiname aufteilen und numerisch sortieren:
     sorted_fnames = sorted(fnames, key=lambda x: int(x.split('/')[-1].split(typ)[1].split('.')[0]))
     if len(sorted_fnames) == 0:
