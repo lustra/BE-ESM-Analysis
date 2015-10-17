@@ -9,6 +9,7 @@ from PyQt4 import QtCore, QtGui
 
 from ResonanzFit import hinweis, lang, ordner
 from Design.Laden import Ui_Laden
+from Module import FitFunktion
 from Module.Signal import signal
 from Module.Sonstige import Parameter
 from Module.Strings import *
@@ -37,16 +38,26 @@ class GuiLaden(QtGui.QMainWindow, Ui_Laden):
         self.label_pixel.setText(laden_pixel[lang])
         self.label_fmin.setText(laden_fmin[lang])
         self.label_fmax.setText(laden_fmax[lang])
+        self.label_methode.setText(laden_methode[lang])
+        self.box_methode.setItemText(0, laden_damp[lang])
+        self.box_methode.setItemText(1, laden_camp[lang])
+        self.box_methode.setItemText(2, laden_phase[lang])
+        self.label_savgol.setText(laden_savgol[lang])
+        self.label_fenster.setText(laden_fenster[lang])
+        self.label_ordnung.setText(laden_ordnung[lang])
         self.button_fitten.setText(laden_fitten[lang])
 
     def set_input_enabled(self, b):
         self.edit_pfad.setEnabled(b)
         self.button_aendern.setEnabled(b)
-        #self.check_konfig.setEnabled(b)
+        # self.check_konfig.setEnabled(b)  # TODO Messkonfiguration abspeichern + einlesen
         self.box_messpunkte.setEnabled(b)
         self.box_pixel.setEnabled(b)
         self.box_fmin.setEnabled(b)
         self.box_fmax.setEnabled(b)
+        self.box_methode.setEnabled(b)
+        self.box_fenster.setEnabled(b)
+        self.box_ordnung.setEnabled(b)
 
     def ordnerwahl(self):
         self.edit_pfad.setText(
@@ -82,11 +93,14 @@ class GuiLaden(QtGui.QMainWindow, Ui_Laden):
 
         # Fitten
         self.app.fit.par = Parameter(
-            verzeichnis=self.edit_pfad.text(),
+            verzeichnis=str(self.edit_pfad.text()),
             pixel=self.box_pixel.value(),
             messpunkte=self.box_messpunkte.value(),
             fmin=self.box_fmin.value(),
-            fmax=self.box_fmax.value()
+            fmax=self.box_fmax.value(),
+            errorfunc=FitFunktion.errorfunc[self.box_methode.currentIndex()],
+            fenster=self.box_fenster.value(),
+            ordnung=self.box_ordnung.value()
         )
         QtCore.QObject.connect(self.app.fit, signal.importiert, self.app.importiert)
         QtCore.QObject.connect(self.app.fit, signal.fehler, self.fehler)
@@ -105,3 +119,4 @@ class GuiLaden(QtGui.QMainWindow, Ui_Laden):
         self.app.fit_fertig()
         self.close()
         self.entsperren()
+        hinweis(laden_fertig[lang])

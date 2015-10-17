@@ -8,7 +8,7 @@ import numpy as np
 import time
 from PyQt4 import QtCore
 
-from Module.FitFunktionen import FitZeile
+from Module.FitZeile import FitZeile
 from Module.Messwerte import Messwerte
 from Module.Ergebnis import Ergebnis
 from Module.Signal import signal
@@ -58,7 +58,8 @@ class Fit(QtCore.QThread):
             iterationen[z.y] = z.iterationen
             self.emit(signal.weiter)
 
-        """# Multi-Processing, aber Vorsicht: jeder Prozess arbeitet zwangsweise mit seiner eigenen Speicherkopie
+        # TODO Multi-Prozessierung
+        """# Multi-Prozessierung, aber Vorsicht: jeder Prozess arbeitet zwangsweise mit seiner eigenen Speicherkopie
         pool = QtCore.QThreadPool()
         QtCore.QObject.connect(pool, signal.weiter, weitere_zeile)
         for y in range(self.par.pixel):

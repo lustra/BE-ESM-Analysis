@@ -4,6 +4,7 @@
 @author: Sebastian Badur
 """
 
+import os
 import sys
 from PyQt4 import QtGui
 
@@ -81,7 +82,7 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
 
     def importiert(self):
         #  Name der Messung anzeigen
-        self.label_name.setText(self.fit.par.verzeichnis.split('/')[-1])
+        self.label_name.setText(os.path.basename(self.fit.par.verzeichnis))
 
         #  Dateiliste befüllen
         def model(namen):
@@ -121,5 +122,5 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
             )
 
     def zeige_alles(self):
-        for plt in self.plots:
+        for plt in self.plots:  # TODO stattdessen alle Graphen in einem Fenster darstellen
             plt.zeige()

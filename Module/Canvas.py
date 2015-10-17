@@ -22,6 +22,7 @@ class Canvas(QtGui.QMainWindow):
 
         self.l = QtGui.QGridLayout(self.centralwidget)
         self.plotter = Plotter(self)
+        # TODO Beschriftung
         self.l.addWidget(self.plotter, 1, 0)  # Darüber bleibt Platz für eventuelle Kontrollelemente
         if mit_fehler:
             self.fhlr_plotter = Plotter(self)

@@ -29,7 +29,6 @@ class Schnitt(Canvas):
         # noinspection PyUnresolvedReferences
         self.zeile.valueChanged.connect(self.aktualisiere)
         self.l.addLayout(hor, 0, 0)
-        self._pixel = 0
 
     @staticmethod
     def str_status(x, y):

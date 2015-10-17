@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>388</width>
-    <height>198</height>
+    <height>322</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -20,7 +20,7 @@
       <x>10</x>
       <y>10</y>
       <width>371</width>
-      <height>181</height>
+      <height>305</height>
      </rect>
     </property>
     <layout class="QVBoxLayout" name="verticallayout">
@@ -52,7 +52,7 @@
       </layout>
      </item>
      <item>
-      <spacer name="verticalSpacer0">
+      <spacer name="verticalspacer0">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
@@ -147,37 +147,40 @@
          <item row="0" column="0">
           <widget class="QLabel" name="label_fmin">
            <property name="text">
-            <string>Freq Min (Hz)</string>
-           </property>
-          </widget>
-         </item>
-         <item row="0" column="1">
-          <widget class="QSpinBox" name="box_fmin">
-           <property name="maximum">
-            <number>999000</number>
-           </property>
-           <property name="singleStep">
-            <number>500</number>
+            <string>Freq Min (kHz)</string>
            </property>
           </widget>
          </item>
          <item row="1" column="0">
           <widget class="QLabel" name="label_fmax">
            <property name="text">
-            <string>Freq Max (Hz)</string>
+            <string>Freq Max (kHz)</string>
+           </property>
+          </widget>
+         </item>
+         <item row="0" column="1">
+          <widget class="QDoubleSpinBox" name="box_fmin">
+           <property name="decimals">
+            <number>3</number>
+           </property>
+           <property name="singleStep">
+            <double>0.500000000000000</double>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QSpinBox" name="box_fmax">
+          <widget class="QDoubleSpinBox" name="box_fmax">
+           <property name="decimals">
+            <number>3</number>
+           </property>
            <property name="minimum">
-            <number>500</number>
+            <double>0.500000000000000</double>
            </property>
            <property name="maximum">
-            <number>999000</number>
+            <double>999.000000000000000</double>
            </property>
            <property name="singleStep">
-            <number>500</number>
+            <double>0.500000000000000</double>
            </property>
           </widget>
          </item>
@@ -186,7 +189,108 @@
       </layout>
      </item>
      <item>
-      <spacer name="verticalSpacer1">
+      <widget class="Line" name="line">
+       <property name="orientation">
+        <enum>Qt::Horizontal</enum>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <spacer name="verticalspacer1">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontallayout4">
+       <item>
+        <widget class="QLabel" name="label_methode">
+         <property name="sizePolicy">
+          <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
+           <horstretch>0</horstretch>
+           <verstretch>0</verstretch>
+          </sizepolicy>
+         </property>
+         <property name="text">
+          <string>Lorentzverteilung</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QComboBox" name="box_methode">
+         <item>
+          <property name="text">
+           <string>Antreibendes System</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Cantilever</string>
+          </property>
+         </item>
+         <item>
+          <property name="text">
+           <string>Phase</string>
+          </property>
+         </item>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <widget class="QLabel" name="label_savgol">
+       <property name="text">
+        <string>Savitzky-Golay-Filter:</string>
+       </property>
+      </widget>
+     </item>
+     <item>
+      <layout class="QHBoxLayout" name="horizontallayout3">
+       <item>
+        <widget class="QLabel" name="label_fenster">
+         <property name="text">
+          <string>Koeffizientenanzahl</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="box_fenster">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="value">
+          <number>15</number>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="label_ordnung">
+         <property name="text">
+          <string>Ordnung des Polynoms</string>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QSpinBox" name="box_ordnung">
+         <property name="minimum">
+          <number>1</number>
+         </property>
+         <property name="value">
+          <number>3</number>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </item>
+     <item>
+      <spacer name="verticalspacer2">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>
