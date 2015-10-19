@@ -19,6 +19,9 @@ class GuiLaden(QtGui.QMainWindow, Ui_Laden):
     """ Ordnerauswahl, Einstellung der Parameter und Fit """
     # noinspection PyUnresolvedReferences
     def __init__(self, app):
+        """
+        :type app: Module.Gui.Gui
+        """
         QtGui.QMainWindow.__init__(self)
         self.app = app
         self.setupUi(self)
@@ -31,6 +34,9 @@ class GuiLaden(QtGui.QMainWindow, Ui_Laden):
         self.box_fmin.valueChanged.connect(self.neues_fmin)
 
     def retranslateUi(self, ui):
+        """
+        :type ui: QtGui.QMainWindow
+        """
         ui.setWindowTitle(laden_titel[lang])
         self.button_aendern.setText(laden_aendern[lang])
         self.check_konfig.setText(laden_konfiguration[lang])
@@ -48,6 +54,9 @@ class GuiLaden(QtGui.QMainWindow, Ui_Laden):
         self.button_fitten.setText(laden_fitten[lang])
 
     def set_input_enabled(self, b):
+        """
+        :type b: bool
+        """
         self.edit_pfad.setEnabled(b)
         self.button_aendern.setEnabled(b)
         # self.check_konfig.setEnabled(b)  # TODO Messkonfiguration abspeichern + einlesen
@@ -109,6 +118,9 @@ class GuiLaden(QtGui.QMainWindow, Ui_Laden):
         self.app.fit.start()
 
     def fehler(self, fehler):
+        """
+        :type fehler: Module.Sonstige.Fehler
+        """
         hinweis(fehler.args[0])
         self.entsperren()
 

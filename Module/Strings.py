@@ -27,6 +27,12 @@ gui_glaetten = [u"Glätten", "Smooth"]
 gui_prozent = ["Fehler in Prozent", "Error as percentage"]
 gui_gespeichert = ["Grafiken gespeichert unter:<br>", "Graphics saved to:<br>"]
 
+achse_amp = ["Amplitude / V", "amplitude / V"]
+achse_freq = ["Frequenz / kHz", "frequency / kHz"]
+achse_phase = [u"Phase / °", u"phase / °"]
+achse_punkt_x = ["Messpunkt X", "measure point X"]
+achse_punkt_y = ["Messpunkt Y", "measure point Y"]
+
 laden_titel = ["Resonanz Fit - Messung einlesen", "Resonance fit - parsing measurement"]
 laden_aendern = [u"Ändern...", "Change..."]
 laden_konfiguration = ["Messkonfiguration aus Datei einlesen", "Import measurement configuration from file"]

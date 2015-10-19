@@ -15,6 +15,7 @@ from Module.Schnitt import Schnitt
 from Design.Gui import Ui_Gui
 from Module.Fit import Fit
 from Module.Laden import GuiLaden
+from Module.Sonstige import Achsenbeschriftung
 from Module.Strings import *
 
 
@@ -24,19 +25,33 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
     def __init__(self):
         QtGui.QMainWindow.__init__(self)
         self.setupUi(self)
+        self.setFixedSize(self.size())
 
         self._fit = Fit()  # Fit-Instanz kann wegen zu viele Abhängigkeiten nicht ersetzt werden!
         # (sollte es wirklich nötig werden, dann besser gleich die gesamte Gui neu instanzieren)
         self.gui_laden = GuiLaden(self)
 
         self.plots = []
-        self.plt_resonanzkurve = Resonanzkurve(self.plots, self.fit, gui_resonanzkurve[lang])
-        self.plt_phase_schnitt = Schnitt(self.plots, self.fit, gui_phase_schnitt[lang])
-        self.plt_amp_schnitt = Schnitt(self.plots, self.fit, gui_amp_schnitt[lang])
-        self.plt_phase = Canvas(self.plots, gui_phase[lang], mit_fehler=False)
-        self.plt_resfreq = Canvas(self.plots, gui_resfreq[lang])
-        self.plt_amplitude = Canvas(self.plots, gui_amplitude[lang])
-        self.plt_qfaktor = Canvas(self.plots, gui_qfaktor[lang])
+        self.plt_resonanzkurve = Resonanzkurve(
+            liste=self.plots, fit=self.fit,
+            titel=gui_resonanzkurve[lang],
+            beschriftung=Achsenbeschriftung(x=achse_amp[lang], y=achse_freq[lang])
+        )
+        self.plt_phase_schnitt = Schnitt(
+            liste=self.plots, fit=self.fit,
+            titel=gui_phase_schnitt[lang],
+            beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_phase[lang])
+        )
+        self.plt_amp_schnitt = Schnitt(
+            liste=self.plots, fit=self.fit,
+            titel=gui_amp_schnitt[lang],
+            beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_amp[lang])
+        )
+        achse_raster = Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_punkt_y[lang])
+        self.plt_phase = Canvas(self.plots, gui_phase[lang], achse_raster, mit_fehler=False)
+        self.plt_resfreq = Canvas(self.plots, gui_resfreq[lang],achse_raster, mit_fehler=True)
+        self.plt_amplitude = Canvas(self.plots, gui_amplitude[lang], achse_raster, mit_fehler=True)
+        self.plt_qfaktor = Canvas(self.plots, gui_qfaktor[lang], achse_raster, mit_fehler=True)
 
         self.action_laden.triggered.connect(self.laden)
         self.action_speichern.triggered.connect(self.speichern)
@@ -53,6 +68,9 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.action_prozent.triggered.connect(self.aktualisieren)
 
     def retranslateUi(self, ui):
+        """
+        :type ui: QtGui.QMainWindow
+        """
         ui.setWindowTitle(gui_titel[lang])
         self.label_amplitude.setText(gui_amplitude[lang])
         self.label_phase.setText(gui_phase[lang])
@@ -74,6 +92,9 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.action_prozent.setText(gui_prozent[lang])
 
     def closeEvent(self, event):
+        """
+        :type event: PyQt4.QtCore.QEvent
+        """
         sys.exit(0)
 
     @property

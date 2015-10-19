@@ -18,7 +18,8 @@ from Module.Sonstige import Fehler
 class Fit(QtCore.QThread):
     """
     Die parallelisierte, statische Fit-Klasse.
-    Vor dem Start ist noch das Attribut par mit den Fitparametern zu befüllen und die Qt-Signale zu verbinden.
+    Vor dem Start sind noch die Messwerte zu setzen, das Attribut par mit den Fitparametern zu befüllen
+    und die Qt-Signale zu verbinden.
     """
     def __init__(self):
         QtCore.QThread.__init__(self)
@@ -66,7 +67,7 @@ class Fit(QtCore.QThread):
             if self.weiter:
                 while not pool.tryStart(
                     # Eine Zeile fitten
-                    FitZeile(self.emit, self.messwerte, p0, norm, y)
+                    FitZeile(self.messwerte, p0, norm, y)
                 ):
                     pass
         pool.waitForDone()"""

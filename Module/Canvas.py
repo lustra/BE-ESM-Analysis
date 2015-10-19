@@ -10,7 +10,12 @@ from Module.Plotter import Plotter
 
 
 class Canvas(QtGui.QMainWindow):
-    def __init__(self, liste, titel, mit_fehler=True):
+    def __init__(self, liste, titel, beschriftung, mit_fehler=False):
+        """
+        :type liste: list
+        :type titel: str
+        :type beschriftung: Module.Sonstige.Achsenbeschriftung
+        """
         QtGui.QMainWindow.__init__(self)
         liste.append(self)
         self.mit_fehler = mit_fehler
@@ -21,11 +26,10 @@ class Canvas(QtGui.QMainWindow):
         self.setStatusBar(self.statusbar)
 
         self.l = QtGui.QGridLayout(self.centralwidget)
-        self.plotter = Plotter(self)
-        # TODO Beschriftung
+        self.plotter = Plotter(self, beschriftung)
         self.l.addWidget(self.plotter, 1, 0)  # Darüber bleibt Platz für eventuelle Kontrollelemente
-        if mit_fehler:
-            self.fhlr_plotter = Plotter(self)
+        if self.mit_fehler:  # TODO Fehler nur optional anzeigen
+            self.fhlr_plotter = Plotter(self, beschriftung)
             self.l.addWidget(self.fhlr_plotter, 1, 1)
 
         self.centralwidget.setFocus()
@@ -36,6 +40,10 @@ class Canvas(QtGui.QMainWindow):
 
     @staticmethod
     def str_status(x, y):
+        """
+        :type x: int
+        :type y: int
+        """
         return str(int(x) + 1) + " | " + str(int(y) + 1)
 
     @property
@@ -44,6 +52,9 @@ class Canvas(QtGui.QMainWindow):
 
     @werte.setter
     def werte(self, neu):
+        """
+        :type neu: Module.Ergebnis.FitWerte
+        """
         self._werte = neu
         self.aktualisiere()
 
@@ -53,6 +64,9 @@ class Canvas(QtGui.QMainWindow):
 
     @optionen.setter
     def optionen(self, neu):
+        """
+        :type neu: Module.Canvas.Optionen
+        """
         self._optionen = neu
         self.aktualisiere()
 
@@ -67,7 +81,7 @@ class Canvas(QtGui.QMainWindow):
         else:
             self.plotte_ohne_fehler()
 
-    def plotte_mit_fehler(self):
+    def plotte_mit_fehler(self):  # TODO das ist noch nicht objektorientiert genug
         if self.werte is not None:
             if self.optionen.glaetten:
                 plot = self.plotter.axes.imshow
@@ -76,13 +90,13 @@ class Canvas(QtGui.QMainWindow):
                 plot = self.plotter.axes.matshow
                 fhlr_plot = self.fhlr_plotter.axes.matshow
 
-            plot(self.werte.normal, vmin=self.werte.normal_min, vmax=self.werte.normal_max)
+            grafik = plot(self.werte.normal, vmin=self.werte.normal_min, vmax=self.werte.normal_max)
             if self.optionen.prozentual:
-                fhlr_plot(self.werte.fehler_prozent, vmin=0, vmax=100)
+                fhlr_grafik = fhlr_plot(self.werte.fehler_prozent, vmin=0, vmax=100)
             else:
-                fhlr_plot(self.werte.fehler, vmin=self.werte.fehler_min, vmax=self.werte.fehler_max)
-            self.plotter.draw()
-            self.fhlr_plotter.draw()
+                fhlr_grafik = fhlr_plot(self.werte.fehler, vmin=self.werte.fehler_min, vmax=self.werte.fehler_max)
+            self.plotter.draw(grafik)  # TODO Dopplungen hier und insgesamt der unteren Fkt. zu ähnlich
+            self.fhlr_plotter.draw(fhlr_grafik)
 
     def plotte_ohne_fehler(self):
         if self.werte is not None:
@@ -90,11 +104,15 @@ class Canvas(QtGui.QMainWindow):
                 plot = self.plotter.axes.imshow
             else:
                 plot = self.plotter.axes.matshow
-            plot(self.werte.normal, vmin=self.werte.normal_min, vmax=self.werte.normal_max)
-            self.plotter.draw()
+            grafik = plot(self.werte.normal, vmin=self.werte.normal_min, vmax=self.werte.normal_max)
+            self.plotter.draw(grafik)
 
 
 class Optionen:
     def __init__(self, glaetten, prozentual):
+        """
+        :type glaetten: bool
+        :type prozentual: bool
+        """
         self.glaetten = glaetten
         self.prozentual = prozentual

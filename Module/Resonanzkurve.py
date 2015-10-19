@@ -12,8 +12,14 @@ from Module.Strings import *
 
 
 class Resonanzkurve(Canvas):
-    def __init__(self, liste, fit, titel):
-        Canvas.__init__(self, liste, titel, mit_fehler=False)
+    def __init__(self, liste, fit, titel, beschriftung):
+        """
+        :type liste: list
+        :type fit: Module.Fit.Fit
+        :type titel: str
+        :type beschriftung: Module.Sonstige.Achsenbeschriftung
+        """
+        Canvas.__init__(self, liste, titel, beschriftung)
         self.fit = fit
         hor = QtGui.QHBoxLayout()
         sp = QtGui.QSizePolicy()
@@ -34,6 +40,10 @@ class Resonanzkurve(Canvas):
 
     @staticmethod
     def str_status(x, y):
+        """
+        :type x: int
+        :type y: int
+        """
         return str(x) + " | " + str(y)
 
     @property
@@ -42,6 +52,9 @@ class Resonanzkurve(Canvas):
 
     @werte.setter
     def werte(self, neu):
+        """
+        :type neu: Module.Ergebnis.FitWerte
+        """
         self._werte = neu
         for spin in self.koord:
             spin.setMaximum(self.fit.par.pixel)

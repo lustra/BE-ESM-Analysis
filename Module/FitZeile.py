@@ -9,6 +9,9 @@ from scipy.signal import savgol_filter
 from scipy.optimize import leastsq
 # # from PyQt4.QtCore import QRunnable
 # # from multiprocessing import Lock
+
+
+debug_schnell = False
 # # scilock = Lock()
 
 
@@ -46,6 +49,13 @@ class FitZeile:
         self.iterationen = np.ones(messwerte.par.pixel)
 
     def run(self):
+        if debug_schnell:
+            self.fitparameter = np.random.rand(self.par.pixel, 3)
+            self.error_fitparameter = np.random.rand(self.par.pixel, 3)
+            self.sphase = np.random.sample(self.par.pixel)
+            self.iterationen = np.random.sample(self.par.pixel)
+            return
+
         amplituden = self.messwerte.amplituden(self.y)
         phasen = self.messwerte.phasen(self.y)
 

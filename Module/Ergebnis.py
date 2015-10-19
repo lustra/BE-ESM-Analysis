@@ -10,6 +10,11 @@ from netCDF4 import Dataset
 
 class Ergebnis:
     def __init__(self, fitparameter, error_fitparameter, sphase):
+        """
+        :type fitparameter: numpy.multiarray.ndarray
+        :type error_fitparameter: numpy.multiarray.ndarray
+        :type sphase: numpy.multiarray.ndarray
+        """
         self.resfreq = FitWerte(
             fitparameter[:, :, 0],
             error_fitparameter[:, :, 0]
@@ -25,6 +30,9 @@ class Ergebnis:
         self.phase = FitWerte(sphase, None)
 
     def speichern(self, pfad):
+        """
+        :type pfad: str
+        """
         nc = DatasetPlus(pfad, len(self.resfreq.normal))
 
         nc.grp(self.damp.normal, "damp")
@@ -42,12 +50,20 @@ class Ergebnis:
 
 class DatasetPlus(Dataset):
     def __init__(self, pfad, pixel):
+        """
+        :type pfad: str
+        :type pixel: int
+        """
         Dataset.__init__(self, pfad, 'w')
         self.pixel = pixel
         self.createDimension('x', self.pixel),
         self.createDimension('y', self.pixel)
 
     def grp(self, werte, name):
+        """
+        :type werte: numpy.multiarray.ndarray
+        :type name: str
+        """
         grp = self.createGroup(name)
         dat = grp.createVariable(
             varname=name,
@@ -62,6 +78,10 @@ class DatasetPlus(Dataset):
 
 class FitWerte:
     def __init__(self, normal, fehler):
+        """
+        :type normal: numpy.multiarray.ndarray
+        :type fehler: None | numpy.multiarray.ndarray
+        """
         self.normal = normal
 
         if fehler is None:  # Nur bei Phase

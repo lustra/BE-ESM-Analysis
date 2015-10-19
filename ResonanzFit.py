@@ -11,7 +11,7 @@ from Module.Strings import *
 
 
 lang = de
-ordner = "/ESM/06-11-14-gxsmneu21/"
+ordner = "/home/sebadur/Dokumente/Studium/Master/Messung 06.11.14/"
 
 
 def hinweis(nachricht):
@@ -21,6 +21,10 @@ def hinweis(nachricht):
 
 
 if __name__ == "__main__":
+    if "debug_schnell" in sys.argv:
+        from Module import FitZeile
+        FitZeile.debug_schnell = True
+
     app = QtGui.QApplication(sys.argv)
     from Module.Gui import Gui
     gui = Gui()

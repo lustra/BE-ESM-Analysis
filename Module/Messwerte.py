@@ -15,8 +15,11 @@ from Module.Strings import *
 
 
 class Messwerte:
-    """ Werte der Amplitude und Phase für jeden Pixel einer Messung """
     def __init__(self, par):
+        """
+        :type par: Module.Sonstige.Parameter
+        :return: Werte der Amplitude und Phase für jeden Pixel einer Messung
+        """
         self.par = par
         self.amplitude, self.amplitude_namen = lade_tdms(par, "amp")
         self.phase, self.phase_namen = lade_tdms(par, "phase")
@@ -31,12 +34,18 @@ class Messwerte:
         )
 
     def amplituden(self, y):
+        """
+        :type y: numpy.multiarray.ndarray
+        """
         return split_list(
             np.array(np.multiply(self.amplitude[y], 100), dtype=np.double),
             wanted_parts=self.par.pixel
         )
 
     def phasen(self, y):
+        """
+        :type y: numpy.multiarray.ndarray
+        """
         return split_list(
             np.array(self.phase[y], dtype=np.double),
             wanted_parts=self.par.pixel
@@ -44,6 +53,10 @@ class Messwerte:
 
 
 def lade_tdms(par, typ):
+    """
+    :type par: Module.Sonstige.Parameter
+    :type typ: str
+    """
     daten = []
     namen = []
     # alle Dateien in diesem Ordner mit der Endung TDMS:
@@ -65,6 +78,9 @@ def lade_tdms(par, typ):
 
 
 def split_list(alist, wanted_parts=1):
+    """
+    :type alist: numpy.multiarray.ndarray
+    """
     length = len(alist)
     return [alist[i * length // wanted_parts: (i + 1) * length // wanted_parts]
             for i in range(wanted_parts)]
