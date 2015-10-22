@@ -82,7 +82,7 @@ class FitZeile:
 
             # Phase calculation ##########
             smoothed_phase = savgol_filter(phasen[x], self.par.fenster, self.par.ordnung)
-            ind = np.argmax(savgol_amplituden) + 20  # TODO ?
+            ind = np.argmax(savgol_amplituden) + 20  # TODO Phasenveränderung off resonanz per Frequenz nicht Punkte ändern.
             self.sphase[x] = smoothed_phase[ind]
 
         # # from Module.Fit import signal
