@@ -24,12 +24,16 @@ class Fit(QtCore.QThread):
     def __init__(self):
         QtCore.QThread.__init__(self)
         self.weiter = True
+        """ @type: bool """
         self.par = None
+        """ @type: Module.Sonstige.Parameter """
         self.messwerte = None
+        """ @type: Module.Messwerte.Messwerte """
         self.av_iter = 0
         self.laufzeit = 0
         self.start_time = 0
         self.erg = None
+        """ @type: Module.Ergebnis.Ergebnis """
 
     def run(self):
         self.weiter = True

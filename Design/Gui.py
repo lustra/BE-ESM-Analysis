@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Dokumente/Studium/Master/Fit-GUI/Design/Gui.ui'
+# Form implementation generated from reading ui file 'Dokumente/BE-ESM-Analysis/Design/Gui.ui'
 #
-# Created: Wed Oct 14 15:10:51 2015
+# Created: Mon Oct 26 12:02:03 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -64,8 +64,6 @@ class Ui_Gui(object):
         self.menu_messung.setObjectName(_fromUtf8("menu_messung"))
         self.menu_ansicht = QtGui.QMenu(self.menubar)
         self.menu_ansicht.setObjectName(_fromUtf8("menu_ansicht"))
-        self.menu_darstellung = QtGui.QMenu(self.menubar)
-        self.menu_darstellung.setObjectName(_fromUtf8("menu_darstellung"))
         Gui.setMenuBar(self.menubar)
         self.action_laden = QtGui.QAction(Gui)
         self.action_laden.setObjectName(_fromUtf8("action_laden"))
@@ -111,13 +109,8 @@ class Ui_Gui(object):
         self.menu_ansicht.addAction(self.action_qfaktor)
         self.menu_ansicht.addSeparator()
         self.menu_ansicht.addAction(self.action_alles)
-        self.menu_darstellung.addAction(self.action_aktualisieren)
-        self.menu_darstellung.addSeparator()
-        self.menu_darstellung.addAction(self.action_glaetten)
-        self.menu_darstellung.addAction(self.action_prozent)
         self.menubar.addAction(self.menu_messung.menuAction())
         self.menubar.addAction(self.menu_ansicht.menuAction())
-        self.menubar.addAction(self.menu_darstellung.menuAction())
 
         self.retranslateUi(Gui)
         QtCore.QMetaObject.connectSlotsByName(Gui)
@@ -128,7 +121,6 @@ class Ui_Gui(object):
         self.label_phase.setText(_translate("Gui", "Phase", None))
         self.menu_messung.setTitle(_translate("Gui", "Auswertung", None))
         self.menu_ansicht.setTitle(_translate("Gui", "Ansicht", None))
-        self.menu_darstellung.setTitle(_translate("Gui", "Darstellung", None))
         self.action_laden.setText(_translate("Gui", "Öffnen...", None))
         self.action_messparameter.setText(_translate("Gui", "Messparameter...", None))
         self.action_phase_schnitt.setText(_translate("Gui", "Phasenschnitt", None))

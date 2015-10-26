@@ -11,7 +11,7 @@ from Module.Strings import *
 
 
 lang = de
-ordner = "/home/sebadur/Dokumente/Studium/Master/Messung 06.11.14/"
+ordner = "/home/sebadur/Dokumente/2015-10-23-pfmtest01/"
 
 
 def hinweis(nachricht):

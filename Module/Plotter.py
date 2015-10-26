@@ -10,9 +10,10 @@ from matplotlib.figure import Figure
 
 
 class Plotter(FigureCanvas):
-    def __init__(self, canvas, beschriftung, width=5, height=5, dpi=75):
+    def __init__(self, canvas, layout, beschriftung, width=5, height=5, dpi=75):
         """
         :type canvas: Module.Canvas.Canvas
+        :type layout: QtGui.QLayout
         :type beschriftung: Module.Sonstige.Achsenbeschriftung
         """
         self.canvas = canvas
@@ -24,7 +25,7 @@ class Plotter(FigureCanvas):
         self.colorbar = None
 
         FigureCanvas.__init__(self, self.figure)
-        self.setParent(canvas.centralwidget)
+        layout.addWidget(self)
         self.statusbar = canvas.statusbar
 
         self.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
@@ -47,6 +48,7 @@ class Plotter(FigureCanvas):
         if falschfarben is not None:
             if self.colorbar is None:
                 self.colorbar = self.figure.colorbar(falschfarben)
+                self.colorbar.set_label(self.beschriftung.farbe)
             else:
                 self.colorbar.update_normal(falschfarben)
         self.axes.set_xlabel(self.beschriftung.x)

@@ -11,7 +11,6 @@ en = 1
 gui_titel = ["Resonanz Fit", "Resonance Fit"]
 gui_auswertung = ["Auswertung", "Analysis"]
 gui_ansicht = ["Ansicht", "View"]
-gui_darstellung = ["Darstellung", "Display"]
 gui_oeffnen = [u"Öffnen...", "Open..."]
 gui_speichern = ["Fit speichern...", "Save fit..."]
 gui_resonanzkurve = ["Resonanzkurve", "Resonance curve"]
@@ -22,9 +21,6 @@ gui_resfreq = ["Resonanzfrequenz", "Resonance frequency"]
 gui_phase = ["Phase", "Phase"]
 gui_qfaktor = ["Q-Faktor", "Q-factor"]
 gui_alles = ["Alles anzeigen", "Show all"]
-gui_aktualisieren = ["Aktualisieren", "Refresh"]
-gui_glaetten = [u"Glätten", "Smooth"]
-gui_prozent = ["Fehler in Prozent", "Error as percentage"]
 gui_gespeichert = ["Grafiken gespeichert unter:<br>", "Graphics saved to:<br>"]
 
 achse_amp = ["Amplitude / V", "amplitude / V"]
@@ -53,6 +49,10 @@ laden_fertig = ["Fit abgeschlossen", "Fit done"]
 
 canvas_zeile = ["Zeile:", "Row:"]
 canvas_spalte = ["Spalte:", "Column:"]
+
+raster_fehler = ["Fehler anzeigen", "Show error"]
+raster_prozent = ["prozentual", "percentage"]
+
 rf_ordner = [u"Messverzeichnis auswählen"]
 mw_pixelzahl = [u"<b>Fehler:</b><br>Überprüfen Sie die Pixelanzahl, da sie womöglich nicht stimmt.",
                 "<b>Error:</b><br>Check pixel settings as their number seems to mismatch."]

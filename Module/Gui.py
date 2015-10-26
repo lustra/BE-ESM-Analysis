@@ -9,7 +9,7 @@ import sys
 from PyQt4 import QtGui
 
 from ResonanzFit import hinweis, lang
-from Module.Canvas import Canvas, Optionen
+from Module.Raster import Raster
 from Module.Resonanzkurve import Resonanzkurve
 from Module.Schnitt import Schnitt
 from Design.Gui import Ui_Gui
@@ -21,7 +21,6 @@ from Module.Strings import *
 
 class Gui(QtGui.QMainWindow, Ui_Gui):
     """ Menüfenster mit Rohdatenanzeige """
-    # noinspection PyUnresolvedReferences
     def __init__(self):
         QtGui.QMainWindow.__init__(self)
         self.setupUi(self)
@@ -35,7 +34,7 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.plt_resonanzkurve = Resonanzkurve(
             liste=self.plots, fit=self.fit,
             titel=gui_resonanzkurve[lang],
-            beschriftung=Achsenbeschriftung(x=achse_amp[lang], y=achse_freq[lang])
+            beschriftung=Achsenbeschriftung(x=achse_freq[lang], y=achse_amp[lang])
         )
         self.plt_phase_schnitt = Schnitt(
             liste=self.plots, fit=self.fit,
@@ -47,11 +46,30 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
             titel=gui_amp_schnitt[lang],
             beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_amp[lang])
         )
-        achse_raster = Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_punkt_y[lang])
-        self.plt_phase = Canvas(self.plots, gui_phase[lang], achse_raster, mit_fehler=False)
-        self.plt_resfreq = Canvas(self.plots, gui_resfreq[lang],achse_raster, mit_fehler=True)
-        self.plt_amplitude = Canvas(self.plots, gui_amplitude[lang], achse_raster, mit_fehler=True)
-        self.plt_qfaktor = Canvas(self.plots, gui_qfaktor[lang], achse_raster, mit_fehler=True)
+        self.plt_phase = Raster(
+            liste=self.plots, fit=self.fit,
+            resonanzkurve=self.plt_resonanzkurve,
+            titel=gui_phase[lang],
+            beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_punkt_y[lang], farbe=achse_phase[lang])
+        )
+        self.plt_resfreq = Raster(
+            liste=self.plots, fit=self.fit,
+            resonanzkurve=self.plt_resonanzkurve,
+            titel=gui_resfreq[lang],
+            beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_punkt_y[lang], farbe=achse_freq[lang])
+        )
+        self.plt_amplitude = Raster(
+            liste=self.plots, fit=self.fit,
+            resonanzkurve=self.plt_resonanzkurve,
+            titel=gui_amplitude[lang],
+            beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_punkt_y[lang], farbe=achse_amp[lang])
+        )
+        self.plt_qfaktor = Raster(
+            liste=self.plots, fit=self.fit,
+            resonanzkurve=self.plt_resonanzkurve,
+            titel=gui_qfaktor[lang],
+            beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_punkt_y[lang])
+        )
 
         self.action_laden.triggered.connect(self.laden)
         self.action_speichern.triggered.connect(self.speichern)
@@ -64,8 +82,6 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.action_qfaktor.triggered.connect(self.plt_qfaktor.zeige)
         self.action_alles.triggered.connect(self.zeige_alles)
         self.action_aktualisieren.triggered.connect(self.aktualisieren)
-        self.action_glaetten.triggered.connect(self.aktualisieren)
-        self.action_prozent.triggered.connect(self.aktualisieren)
 
     def retranslateUi(self, ui):
         """
@@ -76,7 +92,6 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.label_phase.setText(gui_phase[lang])
         self.menu_messung.setTitle(gui_auswertung[lang])
         self.menu_ansicht.setTitle(gui_ansicht[lang])
-        self.menu_darstellung.setTitle(gui_darstellung[lang])
         self.action_laden.setText(gui_oeffnen[lang])
         self.action_speichern.setText(gui_speichern[lang])
         self.action_resonanzkurve.setText(gui_resonanzkurve[lang])
@@ -87,9 +102,6 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.action_phase.setText(gui_phase[lang])
         self.action_qfaktor.setText(gui_qfaktor[lang])
         self.action_alles.setText(gui_alles[lang])
-        self.action_aktualisieren.setText(gui_aktualisieren[lang])
-        self.action_glaetten.setText(gui_glaetten[lang])
-        self.action_prozent.setText(gui_prozent[lang])
 
     def closeEvent(self, event):
         """
@@ -137,10 +149,7 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
 
     def aktualisieren(self):
         for plt in self.plots:
-            plt.optionen = Optionen(
-                glaetten=self.action_glaetten.isChecked(),
-                prozentual=self.action_prozent.isChecked()
-            )
+            plt.aktualisieren()
 
     def zeige_alles(self):
         for plt in self.plots:  # TODO stattdessen alle Graphen in einem Fenster darstellen

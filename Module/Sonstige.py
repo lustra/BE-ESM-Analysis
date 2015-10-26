@@ -28,13 +28,15 @@ class Parameter:
 
 
 class Achsenbeschriftung:
-    def __init__(self, x, y):
+    def __init__(self, x, y, farbe=None):
         """
         :type x: str
         :type y: str
+        :type farbe: str
         """
         self.x = x
         self.y = y
+        self.farbe = farbe
 
 
 class Fehler(Exception):

@@ -97,18 +97,8 @@
     <addaction name="separator"/>
     <addaction name="action_alles"/>
    </widget>
-   <widget class="QMenu" name="menu_darstellung">
-    <property name="title">
-     <string>Darstellung</string>
-    </property>
-    <addaction name="action_aktualisieren"/>
-    <addaction name="separator"/>
-    <addaction name="action_glaetten"/>
-    <addaction name="action_prozent"/>
-   </widget>
    <addaction name="menu_messung"/>
    <addaction name="menu_ansicht"/>
-   <addaction name="menu_darstellung"/>
   </widget>
   <action name="action_laden">
    <property name="text">

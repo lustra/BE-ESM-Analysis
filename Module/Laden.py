@@ -17,7 +17,6 @@ from Module.Strings import *
 
 class GuiLaden(QtGui.QMainWindow, Ui_Laden):
     """ Ordnerauswahl, Einstellung der Parameter und Fit """
-    # noinspection PyUnresolvedReferences
     def __init__(self, app):
         """
         :type app: Module.Gui.Gui
@@ -32,6 +31,11 @@ class GuiLaden(QtGui.QMainWindow, Ui_Laden):
         self.button_aendern.clicked.connect(self.ordnerwahl)
         self.button_fitten.clicked.connect(self.geklickt)
         self.box_fmin.valueChanged.connect(self.neues_fmin)
+
+        QtCore.QObject.connect(self.app.fit, signal.importiert, self.app.importiert)
+        QtCore.QObject.connect(self.app.fit, signal.fehler, self.fehler)
+        QtCore.QObject.connect(self.app.fit, signal.weiter, self.weitere_zeile)
+        QtCore.QObject.connect(self.app.fit, signal.fertig, self.fit_fertig)
 
     def retranslateUi(self, ui):
         """
@@ -111,10 +115,6 @@ class GuiLaden(QtGui.QMainWindow, Ui_Laden):
             fenster=self.box_fenster.value(),
             ordnung=self.box_ordnung.value()
         )
-        QtCore.QObject.connect(self.app.fit, signal.importiert, self.app.importiert)
-        QtCore.QObject.connect(self.app.fit, signal.fehler, self.fehler)
-        QtCore.QObject.connect(self.app.fit, signal.weiter, self.weitere_zeile)
-        QtCore.QObject.connect(self.app.fit, signal.fertig, self.fit_fertig)
         self.app.fit.start()
 
     def fehler(self, fehler):

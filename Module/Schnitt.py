@@ -8,6 +8,7 @@ from PyQt4 import QtGui
 
 from ResonanzFit import lang
 from Module.Canvas import Canvas
+from Module.Plotter import Plotter
 from Module.Strings import *
 
 
@@ -19,22 +20,24 @@ class Schnitt(Canvas):
         :type titel: str
         :type beschriftung: Module.Sonstige.Achsenbeschriftung
         """
-        Canvas.__init__(self, liste, titel, beschriftung)
-        self.fit = fit
-        hor = QtGui.QHBoxLayout()
+        Canvas.__init__(self, liste, fit, titel)
+        vertikal = QtGui.QVBoxLayout()
+        self.centralWidget().setLayout(vertikal)
+        horizontal = QtGui.QHBoxLayout()
+        vertikal.addLayout(horizontal)
         label = QtGui.QLabel()
         label.setText(canvas_zeile[lang])
         sp = QtGui.QSizePolicy()
         sp.setHorizontalPolicy(sp.Maximum)
         label.setSizePolicy(sp)
-        hor.addWidget(label)
+        horizontal.addWidget(label)
         self.zeile = QtGui.QSpinBox()
         self.zeile.setMinimum(1)
         self.zeile.setMaximum(1)
-        hor.addWidget(self.zeile)
-        # noinspection PyUnresolvedReferences
+        horizontal.addWidget(self.zeile)
         self.zeile.valueChanged.connect(self.aktualisiere)
-        self.l.addLayout(hor, 0, 0)
+
+        self.plotter = Plotter(self, vertikal, beschriftung)
 
     @staticmethod
     def str_status(x, y):
