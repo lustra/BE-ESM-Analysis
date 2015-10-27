@@ -121,7 +121,7 @@ class GuiLaden(QtGui.QMainWindow, Ui_Laden):
         """
         :type fehler: Module.Sonstige.Fehler
         """
-        hinweis(fehler.args[0])
+        hinweis(self, fehler.args[0])
         self.entsperren()
 
     def weitere_zeile(self):
@@ -131,4 +131,4 @@ class GuiLaden(QtGui.QMainWindow, Ui_Laden):
         self.app.fit_fertig()
         self.close()
         self.entsperren()
-        hinweis(laden_fertig[lang])
+        hinweis(self, laden_fertig[lang])

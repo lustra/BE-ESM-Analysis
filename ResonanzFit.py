@@ -14,8 +14,8 @@ lang = de
 ordner = "/home/sebadur/Dokumente/2015-10-23-pfmtest01/"
 
 
-def hinweis(nachricht):
-    anzeige = QtGui.QMessageBox()
+def hinweis(ursprung, nachricht):
+    anzeige = QtGui.QMessageBox(ursprung)
     anzeige.setText(nachricht)
     anzeige.exec_()
 

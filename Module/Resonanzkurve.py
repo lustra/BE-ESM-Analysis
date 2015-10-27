@@ -50,23 +50,18 @@ class Resonanzkurve(Canvas):
         """
         return str(x) + " | " + str(y)
 
-    @property
-    def werte(self):
-        return self._werte
-
-    @werte.setter
-    def werte(self, neu):
+    def set_werte(self, neu):
         """
         :type neu: numpy.multiarray.ndarray
         """
-        self._werte = neu
         for spin in self.koord:
             spin.setMaximum(self.fit.par.pixel)
+        self._werte = neu  # Kein super-Aufruf, weil _werte hier streng genommen einen anderen Typ hat
         self.aktualisiere()
 
     def aktualisiere(self):
-        if self.werte is not None:
-            #  Nur x,y wird betrachtet, aber es sind in dieser Liste alle Messpunkte pro Ort hintereinander
+        if self._werte is not None:
+            # Nur x,y wird betrachtet, aber es sind in dieser Liste alle Messpunkte pro Ort hintereinander
             x_von = (self.koord[0].value() + 1) * self.fit.par.messpunkte
             x_bis = x_von + self.fit.par.messpunkte
             self.plotter.axes.plot(
@@ -75,7 +70,7 @@ class Resonanzkurve(Canvas):
                     stop=self.fit.par.fmax,
                     step=(self.fit.par.fmax - self.fit.par.fmin) / self.fit.par.messpunkte
                 ),
-                self.werte[self.koord[1].value() + 1][x_von:x_bis],
+                self._werte[self.koord[1].value() + 1][x_von:x_bis],
                 antialiased=True
             )
             self.plotter.draw()

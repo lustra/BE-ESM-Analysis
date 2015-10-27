@@ -136,16 +136,16 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
     def speichern(self):
         wohin = QtGui.QFileDialog().getSaveFileName(self, rf_ordner[lang], self.fit.par.verzeichnis)
         self.fit.erg.speichern(str(wohin))
-        hinweis(gui_gespeichert[lang] + wohin)
+        hinweis(self, gui_gespeichert[lang] + wohin)
 
     def fit_fertig(self):
         self.action_speichern.setEnabled(True)
-        self.plt_phase_schnitt.werte = self.fit.erg.phase
-        self.plt_amp_schnitt.werte = self.fit.erg.damp
-        self.plt_phase.werte = self.fit.erg.phase
-        self.plt_resfreq.werte = self.fit.erg.resfreq
-        self.plt_amplitude.werte = self.fit.erg.damp
-        self.plt_qfaktor.werte = self.fit.erg.q
+        self.plt_phase_schnitt.set_werte(self.fit.erg.phase)
+        self.plt_amp_schnitt.set_werte(self.fit.erg.damp)
+        self.plt_phase.set_werte(self.fit.erg.phase)
+        self.plt_resfreq.set_werte(self.fit.erg.resfreq)
+        self.plt_amplitude.set_werte(self.fit.erg.damp)
+        self.plt_qfaktor.set_werte(self.fit.erg.q)
 
     def aktualisieren(self):
         for plt in self.plots:

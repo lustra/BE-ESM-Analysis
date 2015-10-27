@@ -44,13 +44,15 @@ class Plotter(FigureCanvas):
         else:
             self.statusbar.clearMessage()
 
-    def draw(self, falschfarben=None):
-        if falschfarben is not None:
-            if self.colorbar is None:
-                self.colorbar = self.figure.colorbar(falschfarben)
-                self.colorbar.set_label(self.beschriftung.farbe)
-            else:
-                self.colorbar.update_normal(falschfarben)
+    def mit_skala(self, plot):
+        if self.colorbar is None:
+            self.colorbar = self.figure.colorbar(plot)
+            self.colorbar.set_label(self.beschriftung.farbe)
+        else:
+            self.colorbar.update_normal(plot)
+        self.draw()
+
+    def draw(self):
         self.axes.set_xlabel(self.beschriftung.x)
         self.axes.set_ylabel(self.beschriftung.y)
         super(Plotter, self).draw()

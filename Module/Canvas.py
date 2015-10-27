@@ -28,12 +28,7 @@ class Canvas(QtGui.QMainWindow):
         self._werte = None
         """ @type: Module.Ergebnis.FitWerte """
 
-    @property
-    def werte(self):
-        return self._werte
-
-    @werte.setter
-    def werte(self, neu):
+    def set_werte(self, neu):
         """
         :type neu: Module.Ergebnis.FitWerte
         """

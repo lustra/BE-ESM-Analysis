@@ -12,6 +12,9 @@ from Module.Strings import *
 from ResonanzFit import lang
 
 
+bereich_schritt = 0.01
+
+
 class Raster(Canvas):
     def __init__(self, liste, fit, resonanzkurve, titel, beschriftung):
         """
@@ -27,20 +30,32 @@ class Raster(Canvas):
         self.centralWidget().setLayout(vertikal)
         horizontal = QtGui.QHBoxLayout()
         vertikal.addLayout(horizontal)
+
+        self.box_min = QtGui.QDoubleSpinBox()
+        self.box_min.setSingleStep(bereich_schritt)
+        horizontal.addWidget(self.box_min)
+
+        self.box_max = QtGui.QDoubleSpinBox()
+        self.box_max.setSingleStep(bereich_schritt)
+        horizontal.addWidget(self.box_max)
+
         self.box_fehler = QtGui.QCheckBox(raster_fehler[lang])
         horizontal.addWidget(self.box_fehler)
-        self.box_prozentual = QtGui.QCheckBox(raster_prozent[lang])
-        horizontal.addWidget(self.box_prozentual)
-        self.akt_fehler()
 
-        self.resizeEvent = self.resize
+        self.box_prozentual = QtGui.QCheckBox(raster_prozent[lang])
+        self.box_prozentual.setEnabled(False)
+        horizontal.addWidget(self.box_prozentual)
+        horizontal.addItem(QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum))
+
+        self.box_min.valueChanged.connect(self.akt_bereich)
+        self.box_max.valueChanged.connect(self.akt_bereich)
         self.box_fehler.clicked.connect(self.akt_fehler)
         self.box_prozentual.clicked.connect(self.aktualisiere)
 
         self.plotter = Plotter(self, vertikal, beschriftung)
         self.plotter.mpl_connect("button_press_event", self.maus_press)
 
-    def resize(self, event):
+    def resizeEvent(self, event):
         """
         :type event: QtGui.QResizeEvent
         """
@@ -51,9 +66,10 @@ class Raster(Canvas):
         """
         :type event: matplotlib.backend_bases.MouseEvent
         """
-        self.resonanzkurve.koord[0].setValue(int(event.xdata))
-        self.resonanzkurve.koord[1].setValue(int(event.ydata))
-        self.resonanzkurve.zeige()
+        if event.inaxes:
+            self.resonanzkurve.koord[0].setValue(int(event.xdata))
+            self.resonanzkurve.koord[1].setValue(int(event.ydata))
+            self.resonanzkurve.zeige()
 
     @staticmethod
     def str_status(x, y):
@@ -63,12 +79,25 @@ class Raster(Canvas):
         """
         return str(int(x) + 1) + " | " + str(int(y) + 1)
 
+    def set_werte(self, neu):
+        """
+        :type neu: Module.Ergebnis.FitWerte
+        """
+        self.box_min.setValue(neu.normal_min)
+        self.box_max.setValue(neu.normal_max)
+        Canvas.set_werte(self, neu)
+
+    def akt_bereich(self):
+        self.box_min.setMaximum(self.box_max.value() - bereich_schritt)
+        self.box_max.setMinimum(self.box_min.value() + bereich_schritt)
+        self.aktualisiere()
+
     def akt_fehler(self):
         self.box_prozentual.setEnabled(self.box_fehler.isChecked())
         self.aktualisiere()
 
     def aktualisiere(self):
-        if self.werte is not None:
+        if self._werte is not None:
             if False:  # TODO
                 plot = self.plotter.axes.imshow
             else:
@@ -76,10 +105,10 @@ class Raster(Canvas):
 
             if self.box_fehler.isChecked():
                 if self.box_prozentual.isChecked():
-                    grafik = plot(self.werte.fehler_prozent, vmin=0, vmax=100)
+                    grafik = plot(self._werte.fehler_prozent, vmin=0, vmax=100)
                 else:
-                    grafik = plot(self.werte.fehler, vmin=self.werte.fehler_min, vmax=self.werte.fehler_max)
+                    grafik = plot(self._werte.fehler, vmin=self._werte.fehler_min, vmax=self._werte.fehler_max)
             else:
-                grafik = plot(self.werte.normal, vmin=self.werte.normal_min, vmax=self.werte.normal_max, cmap='hot')
+                grafik = plot(self._werte.normal, vmin=self.box_min.value(), vmax=self.box_max.value(), cmap='hot')
 
-            self.plotter.draw(grafik)
+            self.plotter.mit_skala(grafik)

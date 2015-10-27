@@ -47,24 +47,18 @@ class Schnitt(Canvas):
         """
         return str(int(x) + 1) + " | " + str(y)
 
-    @property
-    def werte(self):
-        return self._werte
-
-    @werte.setter
-    def werte(self, neu):
+    def set_werte(self, neu):
         """
         :type neu: Module.Ergebnis.FitWerte
         """
-        self._werte = neu
         self.zeile.setMaximum(self.fit.par.pixel)
-        self.aktualisiere()
+        Canvas.set_werte(self, neu)
 
     def aktualisiere(self):
-        if self.werte is not None:
+        if self._werte is not None:
             self.plotter.axes.plot(
                 range(self.fit.par.pixel),
-                self.werte.normal[self.zeile.value() + 1],
+                self._werte.normal[self.zeile.value() + 1],
                 antialiased=True
             )
             self.plotter.draw()
