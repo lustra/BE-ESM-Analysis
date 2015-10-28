@@ -7,6 +7,8 @@
 import numpy as np
 import time
 from PyQt4 import QtCore
+from multiprocessing import Process, cpu_count
+from pathos.multiprocessing import Pool
 
 from Module.FitZeile import FitZeile
 from Module.Messwerte import Messwerte
@@ -56,33 +58,45 @@ class Fit(QtCore.QThread):
         sphase = np.ones((self.par.pixel, self.par.pixel))  # single phase point off resonance
         iterationen = np.ones((self.par.pixel, self.par.pixel))
 
-        def weitere_zeile(z):
+        # Multi-Prozessierung ##########
+        """zeilen = Pool().map(
+            FitZeile(self.messwerte, p0, norm).fitten,
+            range(self.par.pixel)
+        )
+
+        for z in zeilen:
             fitparameter[z.y] = z.fitparameter
             error_fitparameter[z.y] = z.error_fitparameter
             sphase[z.y] = z.sphase
-            iterationen[z.y] = z.iterationen
-            self.emit(signal.weiter)
+            iterationen[z.y] = z.iterationen"""
 
-        # TODO Multi-Prozessierung
-        """# Multi-Prozessierung, aber Vorsicht: jeder Prozess arbeitet zwangsweise mit seiner eigenen Speicherkopie
-        pool = QtCore.QThreadPool()
-        QtCore.QObject.connect(pool, signal.weiter, weitere_zeile)
-        for y in range(self.par.pixel):
-            if self.weiter:
-                while not pool.tryStart(
-                    # Eine Zeile fitten
-                    FitZeile(self.messwerte, p0, norm, y)
-                ):
-                    pass
-        pool.waitForDone()"""
+        kerne = cpu_count()
+        zeile = [None] * kerne
+        prozess = [None] * kerne
 
-        # Single-Processing
-        for y in range(self.par.pixel):
-            if self.weiter:
-                zeile = FitZeile(self.messwerte, p0, norm, y)
-                zeile.run()
-                weitere_zeile(zeile)
+        for start in range(0, self.par.pixel, kerne):
+            if start + kerne < self.par.pixel:
+                pool = range(kerne)
             else:
+                pool = range(self.par.pixel - start)
+
+            # Einige Fit-Prozesse starten
+            for n in pool:
+                zeile[n] = FitZeile(self.messwerte, p0, norm, y=start+n)
+                prozess[n] = Process(target=zeile[n].run)
+                prozess[n].start()
+
+            # Fertige Fits auswerten
+            for n in pool:
+                y = zeile[n].y
+                prozess[n].join()
+                fitparameter[y] = zeile[n].fitparameter
+                error_fitparameter[y] = zeile[n].error_fitparameter
+                sphase[y] = zeile[n].sphase
+                iterationen[y] = zeile[n].iterationen
+                self.emit(signal.weiter)
+
+            if not self.weiter:
                 break
 
         # Fitprozess abschließen ##########

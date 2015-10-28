@@ -7,17 +7,13 @@
 import numpy as np
 from scipy.signal import savgol_filter
 from scipy.optimize import leastsq
-# # from PyQt4.QtCore import QRunnable
-# # from multiprocessing import Lock
 
 
 debug_schnell = False
-# # scilock = Lock()
 
 
 class FitLeastSq:
     def __init__(self, errorfunc, p0, frequenzen, amplituden):
-        # # scilock.acquire()
         self.solp, self.convx, self.infodict, self.mesg, self.ier = leastsq(
             func=errorfunc,
             x0=p0,
@@ -30,13 +26,10 @@ class FitLeastSq:
             epsfcn=1e-10,
             factor=0.1
         )
-        # # scilock.release()
 
 
 class FitZeile:
     def __init__(self, messwerte, p0, norm, y):
-        # # QRunnable.__init__(self)
-        # # self.emit = emit
         self.messwerte = messwerte
         self.par = messwerte.par
         self.p0 = p0
@@ -48,7 +41,7 @@ class FitZeile:
         self.sphase = np.ones(messwerte.par.pixel)  # single phase point off resonance
         self.iterationen = np.ones(messwerte.par.pixel)
 
-    def run(self):
+    def fitten(self):
         if debug_schnell:
             self.fitparameter = np.random.rand(self.par.pixel, 3)
             self.error_fitparameter = np.random.rand(self.par.pixel, 3)
@@ -85,5 +78,4 @@ class FitZeile:
             ind = np.argmax(savgol_amplituden) + 20  # TODO Phasenveränderung off resonanz per Frequenz nicht Punkte ändern.
             self.sphase[x] = smoothed_phase[ind]
 
-        # # from Module.Fit import signal
-        # # self.emit(signal.weiter)
+        print(self.y)

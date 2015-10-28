@@ -125,7 +125,8 @@ class GuiLaden(QtGui.QMainWindow, Ui_Laden):
         self.entsperren()
 
     def weitere_zeile(self):
-        self.progress_bar.setValue(self.progress_bar.value() + 1)
+        if not self.edit_pfad.isEnabled():  # Nach Abbruch soll der Fortschrittsbalken nicht erhöht werden
+            self.progress_bar.setValue(self.progress_bar.value() + 1)
 
     def fit_fertig(self):
         self.app.fit_fertig()
