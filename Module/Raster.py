@@ -4,6 +4,7 @@
 @author: Sebastian Badur
 """
 
+import sys
 from PyQt4 import QtGui
 
 from Module.Canvas import Canvas
@@ -32,10 +33,12 @@ class Raster(Canvas):
         vertikal.addLayout(horizontal)
 
         self.box_min = QtGui.QDoubleSpinBox()
+        self.box_min.setMinimum(-sys.float_info.max)
         self.box_min.setSingleStep(bereich_schritt)
         horizontal.addWidget(self.box_min)
 
         self.box_max = QtGui.QDoubleSpinBox()
+        self.box_max.setMaximum(sys.float_info.max)
         self.box_max.setSingleStep(bereich_schritt)
         horizontal.addWidget(self.box_max)
 

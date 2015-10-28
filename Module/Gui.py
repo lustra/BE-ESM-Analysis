@@ -127,7 +127,7 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.list_phase.setModel(model(self.fit.messwerte.phase_namen))
 
         #  Resonanzplots bereitstellen
-        self.plt_resonanzkurve.werte = self.fit.messwerte.amplitude
+        self.plt_resonanzkurve.set_werte(self.fit.messwerte.amplitude)
 
     def laden(self):
         self.gui_laden.show()
