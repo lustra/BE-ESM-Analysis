@@ -32,6 +32,9 @@ class Raster(Canvas):
         horizontal = QtGui.QHBoxLayout()
         vertikal.addLayout(horizontal)
 
+        label = QtGui.QLabel(raster_bereich[lang])
+        horizontal.addWidget(label)
+
         self.box_min = QtGui.QDoubleSpinBox()
         self.box_min.setMinimum(-sys.float_info.max)
         self.box_min.setSingleStep(bereich_schritt)

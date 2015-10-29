@@ -10,24 +10,26 @@ import numpy as np
 def resonance_lorentz(p, x):
     """
     :param p: [Resonanzfrequenz, Drive Amplitude, Güte]
+    :type p: numpy.multiarray.ndarray
     :param x: Frequenz
+    :type x: numpy.multiarray.ndarray
     :return Lorentzverteilung für den Cantilever
     """
-    # noinspection PyTypeChecker
-    return p[1] * (np.power(p[0], 2) / p[2]) / np.sqrt(
-        np.power(np.power(x, 2) - np.power(p[0], 2), 2) + np.power((x * p[0] / p[2]), 2)
+    return p[1] * p[0]**2 / (
+        p[2] * np.sqrt((x**2 - p[0]**2)**2 + (x * p[0] / p[2])**2)
     )
 
 
 def drive_lorentz(p, x):
     """
     :param p: [Resonanzfrequenz, Drive Amplitude, Güte]
+    :type p: numpy.multiarray.ndarray
     :param x: Frequenz
+    :type x: numpy.multiarray.ndarray
     :return: Lorentzverteilung für das antreibende System
     """
-    # noinspection PyTypeChecker
-    return p[1] * np.power(p[0], 2) / np.sqrt(
-        np.power(np.power(x, 2) - np.power(p[0], 2), 2) + np.power((x * p[0] / p[2]), 2)
+    return p[1] * p[0]**2 / np.sqrt(
+        (x**2 - p[0]**2) ** 2 + (x * p[0] / p[2])**2
     )
 
 

@@ -20,7 +20,7 @@ class Ergebnis:
             error_fitparameter[:, :, 0]
         )
         self.damp = FitWerte(
-            fitparameter[:, :, 1],
+            fitparameter[:, :, 1] * 1000,  # mV
             error_fitparameter[:, :, 1]
         )
         self.q = FitWerte(

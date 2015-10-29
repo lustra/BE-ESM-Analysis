@@ -31,8 +31,7 @@ class Resonanzkurve(Canvas):
         text = [canvas_zeile[lang], canvas_spalte[lang]]
         self.koord = [QtGui.QSpinBox(), QtGui.QSpinBox()]
         for k in range(2):
-            label = QtGui.QLabel()
-            label.setText(text[k])
+            label = QtGui.QLabel(text[k])
             label.setSizePolicy(sp)
             horizontal.addWidget(label)
             self.koord[k].setMinimum(1)
