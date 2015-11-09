@@ -8,10 +8,8 @@
 de = 0
 en = 1
 
-gui_titel = ["Resonanz Fit", "Resonance Fit"]
+gui_titel = ["Bandanregung - Resonanz Fit", "Band Excitation - Resonance Fit"]
 gui_auswertung = ["Auswertung", "Analysis"]
-gui_ansicht = ["Ansicht", "View"]
-gui_oeffnen = [u"Öffnen...", "Open..."]
 gui_speichern = ["Fit speichern...", "Save fit..."]
 gui_resonanzkurve = ["Resonanzkurve", "Resonance curve"]
 gui_phase_schnitt = ["Phasenschnitt", "Phase cut"]
@@ -22,6 +20,9 @@ gui_phase = ["Phase", "Phase"]
 gui_qfaktor = ["Q-Faktor", "Q-factor"]
 gui_alles = ["Alles anzeigen", "Show all"]
 gui_gespeichert = ["Grafiken gespeichert unter:<br>", "Graphics saved to:<br>"]
+gui_spektroskopie = ["Spektroskopie...", "Spectroscopy..."]
+gui_messparameter = ["Messparameter...", "Measurement parameters..."]
+gui_raster = ["Raster...", "raster..."]
 
 achse_amp = ["Amplitude / mV", "amplitude / mV"]
 achse_freq = ["Frequenz / kHz", "frequency / kHz"]

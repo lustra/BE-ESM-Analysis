@@ -9,11 +9,11 @@ import sys
 from PyQt4 import QtGui
 
 from ResonanzFit import hinweis, lang
-from Module.Raster import Raster
-from Module.Resonanzkurve import Resonanzkurve
-from Module.Schnitt import Schnitt
+from Module.Raster.Raster import Raster
+from Module.Raster.Resonanzkurve import Resonanzkurve
+from Module.Raster.Schnitt import Schnitt
 from Design.Gui import Ui_Gui
-from Module.Fit import Fit
+from Module.Raster.Fit import Fit
 from Module.Laden import GuiLaden
 from Module.Sonstige import Achsenbeschriftung
 from Module.Strings import *
@@ -71,7 +71,7 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
             beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_punkt_y[lang])
         )
 
-        self.action_laden.triggered.connect(self.laden)
+        self.action_raster.triggered.connect(self.laden)
         self.action_speichern.triggered.connect(self.speichern)
         self.action_resonanzkurve.triggered.connect(self.plt_resonanzkurve.zeige)
         self.action_phase_schnitt.triggered.connect(self.plt_phase_schnitt.zeige)
@@ -91,8 +91,9 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.label_amplitude.setText(gui_amplitude[lang])
         self.label_phase.setText(gui_phase[lang])
         self.menu_messung.setTitle(gui_auswertung[lang])
-        self.menu_ansicht.setTitle(gui_ansicht[lang])
-        self.action_laden.setText(gui_oeffnen[lang])
+        self.action_spektroskopie.setText(gui_spektroskopie[lang])
+        self.action_messparameter.setText(gui_messparameter[lang])
+        self.action_raster.setText(gui_raster[lang])
         self.action_speichern.setText(gui_speichern[lang])
         self.action_resonanzkurve.setText(gui_resonanzkurve[lang])
         self.action_phase_schnitt.setText(gui_phase_schnitt[lang])

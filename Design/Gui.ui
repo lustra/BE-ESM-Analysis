@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Resonanz Fit</string>
+   <string>Bandanregung - Resonanz Fit</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <widget class="QWidget" name="verticalLayoutWidget">
@@ -79,12 +79,17 @@
     <property name="title">
      <string>Auswertung</string>
     </property>
-    <addaction name="action_laden"/>
+    <addaction name="action_raster"/>
+    <addaction name="action_spektroskopie"/>
+    <addaction name="separator"/>
     <addaction name="action_speichern"/>
    </widget>
-   <widget class="QMenu" name="menu_ansicht">
+   <widget class="QMenu" name="menu_raster">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
     <property name="title">
-     <string>Ansicht</string>
+     <string>Raster</string>
     </property>
     <addaction name="action_resonanzkurve"/>
     <addaction name="action_phase_schnitt"/>
@@ -97,14 +102,20 @@
     <addaction name="separator"/>
     <addaction name="action_alles"/>
    </widget>
+   <widget class="QMenu" name="menu_spektroskopie">
+    <property name="enabled">
+     <bool>false</bool>
+    </property>
+    <property name="title">
+     <string>Spektroskopie</string>
+    </property>
+    <addaction name="action_anregung"/>
+    <addaction name="action_frequenzabh"/>
+   </widget>
    <addaction name="menu_messung"/>
-   <addaction name="menu_ansicht"/>
+   <addaction name="menu_raster"/>
+   <addaction name="menu_spektroskopie"/>
   </widget>
-  <action name="action_laden">
-   <property name="text">
-    <string>Öffnen...</string>
-   </property>
-  </action>
   <action name="action_messparameter">
    <property name="text">
     <string>Messparameter...</string>
@@ -180,6 +191,39 @@
    </property>
    <property name="text">
     <string>Fit speichern...</string>
+   </property>
+  </action>
+  <action name="action_bandanregung">
+   <property name="text">
+    <string>Bandanregung...</string>
+   </property>
+  </action>
+  <action name="action_sweep">
+   <property name="enabled">
+    <bool>false</bool>
+   </property>
+   <property name="text">
+    <string>Sweep...</string>
+   </property>
+  </action>
+  <action name="action_raster">
+   <property name="text">
+    <string>Raster...</string>
+   </property>
+  </action>
+  <action name="action_anregung">
+   <property name="text">
+    <string>Anregungsspektrum</string>
+   </property>
+  </action>
+  <action name="action_frequenzabh">
+   <property name="text">
+    <string>Frequenzabhängigkeit</string>
+   </property>
+  </action>
+  <action name="action_spektroskopie">
+   <property name="text">
+    <string>Spektroskopie...</string>
    </property>
   </action>
  </widget>

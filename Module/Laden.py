@@ -107,13 +107,13 @@ class GuiLaden(QtGui.QMainWindow, Ui_Laden):
         # Fitten
         self.app.fit.par = Parameter(
             verzeichnis=str(self.edit_pfad.text()),
-            pixel=self.box_pixel.value(),
             messpunkte=self.box_messpunkte.value(),
             fmin=self.box_fmin.value(),
             fmax=self.box_fmax.value(),
             errorfunc=FitFunktion.errorfunc[self.box_methode.currentIndex()],
             fenster=self.box_fenster.value(),
-            ordnung=self.box_ordnung.value()
+            ordnung=self.box_ordnung.value(),
+            pixel=self.box_pixel.value()
         )
         self.app.fit.start()
 

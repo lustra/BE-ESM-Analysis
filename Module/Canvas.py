@@ -6,8 +6,6 @@
 
 from PyQt4 import QtGui
 
-from Module.Plotter import Plotter
-
 
 class Canvas(QtGui.QMainWindow):
     def __init__(self, liste, fit, titel):

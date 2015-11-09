@@ -7,17 +7,15 @@
 import numpy as np
 from scipy.signal import savgol_filter
 from scipy.optimize import leastsq
+from lmfit.models import Model
 # # from PyQt4.QtCore import QRunnable
-# # from multiprocessing import Lock
 
 
 debug_schnell = False
-# # scilock = Lock()
 
 
 class FitLeastSq:
     def __init__(self, errorfunc, p0, frequenzen, amplituden):
-        # # scilock.acquire()
         self.solp, self.convx, self.infodict, self.mesg, self.ier = leastsq(
             func=errorfunc,
             x0=p0,
@@ -30,7 +28,6 @@ class FitLeastSq:
             epsfcn=1e-10,
             factor=0.1
         )
-        # # scilock.release()
 
 
 class FitZeile:
@@ -61,6 +58,14 @@ class FitZeile:
 
         for x in range(self.par.pixel):  # x-Axis
             savgol_amplituden = savgol_filter(amplituden[x], self.par.fenster, self.par.ordnung)
+
+            model = Model(
+                func=self.par.errorfunc,
+                independent_vars=['resfreq', 'amp', 'guete'],
+                param_names=['freq'],
+                missing=None
+            )
+
             # Fitprozess starten
             pixel_fit = FitLeastSq(self.par.errorfunc, self.p0, self.messwerte.frequenzen, savgol_amplituden)
             self.fitparameter[x] = np.array(pixel_fit.solp, dtype=float)

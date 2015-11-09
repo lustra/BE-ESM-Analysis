@@ -7,29 +7,29 @@
 import numpy as np
 
 
-def resonance_lorentz(p, x):
+def resonance_lorentz(freq, resfreq, amp, guete):
     """
-    :param p: [Resonanzfrequenz, Drive Amplitude, Güte]
-    :type p: numpy.multiarray.ndarray
-    :param x: Frequenz
-    :type x: numpy.multiarray.ndarray
+    :type freq: numpy.multiarray.ndarray
+    :type resfreq: numpy.multiarray.ndarray
+    :type amp: numpy.multiarray.ndarray
+    :type guete: numpy.multiarray.ndarray
     :return Lorentzverteilung für den Cantilever
     """
-    return p[1] * p[0]**2 / (
-        p[2] * np.sqrt((x**2 - p[0]**2)**2 + (x * p[0] / p[2])**2)
+    return amp * resfreq**2 / (
+        guete * np.sqrt((freq**2 - resfreq**2)**2 + (freq * resfreq / guete)**2)
     )
 
 
-def drive_lorentz(p, x):
+def drive_lorentz(freq, resfreq, amp, guete):
     """
-    :param p: [Resonanzfrequenz, Drive Amplitude, Güte]
-    :type p: numpy.multiarray.ndarray
-    :param x: Frequenz
-    :type x: numpy.multiarray.ndarray
+    :type freq: numpy.multiarray.ndarray
+    :type resfreq: numpy.multiarray.ndarray
+    :type amp: numpy.multiarray.ndarray
+    :type guete: numpy.multiarray.ndarray
     :return: Lorentzverteilung für das antreibende System
     """
-    return p[1] * p[0]**2 / np.sqrt(
-        (x**2 - p[0]**2) ** 2 + (x * p[0] / p[2])**2
+    return amp * resfreq**2 / np.sqrt(
+        (freq**2 - resfreq**2) ** 2 + (freq * resfreq / guete)**2
     )
 
 
@@ -45,5 +45,5 @@ def errlambda(lorentz):
 errorfunc = [  # Bessere Lösung finden oder Reihenfolge mit Strings abgleichen!
     errlambda(resonance_lorentz),
     errlambda(drive_lorentz),
-    errlambda(phase_lorentz) #TODO Das wird natürlich noch nicht funktionieren! Es muss dann auch die PHASE gefittet werden!
+    # errlambda(phase_lorentz) #TODO Das würde natürlich nicht funktionieren. Es muss dann auch die PHASE gefittet werden!
 ]

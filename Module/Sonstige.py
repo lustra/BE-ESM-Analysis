@@ -7,7 +7,7 @@
 
 class Parameter:
     """ Alle nötigen Messparameter """
-    def __init__(self, verzeichnis, pixel, messpunkte, fmin, fmax, errorfunc, fenster, ordnung):
+    def __init__(self, verzeichnis, messpunkte, fmin, fmax, errorfunc, fenster, ordnung, pixel=None):
         """
         :type verzeichnis: str
         :type pixel: int
@@ -18,13 +18,13 @@ class Parameter:
         :type ordnung: int
         """
         self.verzeichnis = verzeichnis
-        self.pixel = pixel
         self.messpunkte = messpunkte
         self.fmin = fmin
         self.fmax = fmax
         self.errorfunc = errorfunc
         self.fenster = fenster
         self.ordnung = ordnung
+        self.pixel = pixel  # Die Pixelanzahl ist natürlich nur für Raster sinnvoll
 
 
 class Achsenbeschriftung:
