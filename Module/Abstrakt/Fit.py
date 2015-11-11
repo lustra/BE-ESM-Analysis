@@ -7,7 +7,7 @@
 import time
 from PyQt4 import QtCore
 
-from Module.Raster.Messwerte import Messwerte
+from Module.Abstrakt.Messwerte import Messwerte
 from Module.Signal import signal
 from Module.Sonstige import Fehler
 

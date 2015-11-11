@@ -90,10 +90,12 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         ui.setWindowTitle(gui_titel[lang])
         self.label_amplitude.setText(gui_amplitude[lang])
         self.label_phase.setText(gui_phase[lang])
-        self.menu_messung.setTitle(gui_auswertung[lang])
+        self.menu_auswertung.setTitle(gui_auswertung[lang])
+        self.menu_raster.setTitle(gui_raster[lang])
+        self.menu_spektroskopie.setTitle(gui_spektroskopie[lang])
         self.action_spektroskopie.setText(gui_spektroskopie[lang])
         self.action_messparameter.setText(gui_messparameter[lang])
-        self.action_raster.setText(gui_raster[lang])
+        self.action_raster.setText(gui_lade_raster[lang])
         self.action_speichern.setText(gui_speichern[lang])
         self.action_resonanzkurve.setText(gui_resonanzkurve[lang])
         self.action_phase_schnitt.setText(gui_phase_schnitt[lang])
@@ -139,8 +141,9 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.fit.erg.speichern(str(wohin))
         hinweis(self, gui_gespeichert[lang] + wohin)
 
-    def fit_fertig(self):
+    def raster_fit_fertig(self):
         self.action_speichern.setEnabled(True)
+        self.menu_raster.setEnabled(True)
         self.plt_phase_schnitt.set_werte(self.fit.erg.phase)
         self.plt_amp_schnitt.set_werte(self.fit.erg.damp)
         self.plt_phase.set_werte(self.fit.erg.phase)

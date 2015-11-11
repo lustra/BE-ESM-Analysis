@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Dokumente/BE-ESM-Analysis/Design/Gui.ui'
 #
-# Created: Mon Nov  9 13:21:30 2015
+# Created: Tue Nov 10 16:08:17 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -60,8 +60,8 @@ class Ui_Gui(object):
         self.menubar = QtGui.QMenuBar(Gui)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 429, 23))
         self.menubar.setObjectName(_fromUtf8("menubar"))
-        self.menu_messung = QtGui.QMenu(self.menubar)
-        self.menu_messung.setObjectName(_fromUtf8("menu_messung"))
+        self.menu_auswertung = QtGui.QMenu(self.menubar)
+        self.menu_auswertung.setObjectName(_fromUtf8("menu_auswertung"))
         self.menu_raster = QtGui.QMenu(self.menubar)
         self.menu_raster.setEnabled(False)
         self.menu_raster.setObjectName(_fromUtf8("menu_raster"))
@@ -112,10 +112,10 @@ class Ui_Gui(object):
         self.action_frequenzabh.setObjectName(_fromUtf8("action_frequenzabh"))
         self.action_spektroskopie = QtGui.QAction(Gui)
         self.action_spektroskopie.setObjectName(_fromUtf8("action_spektroskopie"))
-        self.menu_messung.addAction(self.action_raster)
-        self.menu_messung.addAction(self.action_spektroskopie)
-        self.menu_messung.addSeparator()
-        self.menu_messung.addAction(self.action_speichern)
+        self.menu_auswertung.addAction(self.action_raster)
+        self.menu_auswertung.addAction(self.action_spektroskopie)
+        self.menu_auswertung.addSeparator()
+        self.menu_auswertung.addAction(self.action_speichern)
         self.menu_raster.addAction(self.action_resonanzkurve)
         self.menu_raster.addAction(self.action_phase_schnitt)
         self.menu_raster.addAction(self.action_amp_schnitt)
@@ -128,7 +128,7 @@ class Ui_Gui(object):
         self.menu_raster.addAction(self.action_alles)
         self.menu_spektroskopie.addAction(self.action_anregung)
         self.menu_spektroskopie.addAction(self.action_frequenzabh)
-        self.menubar.addAction(self.menu_messung.menuAction())
+        self.menubar.addAction(self.menu_auswertung.menuAction())
         self.menubar.addAction(self.menu_raster.menuAction())
         self.menubar.addAction(self.menu_spektroskopie.menuAction())
 
@@ -139,7 +139,7 @@ class Ui_Gui(object):
         Gui.setWindowTitle(_translate("Gui", "Bandanregung - Resonanz Fit", None))
         self.label_amplitude.setText(_translate("Gui", "Amplitude", None))
         self.label_phase.setText(_translate("Gui", "Phase", None))
-        self.menu_messung.setTitle(_translate("Gui", "Auswertung", None))
+        self.menu_auswertung.setTitle(_translate("Gui", "Auswertung", None))
         self.menu_raster.setTitle(_translate("Gui", "Raster", None))
         self.menu_spektroskopie.setTitle(_translate("Gui", "Spektroskopie", None))
         self.action_messparameter.setText(_translate("Gui", "Messparameter...", None))

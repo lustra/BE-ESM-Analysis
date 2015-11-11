@@ -87,7 +87,7 @@ class GuiLaden(QtGui.QMainWindow, Ui_Laden):
             self.app.fit.abbruch()
             while self.app.fit.isRunning():
                 time.sleep(0.01)
-            self.app.fit_fertig()
+            self.app.raster_fit_fertig()
             self.entsperren()
 
     def entsperren(self):
@@ -128,7 +128,7 @@ class GuiLaden(QtGui.QMainWindow, Ui_Laden):
         self.progress_bar.setValue(self.progress_bar.value() + 1)
 
     def fit_fertig(self):
-        self.app.fit_fertig()
+        self.app.raster_fit_fertig()
         self.close()
         self.entsperren()
         hinweis(self, laden_fertig[lang])

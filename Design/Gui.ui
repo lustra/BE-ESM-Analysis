@@ -75,7 +75,7 @@
      <height>23</height>
     </rect>
    </property>
-   <widget class="QMenu" name="menu_messung">
+   <widget class="QMenu" name="menu_auswertung">
     <property name="title">
      <string>Auswertung</string>
     </property>
@@ -112,7 +112,7 @@
     <addaction name="action_anregung"/>
     <addaction name="action_frequenzabh"/>
    </widget>
-   <addaction name="menu_messung"/>
+   <addaction name="menu_auswertung"/>
    <addaction name="menu_raster"/>
    <addaction name="menu_spektroskopie"/>
   </widget>
