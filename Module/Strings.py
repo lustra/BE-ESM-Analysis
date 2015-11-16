@@ -50,6 +50,16 @@ laden_fitten = ["Fitten", "Fit"]
 laden_abbrechen = ["Abbrechen", "Cancel"]
 laden_fertig = ["Fit abgeschlossen", "Fit done"]
 
+laden_df = ["delta f (Hz)", "delta f (Hz)"]
+laden_mittelungen = ["Anzahl Mittelungen", "Number averagings"]
+laden_bereich = ["Frequenzbereich begrenzen (in Messpunkten):", "Limit frequency range (in measurement points):"]
+laden_von = ["von", "from"]
+laden_bis = ["bis", "to"]
+laden_fitparameter = ["Fitparameter:", "Fitting parameters:"]
+laden_amp = ["Amplitude von", "Amplitude from"]
+laden_untergrund = ["Untergrund von", "Ground from"]
+laden_guete = ["Güte =", "Goodness ="]
+
 canvas_zeile = ["Zeile:", "Row:"]
 canvas_spalte = ["Spalte:", "Column:"]
 

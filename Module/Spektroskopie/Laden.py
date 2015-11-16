@@ -5,37 +5,29 @@
 """
 
 import time
-from PyQt4 import QtCore, QtGui
+from PyQt4 import QtGui
 
-from ResonanzFit import hinweis, lang, ordner
-from Design.Laden import Ui_Laden
+from ResonanzFit import lang, ordner
+from Design.SpektrLaden import Ui_SpektrLaden
+from Module.Abstrakt.Laden import GuiAbstraktLaden
 from Module import FitFunktion
-from Module.Signal import signal
 from Module.Sonstige import Parameter
 from Module.Strings import *
 
 
-class GuiLaden(QtGui.QMainWindow, Ui_Laden):
+class GuiRasterLaden(GuiAbstraktLaden, Ui_SpektrLaden):
     """ Ordnerauswahl, Einstellung der Parameter und Fit """
     def __init__(self, app):
         """
         :type app: Module.Gui.Gui
         """
-        QtGui.QMainWindow.__init__(self)
-        self.app = app
+        GuiAbstraktLaden.__init__(self, app)
         self.setupUi(self)
-        self.setFixedSize(self.size())
         self.edit_pfad.setText(ordner)
-        self.entsperrt = True
 
         self.button_aendern.clicked.connect(self.ordnerwahl)
         self.button_fitten.clicked.connect(self.geklickt)
         self.box_fmin.valueChanged.connect(self.neues_fmin)
-
-        QtCore.QObject.connect(self.app.fit, signal.importiert, self.app.importiert)
-        QtCore.QObject.connect(self.app.fit, signal.fehler, self.fehler)
-        QtCore.QObject.connect(self.app.fit, signal.weiter, self.weitere_zeile)
-        QtCore.QObject.connect(self.app.fit, signal.fertig, self.fit_fertig)
 
     def retranslateUi(self, ui):
         """
@@ -45,16 +37,24 @@ class GuiLaden(QtGui.QMainWindow, Ui_Laden):
         self.button_aendern.setText(laden_aendern[lang])
         self.check_konfig.setText(laden_konfiguration[lang])
         self.label_messpunkte.setText(laden_messpunkte[lang])
-        self.label_pixel.setText(laden_pixel[lang])
+        self.label_df.setText(laden_df[lang])
         self.label_fmin.setText(laden_fmin[lang])
         self.label_fmax.setText(laden_fmax[lang])
         self.label_methode.setText(laden_methode[lang])
         self.box_methode.setItemText(0, laden_damp[lang])
         self.box_methode.setItemText(1, laden_camp[lang])
         self.box_methode.setItemText(2, laden_phase[lang])
-        self.label_savgol.setText(laden_savgol[lang])
-        self.label_fenster.setText(laden_fenster[lang])
-        self.label_ordnung.setText(laden_ordnung[lang])
+        self.label_bereich.setText(laden_bereich[lang])
+        self.label_bereich_min.setText(laden_von[lang])
+        self.label_bereich_max.setText(laden_bis[lang])
+        self.label_fitparameter.setText(laden_fitparameter[lang])
+        self.label_amp_min.setText(laden_amp[lang])
+        self.label_amp_max.setText(laden_bis[lang])
+        self.label_untergrund_min.setText(laden_untergrund[lang])
+        self.label_untergrund_max.setEnabled(laden_bis[lang])
+        self.label_guete.setText(laden_guete[lang])
+        self.label_guete_min.setText(laden_von[lang])
+        self.label_guete_max.setText(laden_bis[lang])
         self.button_fitten.setText(laden_fitten[lang])
 
     def set_input_enabled(self, b):
@@ -69,8 +69,15 @@ class GuiLaden(QtGui.QMainWindow, Ui_Laden):
         self.box_fmin.setEnabled(b)
         self.box_fmax.setEnabled(b)
         self.box_methode.setEnabled(b)
-        self.box_fenster.setEnabled(b)
-        self.box_ordnung.setEnabled(b)
+        self.box_fmin.setEnabled(b)
+        self.box_fmax.setEnabled(b)
+        self.box_amp_min.setEnabled(b)
+        self.box_amp_max.setEnabled(b)
+        self.box_untergrund_min.setEnabled(b)
+        self.box_untergrund_max.setEnabled(b)
+        self.box_guete.setEnabled(b)
+        self.box_guete_min.setEnabled(b)
+        self.box_guete_max.setEnabled(b)
 
     def ordnerwahl(self):
         self.edit_pfad.setText(
@@ -91,15 +98,13 @@ class GuiLaden(QtGui.QMainWindow, Ui_Laden):
             self.entsperren()
 
     def entsperren(self):
-        self.entsperrt = True
-        self.set_input_enabled(True)
+        GuiAbstraktLaden.entsperren(self)
         self.progress_bar.setValue(0)
         self.button_fitten.setText(laden_fitten[lang])
 
     def start_fit(self):
-        self.set_input_enabled(False)
+        GuiAbstraktLaden.start_fit(self)
         self.button_fitten.setText(laden_abbrechen[lang])
-        self.entsperrt = False
 
         # Fortschrittsbalken vorbereiten
         self.progress_bar.setMaximum(self.box_pixel.value())
@@ -117,18 +122,5 @@ class GuiLaden(QtGui.QMainWindow, Ui_Laden):
         )
         self.app.fit.start()
 
-    def fehler(self, fehler):
-        """
-        :type fehler: Module.Sonstige.Fehler
-        """
-        hinweis(self, fehler.args[0])
-        self.entsperren()
-
-    def weitere_zeile(self):
+    def weiterer_parameter(self):
         self.progress_bar.setValue(self.progress_bar.value() + 1)
-
-    def fit_fertig(self):
-        self.app.raster_fit_fertig()
-        self.close()
-        self.entsperren()
-        hinweis(self, laden_fertig[lang])

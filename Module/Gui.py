@@ -14,7 +14,7 @@ from Module.Raster.Resonanzkurve import Resonanzkurve
 from Module.Raster.Schnitt import Schnitt
 from Design.Gui import Ui_Gui
 from Module.Raster.Fit import Fit
-from Module.Laden import GuiLaden
+from Module.Raster.Laden import GuiRasterLaden
 from Module.Sonstige import Achsenbeschriftung
 from Module.Strings import *
 
@@ -28,7 +28,8 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
 
         self._fit = Fit()  # Fit-Instanz kann wegen zu viele Abhängigkeiten nicht ersetzt werden!
         # (sollte es wirklich nötig werden, dann besser gleich die gesamte Gui neu instanzieren)
-        self.gui_laden = GuiLaden(self)
+        self.gui_raster_laden = GuiRasterLaden(self)
+        self.gui_spektr_laden = GuiSpektrLaden(self)
 
         self.plots = []
         self.plt_resonanzkurve = Resonanzkurve(
@@ -71,7 +72,7 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
             beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_punkt_y[lang])
         )
 
-        self.action_raster.triggered.connect(self.laden)
+        self.action_raster.triggered.connect(self.raster_laden)
         self.action_speichern.triggered.connect(self.speichern)
         self.action_resonanzkurve.triggered.connect(self.plt_resonanzkurve.zeige)
         self.action_phase_schnitt.triggered.connect(self.plt_phase_schnitt.zeige)
@@ -132,9 +133,13 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         #  Resonanzplots bereitstellen
         self.plt_resonanzkurve.set_werte(self.fit.messwerte.amplitude)
 
-    def laden(self):
-        self.gui_laden.show()
-        self.gui_laden.raise_()
+    def raster_laden(self):
+        self.gui_raster_laden.show()
+        self.gui_raster_laden.raise_()
+
+    def spektr_laden(self):
+        self.gui_spektr_laden.show()
+        self.gui_spektr_laden.raise_()
 
     def speichern(self):
         wohin = QtGui.QFileDialog().getSaveFileName(self, rf_ordner[lang], self.fit.par.verzeichnis)

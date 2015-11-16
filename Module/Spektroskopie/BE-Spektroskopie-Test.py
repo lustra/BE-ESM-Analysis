@@ -1,11 +1,58 @@
 # coding=utf-8
 import numpy as np
+import sys
 import os
-from lmfit.models import * #### alternatives Fitten siehe https://lmfit.github.io/lmfit-py/
+# from lmfit.models import  #### alternatives Fitten siehe https://lmfit.github.io/lmfit-py/
 from lmfit import *
 import matplotlib.pyplot as plt
 from glob import glob
 from nptdms import TdmsFile
+from scipy.signal import savgol_filter
+
+
+
+
+
+
+
+
+
+
+#folder = "/home/sebadur/Dokumente/BE-Spektroskopie/2015-11-10 Vergleich/"
+folder = "/home/sebadur/Dokumente/BE-Spektroskopie/2015-11-16/Messung/"
+
+omega = '1'
+
+fmin = 62000
+fmax = 83000
+df = 50
+messpunkte = (fmax-fmin)//df
+
+mittelungen = 200
+
+bereich_min = 50
+bereich_max = messpunkte-50
+
+amp_min = 0.00001
+amp_max = 0.1
+guete = 20
+guete_min = 5
+guete_max = 25
+off_min = 0
+off_max = 0.005
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -15,17 +62,17 @@ def read_tdmsfile(folder): # Dateiname aufgeteilt und Nummerisch sortiert
     tdms_file = TdmsFile(folder)
     channel = tdms_file.object('Unbenannt', 'Untitled')     # erster Name ist der Gruppenname dann der Kanalname
     multy = np.array(channel.data)
-    datay = np.zeros(1050)
+    datay = np.zeros(messpunkte)
 
-    for n in range(100):
-        for m in range(1050):
+    for n in range(mittelungen):
+        for m in range(messpunkte):
             try:
-                datay[m] += multy[m+n*1050]
+                datay[m] += multy[m+n*messpunkte]
             except IndexError:
                 break
 
-    datay = datay[150:900]
-    datax = range(62000, 83000, 20)[150:900]
+    datay = datay[bereich_min:bereich_max]
+    datax = range(fmin, fmax, df)[bereich_min:bereich_max]
 
     return datax, datay
 
@@ -42,17 +89,15 @@ mod = Model(resonance_lorentz)
 
 
 
+
 duplicate = []
 erg_amp = []
 erg_freq = []
 erg_phase = []
 erg_offsets = []
 
-#folder = "/home/sebadur/Dokumente/BE-Spektroskopie/2015-11-10 Vergleich/"
-folder = "/home/sebadur/Dokumente/BE-Spektroskopie/2015-11-10/"
 
-
-fnames = glob(folder+"amp2*.tdms")    # alle dateien in diesem Ordner mit der Endung txt
+fnames = glob(folder+"amp"+omega+"*.tdms")    # alle dateien in diesem Ordner mit der Endung txt
 
 parameter = []
 for name in fnames:
@@ -69,6 +114,10 @@ for par in parameter:
     phase = []
     offsets = []
     fnames = glob(folder+"amp"+par+"*.tdms")
+    """fnames = sorted(
+        glob(folder+"amp"+par+"*.tdms"),
+        key=lambda n: float(n.split('G')[-1].split('V')[0].replace(',', '.'))
+    )"""
     for name in fnames:
         datx, daty = read_tdmsfile(name)
         phasx, phasy = read_tdmsfile(name.replace('amp', 'phase'))  # DAS KANN SO NICHT BLEIBEN (ersetzt nicht nur im Dateinamen, sondern auch im Pfad)
@@ -79,29 +128,33 @@ for par in parameter:
         start_off = daty[0]
 
         params = Parameters()
-        params.add('resfreq', value=start_freq, min=62000, max=72000)
-        params.add('amp', value=start_amp, min=0.00001, max=0.1)
-        params.add('guete', value=50)
-        params.add('off', value=start_off, min=0.00001, max=0.0005)
+        params.add('resfreq', value=start_freq, min=fmin, max=fmax)
+        params.add('amp', value=start_amp, min=amp_min, max=amp_max)
+        params.add('guete', value=guete, min=guete_min, max=guete_max)
+        params.add('off', value=start_off, min=off_min, max=off_max)
 
-        out = mod.fit(daty, freq=datx, params=params, verbose=False)
-        # out = mod.fit(daty, freq=datx, resfreq=start_freq, amp=start_amp, guete=10, off=start_off, verbose=False)
+        out = mod.fit(savgol_filter(daty, 51, 5), freq=datx, params=params)
+        #mod = Minimizer(resonance_lorentz, params)
+        #out = mod.leastsq(params, maxfev=sys.maxint)
 
-        if name in ["/home/sebadur/Dokumente/BE-Spektroskopie/2015-11-10 Vergleich/amp1w8,000000G-2,000000V.tdms",
-                    "/home/sebadur/Dokumente/BE-Spektroskopie/2015-11-10 Vergleich/amp1w8,000000G-1,000000V.tdms",
-                    "/home/sebadur/Dokumente/BE-Spektroskopie/2015-11-10 Vergleich/amp1w8,000000G0,000000V.tdms",
-                    "/home/sebadur/Dokumente/BE-Spektroskopie/2015-11-10 Vergleich/amp1w8,000000G1,000000V.tdms"] and False:
+        if name in [
+            "/home/sebadur/Dokumente/BE-Spektroskopie/2015-11-16/Messung/amp1w10,000000G-5,000000V.tdms",
+            "/home/sebadur/Dokumente/BE-Spektroskopie/2015-11-16/Messung/amp1w10,000000G-4,000000V.tdms",
+            "/home/sebadur/Dokumente/BE-Spektroskopie/2015-11-16/Messung/amp1w10,000000G-3,000000V.tdms"
+        ]:
             print(name)
+            print("amp="+str(out.best_values["amp"])+", resfreq="+str(out.best_values["resfreq"])+", güte="+str(out.best_values["guete"])+", off="+str(out.best_values["off"]))
             plt.plot(datx, daty)
             plt.plot(datx, out.best_fit, 'r')
             plt.show()
 
-            plt.plot(phasx, phasy)
+            plt.plot(phasx, savgol_filter(phasy//messpunkte, 51, 5))
+            plt.plot([phasx[messpunkte//4], phasx[messpunkte//4]], [phasy.max()//messpunkte, phasy.min()//messpunkte], 'r')
             plt.show()
 
         amps.append(out.best_values["amp"])
         freqs.append(out.best_values["resfreq"])
-        phase.append(phasy[index_max])
+        phase.append(savgol_filter(phasy, 51, 5)[messpunkte//4]/messpunkte)
         offsets.append(float(name.split('G')[-1].split('V')[0].replace(',', '.')))
 
     erg_amp.append(np.array(amps))
