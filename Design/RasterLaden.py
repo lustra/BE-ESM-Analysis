@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Dokumente/Studium/Master/Raster-ESM-Analysis/Design/Laden.ui'
+# Form implementation generated from reading ui file 'Dokumente/BE-ESM-Analysis/Design/RasterLaden.ui'
 #
-# Created: Sat Oct 17 18:23:17 2015
+# Created: Mon Nov 16 11:48:26 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -23,11 +23,11 @@ except AttributeError:
     def _translate(context, text, disambig):
         return QtGui.QApplication.translate(context, text, disambig)
 
-class Ui_Laden(object):
-    def setupUi(self, Laden):
-        Laden.setObjectName(_fromUtf8("Laden"))
-        Laden.resize(388, 322)
-        self.centralwidget = QtGui.QWidget(Laden)
+class Ui_RasterLaden(object):
+    def setupUi(self, RasterLaden):
+        RasterLaden.setObjectName(_fromUtf8("RasterLaden"))
+        RasterLaden.resize(388, 322)
+        self.centralwidget = QtGui.QWidget(RasterLaden)
         self.centralwidget.setObjectName(_fromUtf8("centralwidget"))
         self.verticalLayoutWidget = QtGui.QWidget(self.centralwidget)
         self.verticalLayoutWidget.setGeometry(QtCore.QRect(10, 10, 371, 305))
@@ -167,25 +167,25 @@ class Ui_Laden(object):
         self.progress_bar.setObjectName(_fromUtf8("progress_bar"))
         self.horizontallayout0.addWidget(self.progress_bar)
         self.verticallayout.addLayout(self.horizontallayout0)
-        Laden.setCentralWidget(self.centralwidget)
+        RasterLaden.setCentralWidget(self.centralwidget)
 
-        self.retranslateUi(Laden)
-        QtCore.QMetaObject.connectSlotsByName(Laden)
+        self.retranslateUi(RasterLaden)
+        QtCore.QMetaObject.connectSlotsByName(RasterLaden)
 
-    def retranslateUi(self, Laden):
-        Laden.setWindowTitle(_translate("Laden", "Resonanz Fit - Messung einlesen", None))
-        self.button_aendern.setText(_translate("Laden", "Ändern...", None))
-        self.check_konfig.setText(_translate("Laden", "Messkonfiguration aus Datei einlesen", None))
-        self.label_messpunkte.setText(_translate("Laden", "Messpunkte pro Pixel", None))
-        self.label_pixel.setText(_translate("Laden", "Pixel", None))
-        self.label_fmin.setText(_translate("Laden", "Freq Min (kHz)", None))
-        self.label_fmax.setText(_translate("Laden", "Freq Max (kHz)", None))
-        self.label_methode.setText(_translate("Laden", "Lorentzverteilung", None))
-        self.box_methode.setItemText(0, _translate("Laden", "Antreibendes System", None))
-        self.box_methode.setItemText(1, _translate("Laden", "Cantilever", None))
-        self.box_methode.setItemText(2, _translate("Laden", "Phase", None))
-        self.label_savgol.setText(_translate("Laden", "Savitzky-Golay-Filter:", None))
-        self.label_fenster.setText(_translate("Laden", "Koeffizientenanzahl", None))
-        self.label_ordnung.setText(_translate("Laden", "Ordnung des Polynoms", None))
-        self.button_fitten.setText(_translate("Laden", "Fitten", None))
+    def retranslateUi(self, RasterLaden):
+        RasterLaden.setWindowTitle(_translate("RasterLaden", "Resonanz Fit - Messung einlesen", None))
+        self.button_aendern.setText(_translate("RasterLaden", "Ändern...", None))
+        self.check_konfig.setText(_translate("RasterLaden", "Messkonfiguration aus Datei einlesen", None))
+        self.label_messpunkte.setText(_translate("RasterLaden", "Messpunkte pro Pixel", None))
+        self.label_pixel.setText(_translate("RasterLaden", "Pixel", None))
+        self.label_fmin.setText(_translate("RasterLaden", "Freq Min (kHz)", None))
+        self.label_fmax.setText(_translate("RasterLaden", "Freq Max (kHz)", None))
+        self.label_methode.setText(_translate("RasterLaden", "Lorentzverteilung", None))
+        self.box_methode.setItemText(0, _translate("RasterLaden", "Antreibendes System", None))
+        self.box_methode.setItemText(1, _translate("RasterLaden", "Cantilever", None))
+        self.box_methode.setItemText(2, _translate("RasterLaden", "Phase", None))
+        self.label_savgol.setText(_translate("RasterLaden", "Savitzky-Golay-Filter:", None))
+        self.label_fenster.setText(_translate("RasterLaden", "Koeffizientenanzahl", None))
+        self.label_ordnung.setText(_translate("RasterLaden", "Ordnung des Polynoms", None))
+        self.button_fitten.setText(_translate("RasterLaden", "Fitten", None))
 
