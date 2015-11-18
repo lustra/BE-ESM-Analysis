@@ -15,6 +15,7 @@ from Module.Raster.Schnitt import Schnitt
 from Design.Gui import Ui_Gui
 from Module.Raster.Fit import Fit
 from Module.Raster.Laden import GuiRasterLaden
+from Module.Spektroskopie.Laden import GuiSpektrLaden
 from Module.Sonstige import Achsenbeschriftung
 from Module.Strings import *
 
@@ -73,6 +74,7 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         )
 
         self.action_raster.triggered.connect(self.raster_laden)
+        self.action_spektroskopie.triggered.connect(self.spektr_laden)
         self.action_speichern.triggered.connect(self.speichern)
         self.action_resonanzkurve.triggered.connect(self.plt_resonanzkurve.zeige)
         self.action_phase_schnitt.triggered.connect(self.plt_phase_schnitt.zeige)
@@ -94,7 +96,7 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.menu_auswertung.setTitle(gui_auswertung[lang])
         self.menu_raster.setTitle(gui_raster[lang])
         self.menu_spektroskopie.setTitle(gui_spektroskopie[lang])
-        self.action_spektroskopie.setText(gui_spektroskopie[lang])
+        self.action_spektroskopie.setText(gui_lade_spektroskopie[lang])
         self.action_messparameter.setText(gui_messparameter[lang])
         self.action_raster.setText(gui_lade_raster[lang])
         self.action_speichern.setText(gui_speichern[lang])
@@ -155,6 +157,11 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.plt_resfreq.set_werte(self.fit.erg.resfreq)
         self.plt_amplitude.set_werte(self.fit.erg.damp)
         self.plt_qfaktor.set_werte(self.fit.erg.q)
+
+    def spektr_fit_fertig(self):
+        self.action_speichern.setEnabled(True)
+        self.menu_spektroskopie.setEnabled(True)
+        print("TODO")
 
     def aktualisieren(self):
         for plt in self.plots:

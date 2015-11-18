@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>369</width>
+    <width>371</width>
     <height>470</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
      <rect>
       <x>10</x>
       <y>10</y>
-      <width>351</width>
+      <width>352</width>
       <height>451</height>
      </rect>
     </property>
@@ -82,7 +82,7 @@
        <item>
         <layout class="QGridLayout" name="gridlayout0">
          <item row="0" column="1">
-          <widget class="QSpinBox" name="box_pixel">
+          <widget class="QSpinBox" name="box_df">
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -98,14 +98,14 @@
           </widget>
          </item>
          <item row="1" column="0">
-          <widget class="QLabel" name="label_messpunkte">
+          <widget class="QLabel" name="label_mittelungen">
            <property name="text">
             <string>Anzahl Mittelungen</string>
            </property>
           </widget>
          </item>
          <item row="1" column="1">
-          <widget class="QSpinBox" name="box_messpunkte">
+          <widget class="QSpinBox" name="box_mittelungen">
            <property name="styleSheet">
             <string notr="true"/>
            </property>
@@ -189,6 +189,19 @@
       </layout>
      </item>
      <item>
+      <spacer name="verticalspacer3">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
+     </item>
+     <item>
       <widget class="Line" name="line">
        <property name="orientation">
         <enum>Qt::Horizontal</enum>
@@ -254,7 +267,7 @@
      <item>
       <layout class="QHBoxLayout" name="horizontallayout3">
        <item>
-        <widget class="QLabel" name="label_bereich_min">
+        <widget class="QLabel" name="label_bereich_links">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -262,15 +275,19 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>von</string>
+          <string>links:</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="box_bereich_min"/>
+        <widget class="QSpinBox" name="box_bereich_links">
+         <property name="maximum">
+          <number>999999999</number>
+         </property>
+        </widget>
        </item>
        <item>
-        <widget class="QLabel" name="label_bereich_max">
+        <widget class="QLabel" name="label_bereich_rechts">
          <property name="sizePolicy">
           <sizepolicy hsizetype="Maximum" vsizetype="Preferred">
            <horstretch>0</horstretch>
@@ -278,12 +295,19 @@
           </sizepolicy>
          </property>
          <property name="text">
-          <string>bis</string>
+          <string>rechts:</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="box_bereich_max"/>
+        <widget class="QSpinBox" name="box_bereich_rechts">
+         <property name="minimum">
+          <number>-999999999</number>
+         </property>
+         <property name="maximum">
+          <number>0</number>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -323,7 +347,14 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="box_amp_min"/>
+        <widget class="QDoubleSpinBox" name="box_amp_min">
+         <property name="decimals">
+          <number>6</number>
+         </property>
+         <property name="value">
+          <double>0.000010000000000</double>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="label_amp_max">
@@ -339,7 +370,14 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="box_amp_max"/>
+        <widget class="QDoubleSpinBox" name="box_amp_max">
+         <property name="decimals">
+          <number>6</number>
+         </property>
+         <property name="value">
+          <double>0.100000000000000</double>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -359,7 +397,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="box_untergrund_min"/>
+        <widget class="QDoubleSpinBox" name="box_untergrund_min">
+         <property name="decimals">
+          <number>6</number>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="label_untergrund_max">
@@ -375,7 +417,14 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="box_untergrund_max"/>
+        <widget class="QDoubleSpinBox" name="box_untergrund_max">
+         <property name="decimals">
+          <number>6</number>
+         </property>
+         <property name="value">
+          <double>0.005000000000000</double>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
@@ -395,7 +444,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="box_guete"/>
+        <widget class="QDoubleSpinBox" name="box_guete">
+         <property name="value">
+          <double>20.000000000000000</double>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="label_guete_min">
@@ -411,7 +464,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="box_guete_min"/>
+        <widget class="QDoubleSpinBox" name="box_guete_min">
+         <property name="value">
+          <double>5.000000000000000</double>
+         </property>
+        </widget>
        </item>
        <item>
         <widget class="QLabel" name="label_guete_max">
@@ -427,12 +484,16 @@
         </widget>
        </item>
        <item>
-        <widget class="QSpinBox" name="box_guete_max"/>
+        <widget class="QDoubleSpinBox" name="box_guete_max">
+         <property name="value">
+          <double>25.000000000000000</double>
+         </property>
+        </widget>
        </item>
       </layout>
      </item>
      <item>
-      <spacer name="verticalSpacer">
+      <spacer name="verticalspacer4">
        <property name="orientation">
         <enum>Qt::Vertical</enum>
        </property>

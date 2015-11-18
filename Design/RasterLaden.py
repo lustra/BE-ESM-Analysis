@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Dokumente/BE-ESM-Analysis/Design/RasterLaden.ui'
 #
-# Created: Mon Nov 16 11:48:26 2015
+# Created: Tue Nov 17 14:47:15 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -107,13 +107,15 @@ class Ui_RasterLaden(object):
         self.gridlayout1.addWidget(self.box_fmax, 1, 1, 1, 1)
         self.horizontallayout1.addLayout(self.gridlayout1)
         self.verticallayout.addLayout(self.horizontallayout1)
+        spacerItem2 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticallayout.addItem(spacerItem2)
         self.line = QtGui.QFrame(self.verticalLayoutWidget)
         self.line.setFrameShape(QtGui.QFrame.HLine)
         self.line.setFrameShadow(QtGui.QFrame.Sunken)
         self.line.setObjectName(_fromUtf8("line"))
         self.verticallayout.addWidget(self.line)
-        spacerItem2 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.verticallayout.addItem(spacerItem2)
+        spacerItem3 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticallayout.addItem(spacerItem3)
         self.horizontallayout4 = QtGui.QHBoxLayout()
         self.horizontallayout4.setObjectName(_fromUtf8("horizontallayout4"))
         self.label_methode = QtGui.QLabel(self.verticalLayoutWidget)
@@ -153,8 +155,8 @@ class Ui_RasterLaden(object):
         self.box_ordnung.setObjectName(_fromUtf8("box_ordnung"))
         self.horizontallayout3.addWidget(self.box_ordnung)
         self.verticallayout.addLayout(self.horizontallayout3)
-        spacerItem3 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
-        self.verticallayout.addItem(spacerItem3)
+        spacerItem4 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
+        self.verticallayout.addItem(spacerItem4)
         self.horizontallayout0 = QtGui.QHBoxLayout()
         self.horizontallayout0.setObjectName(_fromUtf8("horizontallayout0"))
         self.button_fitten = QtGui.QPushButton(self.verticalLayoutWidget)
