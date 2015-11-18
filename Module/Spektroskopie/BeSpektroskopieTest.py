@@ -50,7 +50,7 @@ off_max = 0.005
 
 
 
-def read_tdmsfile(folder, messpunkte, mittelungen, bereich_min, bereich_rechts, fmin, fmax, df): # Dateiname aufgeteilt und Nummerisch sortiert
+def read_tdmsfile(folder, messpunkte, mittelungen, bereich_links, bereich_rechts, fmin, fmax, df): # Dateiname aufgeteilt und Nummerisch sortiert
     tdms_file = TdmsFile(folder)
     channel = tdms_file.object('Unbenannt', 'Untitled')     # erster Name ist der Gruppenname dann der Kanalname
     multy = np.array(channel.data)
@@ -63,12 +63,14 @@ def read_tdmsfile(folder, messpunkte, mittelungen, bereich_min, bereich_rechts, 
             except IndexError:
                 break
 
-    bereich_max = len(datay) - bereich_rechts
-    if bereich_max <= bereich_min or bereich_min < 0:
+    anz = len(datay)
+    if anz + bereich_rechts <= bereich_links or bereich_links < 0:
         raise Fehler(IndexError())
+    elif bereich_rechts == 0:
+        bereich_rechts = anz
 
-    datay = datay[bereich_min:bereich_max]
-    datax = range(fmin, fmax, df)[bereich_min:bereich_max]
+    datay = datay[bereich_links:bereich_rechts]
+    datax = range(fmin, fmax, df)[bereich_links:bereich_rechts]
 
     return datax, datay
 
@@ -87,6 +89,7 @@ mod = Model(resonance_lorentz)
 
 def test_fit(ordner, omega, fmin, fmax, df, mittelungen, bereich_links, bereich_rechts, amp_min, amp_max,
         guete, guete_min, guete_max, off_min, off_max):
+    debug = 0
 
     messpunkte = (fmax-fmin)//df
 
@@ -140,7 +143,7 @@ def test_fit(ordner, omega, fmin, fmax, df, mittelungen, bereich_links, bereich_
             phase.append(savgol_filter(phasy, 51, 5)[neben_resfreq] / messpunkte)
             offsets.append(float(name.split('G')[-1].split('V')[0].replace(',', '.')))
 
-            if False:
+            if debug == 0:
                 print(name)
                 print("amp="+str(out.best_values["amp"])+", resfreq="+str(out.best_values["resfreq"])+", güte="+str(out.best_values["guete"])+", off="+str(out.best_values["off"]))
                 plt.plot(datx, daty)
@@ -151,6 +154,12 @@ def test_fit(ordner, omega, fmin, fmax, df, mittelungen, bereich_links, bereich_
                 plt.plot(phasx, savgol_filter(phasy//messpunkte, 51, 5))
                 plt.plot([phasx[neben_resfreq], phasx[neben_resfreq]], [phasy.max()//messpunkte, phasy.min()//messpunkte], 'r')
                 plt.show()
+
+                debug = input('weiter?: ')
+            elif debug == 1:
+                return
+            elif debug == 2:
+                pass
 
         erg_amp.append(np.array(amps))
         erg_freq.append(np.array(freqs))
