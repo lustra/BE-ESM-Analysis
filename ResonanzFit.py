@@ -10,7 +10,7 @@ from PyQt4 import QtGui
 from Module.Strings import *
 
 lang = de
-ordner = "/home/sebadur/Dokumente/2015-10-23-pfmtest01/"
+ordner = "/home/sebadur/Dokumente/BE-Spektroskopie/2015-11-17/Messung 2"
 
 
 def hinweis(ursprung, nachricht):

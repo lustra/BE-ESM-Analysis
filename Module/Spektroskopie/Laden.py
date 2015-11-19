@@ -3,7 +3,8 @@
 @author: Valon Lushta
 @author: Sebastian Badur
 """
-# coding=utf-8
+
+import os
 from PyQt4 import QtGui
 
 from ResonanzFit import hinweis, lang
@@ -12,7 +13,8 @@ from Module.Abstrakt.Laden import GuiAbstraktLaden
 from Module import FitFunktion
 from Module.Sonstige import Parameter
 from Module.Strings import *
-from Module.Spektroskopie.BeSpektroskopieTest import test_fit
+from Module.Spektroskopie.BeSpektroskopieTest import test_fit, fit_datei
+from Module.Spektroskopie.Fitparameter import Fitparameter
 
 
 class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
@@ -24,6 +26,10 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         GuiAbstraktLaden.__init__(self, app, app.spektr_fit_fertig)
         self.setupUi(self)
         self.init_ui()
+
+        self.box_omega.valueChanged.connect(self.fit_vorschau)
+        self.box_ac.valueChanged.connect(self.fit_vorschau)
+        self.box_dc.valueChanged.connect(self.fit_vorschau)
 
     def retranslateUi(self, ui):
         """
@@ -52,6 +58,10 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         self.label_guete_min.setText(laden_von[lang])
         self.label_guete_max.setText(laden_bis[lang])
         self.button_fitten.setText(laden_fitten[lang])
+        self.button_vorschau.setText(laden_vorschau[lang])
+        self.label_omega.setText(laden_omega[lang])
+        self.label_ac.setText(laden_ac[lang])
+        self.label_dc.setText(laden_dc[lang])
 
     def set_input_enabled(self, b):
         """
@@ -77,19 +87,13 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         self.box_guete_min.setEnabled(b)
         self.box_guete_max.setEnabled(b)
 
-    def start_fit(self):
+    def packe_parameter(self):
         if self.box_fmin.value() < self.box_fmax.value()\
                 and self.box_amp_min.value() < self.box_amp_max.value()\
                 and self.box_guete_min.value() < self.box_guete_max.value()\
                 and self.box_untergrund_min.value() < self.box_untergrund_max.value():
-            GuiAbstraktLaden.start_fit(self)
-            # Fortschrittsbalken vorbereiten
-            #self.progress_bar.setMaximum(self.box.value())
-
-            # Fitten
-            test_fit(
-                ordner=str(self.edit_pfad.text()),
-                omega='1',
+            return Fitparameter(
+                omega=1,
                 fmin=int(1000*self.box_fmin.value()),
                 fmax=int(1000*self.box_fmax.value()),
                 df=self.box_df.value(),
@@ -106,3 +110,35 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
             )
         else:
             hinweis(self, laden_min_max[lang])
+
+    def start_fit(self):
+        parameter = self.packe_parameter()
+
+        GuiAbstraktLaden.start_fit(self)
+        # Fortschrittsbalken vorbereiten
+        #self.progress_bar.setMaximum(self.box.value())
+
+        # Fitten
+        test_fit(
+            ordner=str(self.edit_pfad.text()),
+            par=parameter
+        )
+
+    def fit_vorschau(self):
+        out, ph, datx, daty = fit_datei(
+            name=self.edit_pfad.text() + os.sep + "amp" + str(self.box_omega.value()) + 'w' + num(self.box_ac) + 'G' + num(self.box_dc) + "V.tdms",
+            par=self.packe_parameter()
+        )
+
+        self.plotter.axes.plot(datx, daty, antialiased=True)
+        self.plotter.axes.hold(True)
+        self.plotter.axes.plot(datx, out.best_fit)
+        self.plotter.axes.hold(False)
+        self.plotter.draw()
+
+
+def num(box):
+    """
+    :type box: PyQt4.QtGui.QSpinBox.QSpinBox
+    """
+    return str("{:.6f}".format(box.value())).replace('.', ',')

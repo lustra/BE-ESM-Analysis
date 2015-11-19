@@ -9,11 +9,11 @@ from matplotlib.backends.backend_qt4agg import FigureCanvasQTAgg as FigureCanvas
 from matplotlib.figure import Figure
 
 
+# noinspection PyAbstractClass
 class Plotter(FigureCanvas):
-    def __init__(self, canvas, layout, beschriftung, width=5, height=5, dpi=75):
+    def __init__(self, canvas, beschriftung, width=5, height=5, dpi=75):
         """
         :type canvas: Module.Canvas.Canvas
-        :type layout: QtGui.QLayout
         :type beschriftung: Module.Sonstige.Achsenbeschriftung
         """
         self.canvas = canvas
@@ -25,13 +25,14 @@ class Plotter(FigureCanvas):
         self.colorbar = None
 
         FigureCanvas.__init__(self, self.figure)
-        layout.addWidget(self)
-        self.statusbar = canvas.statusbar
-
         self.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
         self.updateGeometry()
 
-        self.mpl_connect("motion_notify_event", self.maus_bewegt)
+        try:
+            self.statusbar = canvas.statusbar
+            self.mpl_connect("motion_notify_event", self.maus_bewegt)
+        except AttributeError:
+            pass
 
     def maus_bewegt(self, event):
         """
@@ -45,6 +46,9 @@ class Plotter(FigureCanvas):
             self.statusbar.clearMessage()
 
     def mit_skala(self, plot):
+        """
+        :type plot: matplotlib.image.AxesImage
+        """
         if self.colorbar is None:
             self.colorbar = self.figure.colorbar(plot)
             self.colorbar.set_label(self.beschriftung.farbe)
@@ -56,14 +60,3 @@ class Plotter(FigureCanvas):
         self.axes.set_xlabel(self.beschriftung.x)
         self.axes.set_ylabel(self.beschriftung.y)
         super(Plotter, self).draw()
-
-    # Diese abstrakte Methoden müssen implementiert werden, werden aber nicht benötigt:
-
-    def start_event_loop(self, timeout):
-        pass
-
-    def flush_events(self):
-        pass
-
-    def stop_event_loop(self):
-        pass

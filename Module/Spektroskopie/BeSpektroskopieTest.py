@@ -1,4 +1,9 @@
 # coding=utf-8
+"""
+@author: Valon Lushta
+@author: Sebastian Badur
+"""
+
 import numpy as np
 import sys
 import os
@@ -50,27 +55,27 @@ off_max = 0.005
 
 
 
-def read_tdmsfile(folder, messpunkte, mittelungen, bereich_links, bereich_rechts, fmin, fmax, df): # Dateiname aufgeteilt und Nummerisch sortiert
-    tdms_file = TdmsFile(folder)
+def read_tdmsfile(datei, par): # Dateiname aufgeteilt und Nummerisch sortiert
+    tdms_file = TdmsFile(datei)
     channel = tdms_file.object('Unbenannt', 'Untitled')     # erster Name ist der Gruppenname dann der Kanalname
     multy = np.array(channel.data)
-    datay = np.zeros(messpunkte)
+    datay = np.zeros(par.messpunkte)
 
-    for n in range(mittelungen):
-        for m in range(messpunkte):
+    for n in range(par.mittelungen):
+        for m in range(par.messpunkte):
             try:
-                datay[m] += multy[m+n*messpunkte]
+                datay[m] += multy[m+n*par.messpunkte]
             except IndexError:
                 break
 
     anz = len(datay)
-    if anz + bereich_rechts <= bereich_links or bereich_links < 0:
+    if anz + par.bereich_rechts <= par.bereich_links or par.bereich_links < 0:
         raise Fehler(IndexError())
-    elif bereich_rechts == 0:
-        bereich_rechts = anz
+    elif par.bereich_rechts == 0:
+        par.bereich_rechts = anz
 
-    datay = datay[bereich_links:bereich_rechts]
-    datax = range(fmin, fmax, df)[bereich_links:bereich_rechts]
+    datay = datay[par.bereich_links:par.bereich_rechts]
+    datax = range(par.fmin, par.fmax, par.df)[par.bereich_links:par.bereich_rechts]
 
     return datax, datay
 
@@ -87,11 +92,8 @@ mod = Model(resonance_lorentz)
 
 
 
-def test_fit(ordner, omega, fmin, fmax, df, mittelungen, bereich_links, bereich_rechts, amp_min, amp_max,
-        guete, guete_min, guete_max, off_min, off_max):
+def test_fit(ordner, par):
     debug = 0
-
-    messpunkte = (fmax-fmin)//df
 
     erg_amp = []
     erg_freq = []
@@ -99,7 +101,7 @@ def test_fit(ordner, omega, fmin, fmax, df, mittelungen, bereich_links, bereich_
     erg_offsets = []
 
 
-    fnames = glob(ordner+"/amp"+omega+"*.tdms")    # alle dateien in diesem Ordner mit der Endung txt
+    fnames = glob(ordner+"/amp"+str(par.omega)+"*.tdms")    # alle dateien in diesem Ordner mit der Endung txt
 
     parameter = []
     for name in fnames:
@@ -110,56 +112,24 @@ def test_fit(ordner, omega, fmin, fmax, df, mittelungen, bereich_links, bereich_
             parameter.append(pname)
     print(parameter)
 
-    for par in parameter:
+    for parName in parameter:
         amps = []
         freqs = []
         phase = []
         offsets = []
-        fnames = glob(ordner+"/amp"+par+"*.tdms")
+        fnames = glob(ordner+"/amp"+parName+"*.tdms")
         """fnames = sorted(
             glob(folder+"amp"+par+"*.tdms"),
             key=lambda n: float(n.split('G')[-1].split('V')[0].replace(',', '.'))
         )"""
+
         for name in fnames:
-            datx, daty = read_tdmsfile(name, messpunkte, mittelungen, bereich_links, bereich_rechts, fmin, fmax, df)
-            phasx, phasy = read_tdmsfile(name.replace('amp', 'phase'), messpunkte, mittelungen, bereich_links, bereich_rechts, fmin, fmax, df)  # DAS KANN SO NICHT BLEIBEN (ersetzt nicht nur im Dateinamen, sondern auch im Pfad)
-
-            index_max = np.argmax(daty)
-            start_freq = datx[index_max]
-            start_amp = daty[index_max]
-            start_off = daty[0]
-
-            params = Parameters()
-            params.add('resfreq', value=start_freq, min=fmin, max=fmax)
-            params.add('amp', value=start_amp, min=amp_min, max=amp_max)
-            params.add('guete', value=guete, min=guete_min, max=guete_max)
-            params.add('off', value=start_off, min=off_min, max=off_max)
-
-            out = mod.fit(savgol_filter(daty, 51, 5), freq=datx, params=params)
+            out, ph, datx, daty = fit_datei(name, par)
 
             amps.append(out.best_values["amp"])
             freqs.append(out.best_values["resfreq"])
-            neben_resfreq = max(min(int((out.best_values["resfreq"] - fmin) // df + messpunkte // 10), len(phasy)-1), 0)
-            phase.append(savgol_filter(phasy, 51, 5)[neben_resfreq] / messpunkte)
+            phase.append(ph)
             offsets.append(float(name.split('G')[-1].split('V')[0].replace(',', '.')))
-
-            if debug == 0:
-                print(name)
-                print("amp="+str(out.best_values["amp"])+", resfreq="+str(out.best_values["resfreq"])+", güte="+str(out.best_values["guete"])+", off="+str(out.best_values["off"]))
-                plt.plot(datx, daty)
-                plt.plot(datx, savgol_filter(daty, 51, 5))
-                plt.plot(datx, out.best_fit, 'r')
-                plt.show()
-
-                plt.plot(phasx, savgol_filter(phasy//messpunkte, 51, 5))
-                plt.plot([phasx[neben_resfreq], phasx[neben_resfreq]], [phasy.max()//messpunkte, phasy.min()//messpunkte], 'r')
-                plt.show()
-
-                debug = input('weiter?: ')
-            elif debug == 1:
-                return
-            elif debug == 2:
-                pass
 
         erg_amp.append(np.array(amps))
         erg_freq.append(np.array(freqs))
@@ -191,3 +161,46 @@ def test_fit(ordner, omega, fmin, fmax, df, mittelungen, bereich_links, bereich_
 
     print 'finished!'
 
+
+
+def fit_datei(name, par):
+    datx, daty = read_tdmsfile(name, par)
+    phasx, phasy = read_tdmsfile(name.replace('amp', 'phase'), par)  # DAS KANN SO NICHT BLEIBEN (ersetzt nicht nur im Dateinamen, sondern auch im Pfad)
+
+    index_max = np.argmax(daty)
+    start_freq = datx[index_max]
+    start_amp = daty[index_max]
+    start_off = daty[0]
+
+    params = Parameters()
+    params.add('resfreq', value=start_freq, min=par.fmin, max=par.fmax)
+    params.add('amp', value=start_amp, min=par.amp_min, max=par.amp_max)
+    params.add('guete', value=par.guete, min=par.guete_min, max=par.guete_max)
+    params.add('off', value=start_off, min=par.off_min, max=par.off_max)
+
+    out = mod.fit(savgol_filter(daty, 51, 5), freq=datx, params=params)
+
+    neben_resfreq = max(min(int((out.best_values["resfreq"] - par.fmin) // par.df + par.messpunkte // 10), len(phasy)-1), 0)
+    phase = savgol_filter(phasy, 51, 5)[neben_resfreq] / par.messpunkte
+
+    """
+    if debug == 0:
+        print(name)
+        print("amp="+str(out.best_values["amp"])+", resfreq="+str(out.best_values["resfreq"])+", güte="+str(out.best_values["guete"])+", off="+str(out.best_values["off"]))
+        plt.plot(datx, daty)
+        plt.plot(datx, savgol_filter(daty, 51, 5))
+        plt.plot(datx, out.best_fit, 'r')
+        plt.show()
+
+        plt.plot(phasx, savgol_filter(phasy//messpunkte, 51, 5))
+        plt.plot([phasx[neben_resfreq], phasx[neben_resfreq]], [phasy.max()//messpunkte, phasy.min()//messpunkte], 'r')
+        plt.show()
+
+        debug = input('weiter?: ')
+    elif debug == 1:
+        return
+    elif debug == 2:
+        pass
+    """
+
+    return out, phase, datx, daty

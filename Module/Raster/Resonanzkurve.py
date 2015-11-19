@@ -39,7 +39,8 @@ class Resonanzkurve(Canvas):
             horizontal.addWidget(self.koord[k])
             self.koord[k].valueChanged.connect(self.aktualisiere)
 
-        self.plotter = Plotter(self, vertikal, beschriftung)
+        self.plotter = Plotter(self, beschriftung)
+        vertikal.addWidget(self.plotter)
 
     @staticmethod
     def str_status(x, y):

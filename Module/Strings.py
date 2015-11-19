@@ -64,6 +64,10 @@ laden_fitparameter = ["Fitparameter:", "Fitting parameters:"]
 laden_amp = ["Amplitude von", "Amplitude from"]
 laden_untergrund = ["Untergrund von", "Ground from"]
 laden_guete = [u"Güte =", "Goodness ="]
+laden_vorschau = ["Fitvorschau anzeigen", "Show fit preview"]
+laden_omega = ["Omega:", "Omega:"]
+laden_ac = ["AC (V):", "AC (V):"]
+laden_dc = ["DC (V):", "DC (V):"]
 
 canvas_zeile = ["Zeile:", "Row:"]
 canvas_spalte = ["Spalte:", "Column:"]
@@ -71,6 +75,9 @@ canvas_spalte = ["Spalte:", "Column:"]
 raster_bereich = ["Bereich:", "Range:"]
 raster_fehler = ["Fehler anzeigen", "Show error"]
 raster_prozent = ["prozentual", "percentage"]
+
+spektr_dc = ["DC-Offset / V", "DC-offset / V"]
+spektr_amp = ["Amplitude (bel.)", "Amplitude (a.u.)"]
 
 rf_ordner = [u"Messverzeichnis auswählen"]
 mw_pixelzahl = [u"<b>Fehler:</b><br>Überprüfen Sie die Pixelanzahl, da sie womöglich nicht stimmt.",

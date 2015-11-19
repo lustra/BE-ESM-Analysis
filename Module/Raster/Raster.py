@@ -58,7 +58,8 @@ class Raster(Canvas):
         self.box_fehler.clicked.connect(self.akt_fehler)
         self.box_prozentual.clicked.connect(self.aktualisiere)
 
-        self.plotter = Plotter(self, vertikal, beschriftung)
+        self.plotter = Plotter(self, beschriftung)
+        vertikal.addWidget(self.plotter)
         self.plotter.mpl_connect("button_press_event", self.maus_press)
 
     def resizeEvent(self, event):
