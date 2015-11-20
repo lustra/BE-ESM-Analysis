@@ -95,6 +95,8 @@ class Ui_SpektrLaden(object):
         self.gridlayout1.addWidget(self.label_fmax, 1, 0, 1, 1)
         self.box_fmin = QtGui.QDoubleSpinBox(self.verticalLayoutWidget)
         self.box_fmin.setDecimals(3)
+        self.box_fmin.setMinimum(0.5)
+        self.box_fmin.setMaximum(999.0)
         self.box_fmin.setSingleStep(0.5)
         self.box_fmin.setObjectName(_fromUtf8("box_fmin"))
         self.gridlayout1.addWidget(self.box_fmin, 0, 1, 1, 1)
