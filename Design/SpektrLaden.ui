@@ -67,15 +67,9 @@
         </spacer>
        </item>
        <item>
-        <widget class="QPushButton" name="check_konfig">
-         <property name="enabled">
-          <bool>false</bool>
-         </property>
+        <widget class="QPushButton" name="button_konfig">
          <property name="text">
           <string>Messkonfiguration aus Datei einlesen</string>
-         </property>
-         <property name="checkable">
-          <bool>true</bool>
          </property>
         </widget>
        </item>
@@ -673,8 +667,6 @@
      </item>
     </layout>
    </widget>
-   <zorder>horizontalLayoutWidget</zorder>
-   <zorder>horizontalspacer2</zorder>
   </widget>
  </widget>
  <customwidgets>

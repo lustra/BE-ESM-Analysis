@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Dokumente/BE-ESM-Analysis/Design/RasterLaden.ui'
 #
-# Created: Tue Nov 17 14:47:15 2015
+# Created: Mon Nov 23 11:19:18 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -53,11 +53,9 @@ class Ui_RasterLaden(object):
         self.verticallayout.addLayout(self.horizontallayout2)
         spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticallayout.addItem(spacerItem)
-        self.check_konfig = QtGui.QPushButton(self.verticalLayoutWidget)
-        self.check_konfig.setEnabled(False)
-        self.check_konfig.setCheckable(True)
-        self.check_konfig.setObjectName(_fromUtf8("check_konfig"))
-        self.verticallayout.addWidget(self.check_konfig)
+        self.button_konfig = QtGui.QPushButton(self.verticalLayoutWidget)
+        self.button_konfig.setObjectName(_fromUtf8("button_konfig"))
+        self.verticallayout.addWidget(self.button_konfig)
         self.horizontallayout1 = QtGui.QHBoxLayout()
         self.horizontallayout1.setObjectName(_fromUtf8("horizontallayout1"))
         self.gridlayout0 = QtGui.QGridLayout()
@@ -177,7 +175,7 @@ class Ui_RasterLaden(object):
     def retranslateUi(self, RasterLaden):
         RasterLaden.setWindowTitle(_translate("RasterLaden", "Resonanz Fit - Messung einlesen", None))
         self.button_aendern.setText(_translate("RasterLaden", "Ändern...", None))
-        self.check_konfig.setText(_translate("RasterLaden", "Messkonfiguration aus Datei einlesen", None))
+        self.button_konfig.setText(_translate("RasterLaden", "Messkonfiguration aus Datei einlesen", None))
         self.label_messpunkte.setText(_translate("RasterLaden", "Messpunkte pro Pixel", None))
         self.label_pixel.setText(_translate("RasterLaden", "Pixel", None))
         self.label_fmin.setText(_translate("RasterLaden", "Freq Min (kHz)", None))

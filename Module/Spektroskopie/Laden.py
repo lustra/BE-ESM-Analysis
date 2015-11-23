@@ -37,7 +37,7 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         """
         ui.setWindowTitle(laden_spektr_titel[lang])
         self.button_aendern.setText(laden_aendern[lang])
-        self.check_konfig.setText(laden_konfiguration[lang])
+        self.button_konfig.setText(laden_konfiguration[lang])
         self.label_mittelungen.setText(laden_mittelungen[lang])
         self.label_df.setText(laden_df[lang])
         self.label_fmin.setText(laden_fmin[lang])
@@ -69,7 +69,7 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         """
         self.edit_pfad.setEnabled(b)
         self.button_aendern.setEnabled(b)
-        # self.check_konfig.setEnabled(b)  # TODO Messkonfiguration abspeichern + einlesen
+        self.button_konfig.setEnabled(b)
         self.box_mittelungen.setEnabled(b)
         self.box_df.setEnabled(b)
         self.box_fmin.setEnabled(b)
@@ -86,6 +86,14 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         self.box_guete.setEnabled(b)
         self.box_guete_min.setEnabled(b)
         self.box_guete_max.setEnabled(b)
+
+    def konfig_lesen(self):
+        parser = GuiAbstraktLaden.konfig_lesen(self)
+        konfig = "konfig"
+        self.box_fmin.setValue(0.001 * parser.getint(konfig, "fmin"))
+        self.box_fmax.setValue(0.001 * parser.getint(konfig, "fmax"))
+        self.box_df.setValue(float(parser.get(konfig, "df").replace(',', '.')))
+        self.box_mittelungen.setValue(parser.getint(konfig, "mittelungen"))
 
     def packe_parameter(self):
         if self.box_fmin.value() < self.box_fmax.value()\

@@ -4,8 +4,10 @@
 @author: Sebastian Badur
 """
 
+import os
 import time
 from PyQt4 import QtCore, QtGui
+from ConfigParser import ConfigParser
 
 from ResonanzFit import hinweis, lang, ordner
 from Module.Signal import signal
@@ -33,6 +35,7 @@ class GuiAbstraktLaden(QtGui.QMainWindow):
         self.edit_pfad.setText(ordner)
 
         self.button_aendern.clicked.connect(self.ordnerwahl)
+        self.button_konfig.clicked.connect(self.konfig_lesen)
         self.button_fitten.clicked.connect(self.geklickt)
 
     def set_input_enabled(self, b):
@@ -45,6 +48,12 @@ class GuiAbstraktLaden(QtGui.QMainWindow):
         self.edit_pfad.setText(
             QtGui.QFileDialog().getExistingDirectory(self, rf_ordner[lang], ordner)
         )
+        self.konfig_lesen()
+
+    def konfig_lesen(self):
+        parser = ConfigParser()
+        parser.read(str(self.edit_pfad.text()) + os.sep + "konfig.ini")
+        return parser
 
     def geklickt(self):
         if self.entsperrt:

@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Dokumente/BE-ESM-Analysis/Design/SpektrLaden.ui'
 #
-# Created: Thu Nov 19 14:05:13 2015
+# Created: Mon Nov 23 11:20:26 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -55,11 +55,9 @@ class Ui_SpektrLaden(object):
         self.verticallayout.addLayout(self.horizontallayout2)
         spacerItem = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticallayout.addItem(spacerItem)
-        self.check_konfig = QtGui.QPushButton(self.horizontalLayoutWidget)
-        self.check_konfig.setEnabled(False)
-        self.check_konfig.setCheckable(True)
-        self.check_konfig.setObjectName(_fromUtf8("check_konfig"))
-        self.verticallayout.addWidget(self.check_konfig)
+        self.button_konfig = QtGui.QPushButton(self.horizontalLayoutWidget)
+        self.button_konfig.setObjectName(_fromUtf8("button_konfig"))
+        self.verticallayout.addWidget(self.button_konfig)
         self.horizontallayout1 = QtGui.QHBoxLayout()
         self.horizontallayout1.setObjectName(_fromUtf8("horizontallayout1"))
         self.gridlayout0 = QtGui.QGridLayout()
@@ -97,15 +95,13 @@ class Ui_SpektrLaden(object):
         self.gridlayout1.addWidget(self.label_fmax, 1, 0, 1, 1)
         self.box_fmin = QtGui.QDoubleSpinBox(self.horizontalLayoutWidget)
         self.box_fmin.setDecimals(3)
-        self.box_fmin.setMinimum(0.5)
-        self.box_fmin.setMaximum(1999.0)
         self.box_fmin.setSingleStep(0.5)
         self.box_fmin.setObjectName(_fromUtf8("box_fmin"))
         self.gridlayout1.addWidget(self.box_fmin, 0, 1, 1, 1)
         self.box_fmax = QtGui.QDoubleSpinBox(self.horizontalLayoutWidget)
         self.box_fmax.setDecimals(3)
         self.box_fmax.setMinimum(0.5)
-        self.box_fmax.setMaximum(2000.0)
+        self.box_fmax.setMaximum(999.0)
         self.box_fmax.setSingleStep(0.5)
         self.box_fmax.setObjectName(_fromUtf8("box_fmax"))
         self.gridlayout1.addWidget(self.box_fmax, 1, 1, 1, 1)
@@ -356,7 +352,7 @@ class Ui_SpektrLaden(object):
     def retranslateUi(self, SpektrLaden):
         SpektrLaden.setWindowTitle(_translate("SpektrLaden", "Spektroskopie - Messung einlesen", None))
         self.button_aendern.setText(_translate("SpektrLaden", "Ändern...", None))
-        self.check_konfig.setText(_translate("SpektrLaden", "Messkonfiguration aus Datei einlesen", None))
+        self.button_konfig.setText(_translate("SpektrLaden", "Messkonfiguration aus Datei einlesen", None))
         self.label_mittelungen.setText(_translate("SpektrLaden", "Anzahl Mittelungen", None))
         self.label_df.setText(_translate("SpektrLaden", "delta f (Hz)", None))
         self.label_fmin.setText(_translate("SpektrLaden", "Freq Min (kHz)", None))
