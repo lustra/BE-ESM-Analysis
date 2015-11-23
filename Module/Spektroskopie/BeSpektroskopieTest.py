@@ -183,24 +183,4 @@ def fit_datei(name, par):
     neben_resfreq = max(min(int((out.best_values["resfreq"] - par.fmin) // par.df + par.messpunkte // 10), len(phasy)-1), 0)
     phase = savgol_filter(phasy, 51, 5)[neben_resfreq] / par.messpunkte
 
-    """
-    if debug == 0:
-        print(name)
-        print("amp="+str(out.best_values["amp"])+", resfreq="+str(out.best_values["resfreq"])+", güte="+str(out.best_values["guete"])+", off="+str(out.best_values["off"]))
-        plt.plot(datx, daty)
-        plt.plot(datx, savgol_filter(daty, 51, 5))
-        plt.plot(datx, out.best_fit, 'r')
-        plt.show()
-
-        plt.plot(phasx, savgol_filter(phasy//messpunkte, 51, 5))
-        plt.plot([phasx[neben_resfreq], phasx[neben_resfreq]], [phasy.max()//messpunkte, phasy.min()//messpunkte], 'r')
-        plt.show()
-
-        debug = input('weiter?: ')
-    elif debug == 1:
-        return
-    elif debug == 2:
-        pass
-    """
-
     return out, phase, datx, daty

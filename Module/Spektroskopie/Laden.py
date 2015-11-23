@@ -93,7 +93,7 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
                 and self.box_guete_min.value() < self.box_guete_max.value()\
                 and self.box_untergrund_min.value() < self.box_untergrund_max.value():
             return Fitparameter(
-                omega=1,
+                omega=1,  # TODO
                 fmin=int(1000*self.box_fmin.value()),
                 fmax=int(1000*self.box_fmax.value()),
                 df=self.box_df.value(),

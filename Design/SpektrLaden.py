@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Dokumente/BE-ESM-Analysis/Design/SpektrLaden.ui'
 #
-# Created: Thu Nov 19 13:24:08 2015
+# Created: Thu Nov 19 14:05:13 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
