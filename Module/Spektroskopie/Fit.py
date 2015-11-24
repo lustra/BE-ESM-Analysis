@@ -5,44 +5,53 @@
 """
 
 import numpy as np
+from glob import glob
 
 from Module.Abstrakt.Fit import Fit as AbstraktFit
+from Module.Spektroskopie.Messwerte import Messwerte
 from Module.Ergebnis import Ergebnis
 from Module.Signal import signal
 
 
 class Fit(AbstraktFit):
+    """ Der parallelisierte Fit """
+    def __init__(self):
+        AbstraktFit.__init__(self)
+        self.par = None
+        """ @type: Module.Spektroskopie.Parameter.Parameter """
+        self.messwerte = None
+        """ @type: Module.Spektroskopie.Messwerte.Messwerte """
+
     def impl_fit(self):
+        erg_amp = []
+        erg_freq = []
+        erg_phase = []
+        erg_offsets = []
 
-        for j in folders:
+        dateien = glob(self.par.verzeichnis + 'amp' + str(self.par.omega) + '*.tdms')
+        for datei in dateien:
             amps = []
-            offsets = []
             freqs = []
-            datax=[]
-            datay=[]
-            xdaten = []
-            ydaten = []
-            datax,datay,sorted_fnames = read_tdmsfile(j)
-            xdaten,ydaten = merge_append(datax,datay,sorted_fnames)
-            for i in range(len(sorted_fnames)):
-                # pars=mod.guess(ydaten[i],x=xdaten[i])
-                # out  = mod.fit(ydaten[i], pars, x=xdaten[i])
-                out = mod.fit(ydaten[i], freq=xdaten[i], resfreq=77000, amp=5, guete=10, verbose=False)
-                amps.append(out.best_values["amp"])
-                freqs.append(out.best_values["resfreq"])
-                offsets.append(float(sorted_fnames[i].split('/')[-1].split('.')[0].replace(',', '.')))
+            phase = []
+            offsets = []
 
-                if i in [10, 52, 66, 70, 72, 74]:  # Besonders problematische Fits in Messung b (kommt zuerst)
-                    plt.plot(xdaten[i], ydaten[i])
-                    plt.plot(xdaten[i], out.best_fit, 'r')
-                    plt.show()
+            out, ph, datx, daty = fit_datei(datei, par)
 
-                self.emit(signal.weiter)
+            amps.append(out.best_values["amp"])
+            freqs.append(out.best_values["resfreq"])
+            phase.append(ph)
+            offsets.append(float(name.split('G')[-1].split('V')[0].replace(',', '.')))
 
             erg_amp.append(np.array(amps))
             erg_freq.append(np.array(freqs))
+            erg_phase.append(np.array(phase))
+            erg_offsets.append(np.array(offsets))
 
-        # Fitprozess abschließen ##########
+        self.emit(signal.weiter)
+
         self.erg = Ergebnis(fitparameter, error_fitparameter, sphase)
 
         self.av_iter = int(np.average(iterationen))
+
+    def lade_messwerte(self):
+        self.messwerte = Messwerte(self.par)

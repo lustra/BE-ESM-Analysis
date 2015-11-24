@@ -9,11 +9,9 @@ from PyQt4 import QtGui
 from ResonanzFit import hinweis, lang
 from Design.SpektrLaden import Ui_SpektrLaden
 from Module.Abstrakt.Laden import GuiAbstraktLaden
-from Module import FitFunktion
-from Module.Sonstige import Parameter
 from Module.Strings import *
 from Module.Spektroskopie.BeSpektroskopieTest import test_fit, fit_datei
-from Module.Spektroskopie.Fitparameter import Fitparameter
+from Module.Spektroskopie.Parameter import Parameter
 
 
 class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
@@ -88,7 +86,7 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
 
     def konfig_lesen(self):
         parser = GuiAbstraktLaden.konfig_lesen(self)
-        konfig = "konfig"
+        konfig = 'konfig'
         self.box_fmin.setValue(0.001 * parser.getint(konfig, 'fmin'))
         self.box_fmax.setValue(0.001 * parser.getint(konfig, 'fmax'))
         self.box_df.setValue(float(parser.get(konfig, 'df').replace(',', '.')))
@@ -99,7 +97,7 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
                 and self.box_amp_min.value() < self.box_amp_max.value()\
                 and self.box_guete_min.value() < self.box_guete_max.value()\
                 and self.box_untergrund_min.value() < self.box_untergrund_max.value():
-            return Fitparameter(
+            return Parameter(
                 omega=1,  # TODO
                 fmin=int(1000*self.box_fmin.value()),
                 fmax=int(1000*self.box_fmax.value()),

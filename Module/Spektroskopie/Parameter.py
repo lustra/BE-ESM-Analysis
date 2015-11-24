@@ -4,14 +4,15 @@
 @author: Sebastian Badur
 """
 
+from Module.Abstrakt.Parameter import Parameter as AbstraktParameter
 
-class Fitparameter:
-    def __init__(self, omega, fmin, fmax, df, mittelungen, bereich_links, bereich_rechts, amp_min, amp_max,
+
+class Parameter(AbstraktParameter):
+    """ Mess- und Fitparameter der Spektroskopie """
+    def __init__(self, verzeichnis, fmin, fmax, fitfunktion, fenster, ordnung,
+                 df, mittelungen, bereich_links, bereich_rechts, amp_min, amp_max,
                  guete, guete_min, guete_max, off_min, off_max):
         """
-        :type omega: int
-        :type fmin: int
-        :type fmax: int
         :type df: int
         :type mittelungen: int
         :type bereich_links: int
@@ -23,9 +24,7 @@ class Fitparameter:
         :type guete_max: float
         :type off_min: float
         """
-        self.omega = omega
-        self.fmin = fmin
-        self.fmax = fmax
+        AbstraktParameter.__init__(self, verzeichnis, fmin, fmax, fitfunktion, fenster, ordnung)
         self.df = df
         self.mittelungen = mittelungen
         self.bereich_links = bereich_links

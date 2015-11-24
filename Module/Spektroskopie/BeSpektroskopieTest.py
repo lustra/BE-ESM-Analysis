@@ -51,7 +51,7 @@ mod = Model(resonance_lorentz)
 def test_fit(ordner, par):
     """
     :type ordner: str
-    :type par: Module.Spektroskopie.Fitparameter.Fitparameter
+    :type par: Module.Spektroskopie.Parameter.Parameter
     """
     if not ordner.endswith(os.sep):
         ordner += os.sep

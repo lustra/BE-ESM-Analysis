@@ -7,7 +7,6 @@
 import time
 from PyQt4 import QtCore
 
-from Module.Abstrakt.Messwerte import Messwerte
 from Module.Signal import signal
 from Module.Sonstige import Fehler
 
@@ -22,10 +21,6 @@ class Fit(QtCore.QThread):
         QtCore.QThread.__init__(self)
         self.weiter = True
         """ @type: bool """
-        self.par = None
-        """ @type: Module.Sonstige.Parameter """
-        self.messwerte = None
-        """ @type: Module.Messwerte.Messwerte """
         self.av_iter = 0
         self.laufzeit = 0
         self.start_time = 0
@@ -38,8 +33,8 @@ class Fit(QtCore.QThread):
 
         # Messwerte laden
         try:
-            self.messwerte = Messwerte(self.par)
             self.emit(signal.importiert)
+            self.lade_messwerte()
         except Fehler as f:
             self.emit(signal.fehler, f)
             return
@@ -50,6 +45,9 @@ class Fit(QtCore.QThread):
 
         if self.weiter:
             self.emit(signal.fertig)
+
+    def lade_messwerte(self):
+        raise NotImplementedError()
 
     def impl_fit(self):
         raise NotImplementedError()

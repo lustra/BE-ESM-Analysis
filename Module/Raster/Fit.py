@@ -8,11 +8,19 @@ import numpy as np
 
 from Module.Abstrakt.Fit import Fit as AbstraktFit
 from Module.Raster.FitZeile import FitZeile
+from Module.Raster.Messwerte import Messwerte
 from Module.Ergebnis import Ergebnis
 from Module.Signal import signal
 
 
 class Fit(AbstraktFit):
+    def __init__(self):
+        AbstraktFit.__init__(self)
+        self.par = None
+        """ @type: Module.Raster.Parameter.Parameter """
+        self.messwerte = None
+        """ @type: Module.Raster.Messwerte.Messwerte """
+
     def impl_fit(self):
         # p0 = Initial guess
         p0 = np.array([(self.par.fmax - self.par.fmin) / 2 + self.par.fmin, 0.1, 5], dtype=np.double)
@@ -57,3 +65,6 @@ class Fit(AbstraktFit):
         self.erg = Ergebnis(fitparameter, error_fitparameter, sphase)
 
         self.av_iter = int(np.average(iterationen))
+
+    def lade_messwerte(self):
+        self.messwerte = Messwerte(self.par)
