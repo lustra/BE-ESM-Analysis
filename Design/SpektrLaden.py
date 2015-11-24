@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Dokumente/BE-ESM-Analysis/Design/SpektrLaden.ui'
 #
-# Created: Mon Nov 23 11:20:26 2015
+# Created: Tue Nov 24 13:24:33 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -95,6 +95,7 @@ class Ui_SpektrLaden(object):
         self.gridlayout1.addWidget(self.label_fmax, 1, 0, 1, 1)
         self.box_fmin = QtGui.QDoubleSpinBox(self.horizontalLayoutWidget)
         self.box_fmin.setDecimals(3)
+        self.box_fmin.setMaximum(999.0)
         self.box_fmin.setSingleStep(0.5)
         self.box_fmin.setObjectName(_fromUtf8("box_fmin"))
         self.gridlayout1.addWidget(self.box_fmin, 0, 1, 1, 1)
