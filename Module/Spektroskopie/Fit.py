@@ -15,10 +15,12 @@ from Module.Signal import signal
 
 class Fit(AbstraktFit):
     """ Der parallelisierte Fit """
-    def __init__(self):
-        AbstraktFit.__init__(self)
-        self.par = None
-        """ @type: Module.Spektroskopie.Parameter.Parameter """
+    def __init__(self, laden, par):
+        """
+        :type laden: Module.Spektroskopie.Laden.GuiSpektrLaden
+        :type par: Module.Spektroskopie.Parameter.Parameter
+        """
+        AbstraktFit.__init__(self, laden, par)
         self.messwerte = None
         """ @type: Module.Spektroskopie.Messwerte.Messwerte """
 

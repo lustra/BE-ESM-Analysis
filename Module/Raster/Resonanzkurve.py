@@ -14,14 +14,13 @@ from ResonanzFit import lang
 
 
 class Resonanzkurve(Canvas):
-    def __init__(self, liste, fit, titel, beschriftung):
+    def __init__(self, app, titel, beschriftung):
         """
-        :type liste: list
-        :type fit: Module.Fit.Fit
+        :type app: Module.Gui.Gui
         :type titel: str
         :type beschriftung: Module.Sonstige.Achsenbeschriftung
         """
-        Canvas.__init__(self, liste, fit, titel)
+        Canvas.__init__(self, app, titel)
         vertikal = QtGui.QVBoxLayout()
         self.centralWidget().setLayout(vertikal)
         horizontal = QtGui.QHBoxLayout()
@@ -55,20 +54,21 @@ class Resonanzkurve(Canvas):
         :type neu: numpy.multiarray.ndarray
         """
         for spin in self.koord:
-            spin.setMaximum(self.fit.par.pixel)
+            spin.setMaximum(self.app.fit.par.pixel)
         self._werte = neu  # Kein super-Aufruf, weil _werte hier streng genommen einen anderen Typ hat
         self.aktualisiere()
 
     def aktualisiere(self):
         if self._werte is not None:
             # Nur x,y wird betrachtet, aber es sind in dieser Liste alle Messpunkte pro Ort hintereinander
-            x_von = (self.koord[0].value() + 1) * self.fit.par.messpunkte
-            x_bis = x_von + self.fit.par.messpunkte
+            par = self.app.fit.par
+            x_von = (self.koord[0].value() + 1) * par.messpunkte
+            x_bis = x_von + par.messpunkte
             self.plotter.axes.plot(
                 np.arange(  # Frequenz auf der x-Achse
-                    start=self.fit.par.fmin,
-                    stop=self.fit.par.fmax,
-                    step=(self.fit.par.fmax - self.fit.par.fmin) / self.fit.par.messpunkte
+                    start=par.fmin,
+                    stop=par.fmax,
+                    step=(par.fmax - par.fmin) / par.messpunkte
                 ),
                 self._werte[self.koord[1].value() + 1][x_von:x_bis],
                 antialiased=True

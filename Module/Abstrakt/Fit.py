@@ -17,8 +17,14 @@ class Fit(QtCore.QThread):
     Vor dem Start sind noch die Messwerte zu setzen, das Attribut par mit den Fitparametern zu befüllen
     und die Qt-Signale zu verbinden.
     """
-    def __init__(self):
+    def __init__(self, laden, par):
+        """
+        :type laden: Module.Abstrakt.Laden.GuiAbstraktLaden
+        :type par: Module.Abstrakt.Parameter.Parameter
+        """
         QtCore.QThread.__init__(self)
+        self.laden = laden
+        self.par = par
         self.weiter = True
         """ @type: bool """
         self.av_iter = 0
@@ -26,6 +32,11 @@ class Fit(QtCore.QThread):
         self.start_time = 0
         self.erg = None
         """ @type: Module.Ergebnis.Ergebnis """
+
+        QtCore.QObject.connect(self, signal.importiert, self.laden.app.importiert)
+        QtCore.QObject.connect(self, signal.fehler, self.laden.fehler)
+        QtCore.QObject.connect(self, signal.weiter, self.laden.mehr_fortschritt)
+        QtCore.QObject.connect(self, signal.fertig, self.laden.fit_fertig)
 
     def run(self):
         self.weiter = True

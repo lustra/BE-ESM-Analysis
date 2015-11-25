@@ -25,11 +25,6 @@ class GuiAbstraktLaden(QtGui.QMainWindow):
         self.app_fit_fertig = app_fit_fertig
         self.entsperrt = True
 
-        QtCore.QObject.connect(self.app.fit, signal.importiert, self.app.importiert)
-        QtCore.QObject.connect(self.app.fit, signal.fehler, self.fehler)
-        QtCore.QObject.connect(self.app.fit, signal.weiter, self.mehr_fortschritt)
-        QtCore.QObject.connect(self.app.fit, signal.fertig, self.fit_fertig)
-
     def init_ui(self):
         self.setFixedSize(self.size())
         self.edit_pfad.setText(ordner)

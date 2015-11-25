@@ -14,10 +14,12 @@ from Module.Signal import signal
 
 
 class Fit(AbstraktFit):
-    def __init__(self):
-        AbstraktFit.__init__(self)
-        self.par = None
-        """ @type: Module.Raster.Parameter.Parameter """
+    def __init__(self, laden, par):
+        """
+        :type laden: Module.Raster.Laden.GuiRasterLaden
+        :type par: Module.Raster.Parameter.Parameter
+        """
+        AbstraktFit.__init__(self, laden, par)
         self.messwerte = None
         """ @type: Module.Raster.Messwerte.Messwerte """
 

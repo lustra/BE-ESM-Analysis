@@ -17,15 +17,14 @@ bereich_schritt = 0.01
 
 
 class Raster(Canvas):
-    def __init__(self, liste, fit, resonanzkurve, titel, beschriftung):
+    def __init__(self, app, resonanzkurve, titel, beschriftung):
         """
-        :type liste: list
-        :type fit: Module.Fit.Fit
+        :type app: Module.Gui.Gui
         :type resonanzkurve: Module.Resonanzkurve.Resonanzkurve
         :type titel: str
         :type beschriftung: Module.Sonstige.Achsenbeschriftung
         """
-        Canvas.__init__(self, liste, fit, titel)
+        Canvas.__init__(self, app, titel)
         self.resonanzkurve = resonanzkurve
         vertikal = QtGui.QVBoxLayout()
         self.centralWidget().setLayout(vertikal)

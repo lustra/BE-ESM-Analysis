@@ -9,7 +9,9 @@ from PyQt4 import QtGui
 from ResonanzFit import hinweis, lang
 from Design.SpektrLaden import Ui_SpektrLaden
 from Module.Abstrakt.Laden import GuiAbstraktLaden
+from Module import FitFunktion
 from Module.Strings import *
+from Module.Spektroskopie.Fit import Fit
 from Module.Spektroskopie.BeSpektroskopieTest import test_fit, fit_datei
 from Module.Spektroskopie.Parameter import Parameter
 
@@ -98,7 +100,10 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
                 and self.box_guete_min.value() < self.box_guete_max.value()\
                 and self.box_untergrund_min.value() < self.box_untergrund_max.value():
             return Parameter(
-                omega=1,  # TODO
+                verzeichnis=str(self.edit_pfad.text()),
+                fitfunktion=FitFunktion.errorfunc[self.box_methode.currentIndex()],
+                fenster=15,  # TODO
+                ordnung=5,
                 fmin=int(1000*self.box_fmin.value()),
                 fmax=int(1000*self.box_fmax.value()),
                 df=self.box_df.value(),
@@ -124,10 +129,13 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         #self.progress_bar.setMaximum(self.box.value())
 
         # Fitten
+        self.app.fit = Fit(self, parameter)
+        self.app.fit.start()
+        """
         test_fit(
             ordner=str(self.edit_pfad.text()),
             par=parameter
-        )
+        )"""
 
     def fit_vorschau(self):
         out, ph, datx, daty = fit_datei(

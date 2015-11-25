@@ -4,6 +4,8 @@
 @author: Sebastian Badur
 """
 
+import os
+
 
 class Parameter:
     """ Alle für den Fit einer Rastermessung nötigen Messparameter """
@@ -15,7 +17,7 @@ class Parameter:
         :type fenster: int
         :type ordnung: int
         """
-        self.verzeichnis = verzeichnis
+        self.verzeichnis = verzeichnis if verzeichnis.endswith(os.sep) else verzeichnis + os.sep
         self.fmin = fmin
         self.fmax = fmax
         self.fitfunktion = fitfunktion

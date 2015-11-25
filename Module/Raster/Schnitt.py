@@ -13,14 +13,13 @@ from Module.Strings import *
 
 
 class Schnitt(Canvas):
-    def __init__(self, liste, fit, titel, beschriftung):
+    def __init__(self, app, titel, beschriftung):
         """
-        :type liste: list
-        :type fit: Module.Fit.Fit
+        :type app: Module.Gui.Gui
         :type titel: str
         :type beschriftung: Module.Sonstige.Achsenbeschriftung
         """
-        Canvas.__init__(self, liste, fit, titel)
+        Canvas.__init__(self, app, titel)
         vertikal = QtGui.QVBoxLayout()
         self.centralWidget().setLayout(vertikal)
         horizontal = QtGui.QHBoxLayout()
@@ -51,13 +50,13 @@ class Schnitt(Canvas):
         """
         :type neu: Module.Ergebnis.FitWerte
         """
-        self.zeile.setMaximum(self.fit.par.pixel)
+        self.zeile.setMaximum(self.app.fit.par.pixel)
         Canvas.set_werte(self, neu)
 
     def aktualisiere(self):
         if self._werte is not None:
             self.plotter.axes.plot(
-                range(self.fit.par.pixel),
+                range(self.app.fit.par.pixel),
                 self._werte.normal[self.zeile.value() + 1],
                 antialiased=True
             )

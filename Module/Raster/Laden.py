@@ -9,8 +9,9 @@ from PyQt4 import QtGui
 from ResonanzFit import hinweis, lang
 from Design.RasterLaden import Ui_RasterLaden
 from Module.Abstrakt.Laden import GuiAbstraktLaden
+from Module.Raster.Parameter import Parameter
+from Module.Raster.Fit import Fit
 from Module import FitFunktion
-from Module.Sonstige import Parameter
 from Module.Strings import *
 
 
@@ -74,16 +75,18 @@ class GuiRasterLaden(GuiAbstraktLaden, Ui_RasterLaden):
             self.progress_bar.setMaximum(self.box_pixel.value())
 
             # Fitten
-            self.app.fit.par = Parameter(
+            parameter = Parameter(
                 verzeichnis=str(self.edit_pfad.text()),
-                messpunkte=self.box_messpunkte.value(),
                 fmin=self.box_fmin.value(),
                 fmax=self.box_fmax.value(),
-                errorfunc=FitFunktion.errorfunc[self.box_methode.currentIndex()],
+                fitfunktion=FitFunktion.errorfunc[self.box_methode.currentIndex()],
                 fenster=self.box_fenster.value(),
                 ordnung=self.box_ordnung.value(),
-                pixel=self.box_pixel.value()
+                pixel=self.box_pixel.value(),
+                messpunkte=self.box_messpunkte.value()
             )
+            self.app.fit = Fit(self, parameter)
             self.app.fit.start()
+
         else:
             hinweis(self, laden_min_max[lang])

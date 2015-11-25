@@ -8,15 +8,14 @@ from PyQt4 import QtGui
 
 
 class Canvas(QtGui.QMainWindow):
-    def __init__(self, liste, fit, titel):
+    def __init__(self, gui, titel):
         """
-        :type liste: list
-        :type fit: Module.Fit.Fit
+        :type gui: Module.Gui.Gui
         :type titel: str
         """
         QtGui.QMainWindow.__init__(self)
-        liste.append(self)
-        self.fit = fit
+        gui.plots.append(self)
+        self.gui = gui
         self.setWindowTitle(titel)
 
         self.setCentralWidget(QtGui.QWidget(self))
