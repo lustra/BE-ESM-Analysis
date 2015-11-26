@@ -95,7 +95,7 @@ def test_fit(ordner, par):
     for i in range(len(parameter)):
         plt.plot(erg_offsets[i], erg_amp[i], '.', label=parameter[i])
     plt.legend(loc=9)
-    plt.ylabel('Amplitude (FFT a.u.)')
+    plt.ylabel('Amplitude (XKorr a.u.)')
     plt.xlabel('Offset (V)')
     plt.show()
 
