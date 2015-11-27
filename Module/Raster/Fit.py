@@ -9,7 +9,7 @@ import numpy as np
 from Module.Abstrakt.Fit import Fit as AbstraktFit
 from Module.Raster.FitZeile import FitZeile
 from Module.Raster.Messwerte import Messwerte
-from Module.Ergebnis import Ergebnis
+from Module.Raster.Ergebnis import Ergebnis
 from Module.Signal import signal
 
 
@@ -22,6 +22,8 @@ class Fit(AbstraktFit):
         AbstraktFit.__init__(self, laden, par)
         self.messwerte = None
         """ @type: Module.Raster.Messwerte.Messwerte """
+        self.erg = None
+        """ @type: Module.Ergebnis.Ergebnis """
 
     def impl_fit(self):
         # p0 = Initial guess

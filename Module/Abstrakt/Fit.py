@@ -30,8 +30,6 @@ class Fit(QtCore.QThread):
         self.av_iter = 0
         self.laufzeit = 0
         self.start_time = 0
-        self.erg = None
-        """ @type: Module.Ergebnis.Ergebnis """
 
         QtCore.QObject.connect(self, signal.importiert, self.laden.app.importiert)
         QtCore.QObject.connect(self, signal.fehler, self.laden.fehler)

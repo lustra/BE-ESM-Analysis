@@ -6,50 +6,48 @@
 
 
 class Messreihe:
-    def __init__(self, wert):
-        self._wert = wert
+    def __init__(self):
         self._param = []
         self._reihe = []
 
-    @property
-    def wert(self):
-        return self._wert
-
-    def add(self, reihe):
-        self._param.append(reihe.wert)
-        self._reihe.append(reihe)
-
-    def get(self, wert):
+    def _get(self, wert):
         return self._reihe[self._param.index(wert)]
+
+    def alle(self):
+        """
+        :return: [DC0, DC1, ...], komprimiert für alle Elemente aller Reihen in dieser Reihe
+        """
+        return [element for sub in self._reihe for element in sub.alle()]
 
 
 class Omega(Messreihe):
-    def __init__(self, wert, ac):
+    def __init__(self, omega):
         """
-        :type wert: int
-        :type ac: AC
+        :type omega: int
         """
-        Messreihe.__init__(self, wert)
+        Messreihe.__init__(self)
+        self.omega = omega
+
+    def ac(self, wert):
+        return self._get(wert)
+
+
+class AC(Omega):
+    def __init__(self, omega, ac):
+        """
+        :type omega: int
+        :type ac: float
+        """
+        Omega.__init__(self, omega)
         self.ac = ac
 
+        self.dc = []
+        self.amp_freq = []
+        self.phase_freq = []
 
-class AC(Messreihe):
-    def __init__(self, wert, dc):
-        """
-        :type wert: float
-        :type dc: DC
-        """
-        Messreihe.__init__(self, wert)
-        self.dc = dc
+        self.amp_dc = []
+        self.resfreq_dc = []
+        self.phase_dc = []
 
-
-class DC(Messreihe):
-    def __init__(self, wert, messung, fit):
-        """
-        :type wert: float
-        :type messung: numpy.multiarray.ndarray
-        :type fit: numpy.multiarray.ndarray
-        """
-        Messreihe.__init__(self, wert)
-        self.messung = messung
-        self.fit = fit
+    def alle(self):
+        return [self]

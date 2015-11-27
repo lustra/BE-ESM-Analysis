@@ -115,30 +115,3 @@ def test_fit(ordner, par):
 
     print 'finished!'
 
-
-def fit_datei(pfad, omega, ac, dc, par):
-    if not pfad.endswith(os.sep):
-        pfad += os.sep
-    endung = omega + 'w' + ac + 'G' + dc + 'V.tdms',
-    datx, daty = read_tdmsfile(pfad + 'amp' + endung, par)
-    phasx, phasy = read_tdmsfile(pfad + 'phase' + endung, par)
-
-    index_max = np.argmax(daty)
-    start_freq = datx[index_max]
-    start_amp = daty[index_max]
-    start_off = daty[0]
-
-    params = Parameters()
-    params.add('resfreq', value=start_freq, min=par.fmin, max=par.fmax)
-    params.add('amp', value=start_amp, min=par.amp_min, max=par.amp_max)
-    params.add('guete', value=par.guete, min=par.guete_min, max=par.guete_max)
-    params.add('off', value=start_off, min=par.off_min, max=par.off_max)
-
-    out = mod.fit(savgol_filter(daty, 51, 5), freq=datx, params=params)
-
-    neben_resfreq = max(min(
-        int((out.best_values['resfreq'] - par.fmin) // par.df + par.messpunkte // 10),
-        len(phasy)-1), 0)
-    phase = savgol_filter(phasy, 51, 5)[neben_resfreq] / par.messpunkte
-
-    return out, phase, datx, daty

@@ -7,17 +7,18 @@
 import numpy as np
 
 
-def resonance_lorentz(freq, resfreq, amp, guete):
+def resonance_lorentz(freq, resfreq, amp, guete, off):
     """
-    :type freq: numpy.multiarray.ndarray
-    :type resfreq: numpy.multiarray.ndarray
-    :type amp: numpy.multiarray.ndarray
-    :type guete: numpy.multiarray.ndarray
+    :type freq: float
+    :type resfreq: float
+    :type amp: float
+    :type guete: float
+    :type off: float
     :return Lorentzverteilung für den Cantilever
     """
     return amp * resfreq**2 / (
         guete * np.sqrt((freq**2 - resfreq**2)**2 + (freq * resfreq / guete)**2)
-    )
+    ) + off
 
 
 def drive_lorentz(freq, resfreq, amp, guete):
@@ -39,11 +40,7 @@ def phase_lorentz(p, x):
     )
 
 
-def errlambda(lorentz):
-    return lambda p, x, z: lorentz(p, x) - z
-
 errorfunc = [  # Bessere Lösung finden oder Reihenfolge mit Strings abgleichen!
-    errlambda(resonance_lorentz),
-    errlambda(drive_lorentz),
-    # errlambda(phase_lorentz) #TODO Das würde natürlich nicht funktionieren. Es muss dann auch die PHASE gefittet werden!
+    resonance_lorentz,
+    drive_lorentz
 ]

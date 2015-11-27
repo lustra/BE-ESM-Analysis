@@ -19,3 +19,17 @@ class Achsenbeschriftung:
 
 class Fehler(Exception):
     pass
+
+
+def komma(f):
+    """
+    :type f: float
+    """
+    return str("{:.6f}".format(f)).replace('.', ',')
+
+
+def punkt(s):
+    """
+    :param s: str
+    """
+    return float(s.replace(',', '.'))

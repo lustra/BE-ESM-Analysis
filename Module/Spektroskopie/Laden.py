@@ -12,8 +12,8 @@ from Module.Abstrakt.Laden import GuiAbstraktLaden
 from Module import FitFunktion
 from Module.Strings import *
 from Module.Spektroskopie.Fit import Fit
-from Module.Spektroskopie.BeSpektroskopieTest import test_fit, fit_datei
 from Module.Spektroskopie.Parameter import Parameter
+from Module.Sonstige import komma
 
 
 class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
@@ -104,6 +104,7 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
                 fitfunktion=FitFunktion.errorfunc[self.box_methode.currentIndex()],
                 fenster=15,  # TODO
                 ordnung=5,
+                phase_versatz=10,
                 fmin=int(1000*self.box_fmin.value()),
                 fmax=int(1000*self.box_fmax.value()),
                 df=self.box_df.value(),
@@ -138,11 +139,11 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         )"""
 
     def fit_vorschau(self):
-        out, ph, datx, daty = fit_datei(
+        """out, ph, datx, daty = fit_datei(
             pfad=self.edit_pfad.text(),
             omega=str(self.box_omega.value()),
-            ac=num(self.box_ac),
-            dc=num(self.box_dc),
+            ac=komma(self.box_ac.value()),
+            dc=komma(self.box_dc.value()),
             par=self.packe_parameter()
         )
 
@@ -150,11 +151,4 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         self.plotter.axes.hold(True)
         self.plotter.axes.plot(datx, out.best_fit)
         self.plotter.axes.hold(False)
-        self.plotter.draw()
-
-
-def num(box):
-    """
-    :type box: PyQt4.QtGui.QSpinBox.QSpinBox
-    """
-    return str("{:.6f}".format(box.value())).replace('.', ',')
+        self.plotter.draw()"""
