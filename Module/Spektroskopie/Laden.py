@@ -136,13 +136,14 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         self.app.fit.start()
 
     def init_vorschau(self):
-        self.app.fit = FitVorschau(self, self.packe_parameter())
+        if self.button_vorschau.isEnabled():
+            self.app.fit = FitVorschau(self, self.packe_parameter())
 
     def fit_vorschau(self):
-        self.app.par = self.packe_parameter()
-        ac = self.app.fit.messwerte.omega(self.box_omega.value()).ac(komma(self.box_ac.value()))
+        self.app.fit.par = self.packe_parameter()
+        ac = self.app.fit.messwerte.omega(self.box_omega.value()).ac(self.box_ac.value())
         """ @type: Module.Spektroskopie.Messreihe.AC """
-        dc = ac.dc.index(komma(self.box_dc.value()))
+        dc = ac.dc.index(self.box_dc.value())
 
         erg, phase = self.app.fit.fit(ac.amp_freq[dc], ac.phase_freq[dc])
 

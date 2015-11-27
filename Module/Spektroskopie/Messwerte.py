@@ -9,7 +9,7 @@ import numpy as np
 from nptdms import TdmsFile
 from glob import glob
 
-from Module.Sonstige import Fehler
+from Module.Sonstige import Fehler, punkt
 from Module.Spektroskopie.Messreihe import *
 
 
@@ -46,7 +46,7 @@ class Messwerte(Messreihe):
             amplitude = self.lade_tdms(dat_amp)
             phase = self.lade_tdms(dat_phase)
 
-            self.add(omega, ac, dc, amplitude, phase)
+            self.add(omega, punkt(ac), punkt(dc), amplitude, phase)
 
     def lade_tdms(self, datei):
         """
@@ -64,9 +64,11 @@ class Messwerte(Messreihe):
                 UND
                 Begrenzung des Fitbereichs (zur Eliminierung von parasitären Frequenzpeaks) nach Angabe in GUI
                 """
-                daten += tdms.data[mittelung + self.par.bereich_links:
-                                   mittelung + self.par.messpunkte + self.par.bereich_rechts]
-            except IndexError:
+                start = mittelung * self.par.messpunkte
+                links = start + self.par.bereich_links
+                rechts = start + self.par.messpunkte + self.par.bereich_rechts
+                daten += tdms.data[links:rechts]
+            except (ValueError, IndexError):
                 """
                 In diesem Fall ist ein Messfehler aufgetreten. Das kann (sehr selten) passieren, weshalb der Fit
                 dennoch funktionieren muss. Hier ist dann aber ein Einbruch in der Amplitude zu verzeichnen.

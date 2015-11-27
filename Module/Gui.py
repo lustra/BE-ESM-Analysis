@@ -158,7 +158,7 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.menu_spektroskopie.setEnabled(True)
         print("TODO")
 
-        ac = self.fit.messwerte.omega(1).ac(10)
+        ac = self.fit.messwerte.omega(1).ac(10.0)
         """ @type: Module.Spektroskopie.Messreihe.AC """
         from matplotlib import pyplot as plt
         plt.plot(ac.dc, ac.amp_dc, '.', label="Test")
