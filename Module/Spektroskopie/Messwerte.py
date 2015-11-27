@@ -9,7 +9,7 @@ import numpy as np
 from nptdms import TdmsFile
 from glob import glob
 
-from Module.Sonstige import Fehler, komma, punkt
+from Module.Sonstige import Fehler
 from Module.Spektroskopie.Messreihe import *
 
 
@@ -35,13 +35,13 @@ class Messwerte(Messreihe):
         dateien = glob(self.par.verzeichnis + 'amp*.tdms')
         for dat_amp in dateien:
 
-            name = dat_amp.split(os.sep + 'amp')[-1].replace(',', '.').split('w')
+            name = dat_amp.split(os.sep + 'amp')[-1].split('w')
             omega = int(name[0])
             name = name[1].split('G')
-            ac = float(name[0])
-            dc = float(name[1].rstrip('V.tdms'))
+            ac = name[0]
+            dc = name[1].rstrip('V.tdms')
 
-            dat_phase = self.par.verzeichnis + 'phase' + str(omega) + 'w' + komma(ac) + 'G' + komma(dc) + 'V.tdms'
+            dat_phase = self.par.verzeichnis + 'phase' + str(omega) + 'w' + ac + 'G' + dc + 'V.tdms'
 
             amplitude = self.lade_tdms(dat_amp)
             phase = self.lade_tdms(dat_phase)

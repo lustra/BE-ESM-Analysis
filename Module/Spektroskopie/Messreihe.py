@@ -41,10 +41,12 @@ class AC(Omega):
         Omega.__init__(self, omega)
         self.ac = ac
 
+        # Diese Listen werden mit den Messwerten (abh. von f) beim Einlesen der Dateien gefüllt
         self.dc = []
         self.amp_freq = []
         self.phase_freq = []
 
+        # Diese Listen werden erst beim Fit mit den Fitparametern (konst.) gefüllt
         self.amp_dc = []
         self.resfreq_dc = []
         self.phase_dc = []

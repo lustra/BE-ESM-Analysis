@@ -12,6 +12,7 @@ from Module.Abstrakt.Laden import GuiAbstraktLaden
 from Module import FitFunktion
 from Module.Strings import *
 from Module.Spektroskopie.Fit import Fit
+from Module.Spektroskopie.FitVorschau import FitVorschau
 from Module.Spektroskopie.Parameter import Parameter
 from Module.Sonstige import komma
 
@@ -26,6 +27,7 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         self.setupUi(self)
         self.init_ui()
 
+        self.button_vorschau.clicked.connect(self.init_vorschau)
         self.box_omega.valueChanged.connect(self.fit_vorschau)
         self.box_ac.valueChanged.connect(self.fit_vorschau)
         self.box_dc.valueChanged.connect(self.fit_vorschau)
@@ -132,23 +134,20 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         # Fitten
         self.app.fit = Fit(self, parameter)
         self.app.fit.start()
-        """
-        test_fit(
-            ordner=str(self.edit_pfad.text()),
-            par=parameter
-        )"""
+
+    def init_vorschau(self):
+        self.app.fit = FitVorschau(self, self.packe_parameter())
 
     def fit_vorschau(self):
-        """out, ph, datx, daty = fit_datei(
-            pfad=self.edit_pfad.text(),
-            omega=str(self.box_omega.value()),
-            ac=komma(self.box_ac.value()),
-            dc=komma(self.box_dc.value()),
-            par=self.packe_parameter()
-        )
+        self.app.par = self.packe_parameter()
+        ac = self.app.fit.messwerte.omega(self.box_omega.value()).ac(komma(self.box_ac.value()))
+        """ @type: Module.Spektroskopie.Messreihe.AC """
+        dc = ac.dc.index(komma(self.box_dc.value()))
 
-        self.plotter.axes.plot(datx, daty, antialiased=True)
+        erg, phase = self.app.fit.fit(ac.amp_freq[dc], ac.phase_freq[dc])
+
+        self.plotter.axes.plot(self.app.fit.messwerte.frequenzen, ac.amp_freq[dc], antialiased=True)
         self.plotter.axes.hold(True)
-        self.plotter.axes.plot(datx, out.best_fit)
+        self.plotter.axes.plot(self.app.fit.messwerte.frequenzen, erg.best_fit)
         self.plotter.axes.hold(False)
-        self.plotter.draw()"""
+        self.plotter.draw()

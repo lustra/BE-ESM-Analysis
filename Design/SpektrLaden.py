@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Dokumente/BE-ESM-Analysis/Design/SpektrLaden.ui'
 #
-# Created: Tue Nov 24 13:24:33 2015
+# Created: Fri Nov 27 14:42:29 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -286,8 +286,6 @@ class Ui_SpektrLaden(object):
         self.horizontallayout0.addWidget(self.progress_bar)
         self.verticallayout.addLayout(self.horizontallayout0)
         self.horizontalLayout.addLayout(self.verticallayout)
-        spacerItem6 = QtGui.QSpacerItem(0, 0, QtGui.QSizePolicy.MinimumExpanding, QtGui.QSizePolicy.Minimum)
-        self.horizontalLayout.addItem(spacerItem6)
         self.verticallayout1 = QtGui.QVBoxLayout()
         self.verticallayout1.setObjectName(_fromUtf8("verticallayout1"))
         self.plotter = Vorschau(self.horizontalLayoutWidget)
@@ -304,8 +302,8 @@ class Ui_SpektrLaden(object):
         self.button_vorschau.setCheckable(True)
         self.button_vorschau.setObjectName(_fromUtf8("button_vorschau"))
         self.horizontallayout8.addWidget(self.button_vorschau)
-        spacerItem7 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
-        self.horizontallayout8.addItem(spacerItem7)
+        spacerItem6 = QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum)
+        self.horizontallayout8.addItem(spacerItem6)
         self.label_omega = QtGui.QLabel(self.horizontalLayoutWidget)
         self.label_omega.setEnabled(False)
         self.label_omega.setObjectName(_fromUtf8("label_omega"))
@@ -348,6 +346,13 @@ class Ui_SpektrLaden(object):
         QtCore.QObject.connect(self.button_vorschau, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.label_omega.setEnabled)
         QtCore.QObject.connect(self.button_vorschau, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.label_ac.setEnabled)
         QtCore.QObject.connect(self.button_vorschau, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.label_dc.setEnabled)
+        QtCore.QObject.connect(self.button_vorschau, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.box_fmax.setDisabled)
+        QtCore.QObject.connect(self.button_vorschau, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.box_fmin.setDisabled)
+        QtCore.QObject.connect(self.button_vorschau, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.box_mittelungen.setDisabled)
+        QtCore.QObject.connect(self.button_vorschau, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.box_df.setDisabled)
+        QtCore.QObject.connect(self.button_vorschau, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.button_konfig.setDisabled)
+        QtCore.QObject.connect(self.button_vorschau, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.button_aendern.setDisabled)
+        QtCore.QObject.connect(self.button_vorschau, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.edit_pfad.setDisabled)
         QtCore.QMetaObject.connectSlotsByName(SpektrLaden)
 
     def retranslateUi(self, SpektrLaden):
