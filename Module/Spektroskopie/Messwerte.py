@@ -108,12 +108,31 @@ class Messwerte(AbstraktMesswerte, Messreihe):
         """
         :type wohin: str
         """
-        datei = open(wohin, 'w')
-        for reihe in self.alle():
-            for n in range(len(reihe.dc)):
-                dc = str(reihe.omega) + '\t'
-                dc += str(reihe.ac) + '\t'
-                dc += str(reihe.dc[n]) + '\t'
-                dc += str(reihe.amp_dc[n]) + '\n'
-                datei.write(dc)
-        datei.close()
+        reihen = self.alle()
+        for reihe in reihen:
+            # Sortieren nach DC (weil die Daten beim ersten Speichern noch ungeordnet vorliegen)
+            abh_dc = zip(reihe.dc, reihe.amp_dc, reihe.resfreq_dc, reihe.phase_dc)
+            abh_dc.sort()
+            reihe.dc, reihe.amp_dc, reihe.resfreq_dc, reihe.phase_dc = zip(*abh_dc)
+
+        datei_speichern(wohin + '.amp', reihen, 'Amp. (bel.)', lambda r, n: str(r.amp_dc[n]))
+        datei_speichern(wohin + '.freq', reihen, 'Resfreq. (kHz)', lambda r, n: str(r.resfreq_dc[n]))
+        datei_speichern(wohin + '.phase', reihen, 'Phase (Grad)', lambda r, n: str(r.phase_dc[n]))
+
+
+def datei_speichern(wohin, reihen, bezeichnung, messwert):
+    datei = open(wohin, 'w')
+
+    zeile = 'DC/V'
+    for reihe in reihen:
+        zeile += '\t' + bezeichnung + ' bei ' + str(reihe.omega) + ' omega, ' + str(reihe.ac) + ' AC/V'
+    datei.write(zeile + '\n')
+
+    # Jetzt muss angenommen werden, dass für alle Messreihen gleiche DC-Werte vorliegen
+    for dc_index in range(len(reihen[0].dc)):
+        zeile = str(reihen[0].dc[dc_index])
+        for reihe in reihen:
+            zeile += '\t' + messwert(reihe, dc_index)
+        datei.write(zeile + '\n')
+
+    datei.close()
