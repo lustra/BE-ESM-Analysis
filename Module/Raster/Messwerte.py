@@ -7,18 +7,19 @@
 import numpy as np
 
 from ResonanzFit import lang
+from Module.Abstrakt.Messwerte import Messwerte as AbstraktMesswerte
 from Module.Sonstige import Fehler
 from Module.Strings import *
 from Module.TDMS import lade_tdms
 
 
-class Messwerte:
+class Messwerte(AbstraktMesswerte):
     def __init__(self, par):
         """
         :type par: Module.Raster.Parameter.Parameter
         :return: Werte der Amplitude und Phase für jeden Pixel einer Messung
         """
-        self.par = par
+        AbstraktMesswerte.__init__(self, par)
         self.amplitude, self.amplitude_namen = lade_tdms(par, 'amp')
         self.phase, self.phase_namen = lade_tdms(par, 'phase')
 

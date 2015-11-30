@@ -14,7 +14,6 @@ from Module.Strings import *
 from Module.Spektroskopie.Fit import Fit
 from Module.Spektroskopie.FitVorschau import FitVorschau
 from Module.Spektroskopie.Parameter import Parameter
-from Module.Sonstige import komma
 
 
 class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
@@ -125,14 +124,17 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
             hinweis(self, laden_min_max[lang])
 
     def start_fit(self):
-        parameter = self.packe_parameter()
-
         GuiAbstraktLaden.start_fit(self)
+
+        # Fit vorbereiten
+        parameter = self.packe_parameter()
+        self.app.fit = Fit(self, parameter)
+
         # Fortschrittsbalken vorbereiten
-        #self.progress_bar.setMaximum(self.box.value())
+        #self.progress_bar.setMaximum(self.app.fit.messwerte.anzahl_messreihen)
+        self.progress_bar.setMaximum(400)
 
         # Fitten
-        self.app.fit = Fit(self, parameter)
         self.app.fit.start()
 
     def init_vorschau(self):

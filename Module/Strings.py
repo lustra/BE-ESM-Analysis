@@ -25,6 +25,7 @@ gui_lade_raster = ["Raster...", "Raster..."]
 gui_raster = ["Raster", "Raster"]
 gui_lade_spektroskopie = ["Spektroskopie...", "Spectroscopy..."]
 gui_spektroskopie = ["Spektroskopie", "Spectroscopy"]
+gui_anregung = ["Anregungsspektrum", "Excitation spectrum"]
 
 achse_amp = ["Amplitude / mV", "amplitude / mV"]
 achse_freq = ["Frequenz / kHz", "frequency / kHz"]

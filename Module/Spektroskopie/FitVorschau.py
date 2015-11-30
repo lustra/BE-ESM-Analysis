@@ -24,4 +24,4 @@ class FitVorschau(Fit):
     def lade_messwerte(self):
         # Die Messwerte wurden bereits eingelesen, wenn der Fit startet
         if self.messwerte is None:
-            self.messwerte = Messwerte(self.par)
+            self.messwerte = Messwerte(self.par, self.signal_weiter)

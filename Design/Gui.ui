@@ -110,7 +110,10 @@
      <string>Spektroskopie</string>
     </property>
     <addaction name="action_anregung"/>
-    <addaction name="action_frequenzabh"/>
+    <addaction name="separator"/>
+    <addaction name="action_spektr_amp"/>
+    <addaction name="action_spektr_freq"/>
+    <addaction name="action_spektr_phase"/>
    </widget>
    <addaction name="menu_auswertung"/>
    <addaction name="menu_raster"/>
@@ -212,18 +215,31 @@
    </property>
   </action>
   <action name="action_anregung">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
    <property name="text">
     <string>Anregungsspektrum</string>
    </property>
   </action>
-  <action name="action_frequenzabh">
+  <action name="action_spektr_amp">
    <property name="text">
-    <string>Frequenzabhängigkeit</string>
+    <string>Amplitude</string>
    </property>
   </action>
   <action name="action_spektroskopie">
    <property name="text">
     <string>Spektroskopie...</string>
+   </property>
+  </action>
+  <action name="action_spektr_freq">
+   <property name="text">
+    <string>Resonanzfrequenz</string>
+   </property>
+  </action>
+  <action name="action_spektr_phase">
+   <property name="text">
+    <string>Phase</string>
    </property>
   </action>
  </widget>

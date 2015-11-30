@@ -35,12 +35,15 @@ class Fit(AbstraktFit):
                 reihe.phase_dc.append(phase)
 
                 #erg.infodict.get("nfev")
-                self.emit(signal.weiter)
+                self.signal_weiter()
 
         self.av_iter = 0
 
+    def signal_weiter(self):
+        self.emit(signal.weiter)
+
     def lade_messwerte(self):
-        self.messwerte = Messwerte(self.par)
+        self.messwerte = Messwerte(self.par, self.signal_weiter)
 
     def fit(self, amplitude, phase):
         """
@@ -77,3 +80,6 @@ class Fit(AbstraktFit):
 
     def filter(self, daten):
         return savgol_filter(daten, self.par.fenster, self.par.ordnung)
+
+    def speichern(self, wohin):
+        self.messwerte.speichern(wohin)

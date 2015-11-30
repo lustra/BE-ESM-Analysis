@@ -107,6 +107,10 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.action_phase.setText(gui_phase[lang])
         self.action_qfaktor.setText(gui_qfaktor[lang])
         self.action_alles.setText(gui_alles[lang])
+        self.action_anregung.setText(gui_anregung[lang])
+        self.action_spektr_amp.setText(gui_amplitude[lang])
+        self.action_spektr_freq.setText(gui_resfreq[lang])
+        self.action_spektr_phase.setText(gui_phase[lang])
 
     def closeEvent(self, event):
         """
@@ -140,7 +144,7 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
 
     def speichern(self):
         wohin = QtGui.QFileDialog().getSaveFileName(self, rf_ordner[lang], self.fit.par.verzeichnis)
-        self.fit.erg.speichern(str(wohin))
+        self.fit.speichern(str(wohin))
         hinweis(self, gui_gespeichert[lang] + wohin)
 
     def raster_fit_fertig(self):

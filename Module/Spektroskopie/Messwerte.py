@@ -8,20 +8,22 @@ import os
 import numpy as np
 from nptdms import TdmsFile
 from glob import glob
+from PyQt4.QtGui import QFileDialog
 
+from Module.Abstrakt.Messwerte import Messwerte as AbstraktMesswerte
 from Module.Sonstige import Fehler, punkt
 from Module.Spektroskopie.Messreihe import *
 
 
-class Messwerte(Messreihe):
-    def __init__(self, par):
+class Messwerte(AbstraktMesswerte, Messreihe):
+    def __init__(self, par, signal_weiter):
         """
         :type par: Module.Spektroskopie.Parameter.Parameter
         """
+        AbstraktMesswerte.__init__(self, par)
         Messreihe.__init__(self)
         self.omega = self._get
-
-        self.par = par
+        self.anzahl_messreihen = 0
 
         if par.messpunkte + par.bereich_rechts <= par.bereich_links or par.bereich_links < 0:
             raise Fehler(IndexError())
@@ -47,6 +49,10 @@ class Messwerte(Messreihe):
             phase = self.lade_tdms(dat_phase)
 
             self.add(omega, punkt(ac), punkt(dc), amplitude, phase)
+
+            self.amplitude_namen.append(dat_amp.split(os.sep)[-1])
+            self.phase_namen.append(dat_phase.split(os.sep)[-1])
+            signal_weiter()
 
     def lade_tdms(self, datei):
         """
@@ -95,3 +101,19 @@ class Messwerte(Messreihe):
         zgr.dc.append(dc)
         zgr.amp_freq.append(amplitude)
         zgr.phase_freq.append(phase)
+
+        self.anzahl_messreihen += 1
+
+    def speichern(self, wohin):
+        """
+        :type wohin: str
+        """
+        datei = open(wohin, 'w')
+        for reihe in self.alle():
+            for n in range(len(reihe.dc)):
+                dc = str(reihe.omega) + '\t'
+                dc += str(reihe.ac) + '\t'
+                dc += str(reihe.dc[n]) + '\t'
+                dc += str(reihe.amp_dc[n]) + '\n'
+                datei.write(dc)
+        datei.close()

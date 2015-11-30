@@ -72,3 +72,6 @@ class Fit(AbstraktFit):
 
     def lade_messwerte(self):
         self.messwerte = Messwerte(self.par)
+
+    def speichern(self, wohin):
+        self.erg.speichern(wohin)

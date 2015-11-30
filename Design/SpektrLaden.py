@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Dokumente/BE-ESM-Analysis/Design/SpektrLaden.ui'
 #
-# Created: Fri Nov 27 14:42:29 2015
+# Created: Mon Nov 30 13:37:03 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -332,6 +332,7 @@ class Ui_SpektrLaden(object):
         self.box_dc.setEnabled(False)
         self.box_dc.setDecimals(6)
         self.box_dc.setMinimum(-99.999999)
+        self.box_dc.setMaximum(99.999999)
         self.box_dc.setSingleStep(0.1)
         self.box_dc.setObjectName(_fromUtf8("box_dc"))
         self.horizontallayout8.addWidget(self.box_dc)
@@ -353,6 +354,7 @@ class Ui_SpektrLaden(object):
         QtCore.QObject.connect(self.button_vorschau, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.button_konfig.setDisabled)
         QtCore.QObject.connect(self.button_vorschau, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.button_aendern.setDisabled)
         QtCore.QObject.connect(self.button_vorschau, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.edit_pfad.setDisabled)
+        QtCore.QObject.connect(self.button_vorschau, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.plotter.setEnabled)
         QtCore.QMetaObject.connectSlotsByName(SpektrLaden)
 
     def retranslateUi(self, SpektrLaden):

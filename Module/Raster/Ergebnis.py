@@ -29,11 +29,11 @@ class Ergebnis:
         )
         self.phase = FitWerte(sphase, None)
 
-    def speichern(self, pfad):
+    def speichern(self, wohin):
         """
-        :type pfad: str
+        :type wohin: str
         """
-        nc = DatasetPlus(pfad, len(self.resfreq.normal))
+        nc = DatasetPlus(wohin, len(self.resfreq.normal))
 
         nc.grp(self.damp.normal, "damp")
         nc.grp(self.q.normal, "q")

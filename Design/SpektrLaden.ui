@@ -643,6 +643,9 @@
            <property name="minimum">
             <double>-99.999999000000003</double>
            </property>
+           <property name="maximum">
+            <double>99.999999000000003</double>
+           </property>
            <property name="singleStep">
             <double>0.100000000000000</double>
            </property>
@@ -871,6 +874,22 @@
     <hint type="destinationlabel">
      <x>235</x>
      <y>29</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>button_vorschau</sender>
+   <signal>toggled(bool)</signal>
+   <receiver>plotter</receiver>
+   <slot>setEnabled(bool)</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>514</x>
+     <y>412</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>628</x>
+     <y>287</y>
     </hint>
    </hints>
   </connection>

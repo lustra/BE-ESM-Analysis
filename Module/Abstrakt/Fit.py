@@ -42,8 +42,8 @@ class Fit(QtCore.QThread):
 
         # Messwerte laden
         try:
-            self.emit(signal.importiert)
             self.lade_messwerte()
+            self.emit(signal.importiert)
         except Fehler as f:
             self.emit(signal.fehler, f)
             return
@@ -55,11 +55,14 @@ class Fit(QtCore.QThread):
         if self.weiter:
             self.emit(signal.fertig)
 
+    def abbruch(self):
+        self.weiter = False
+
     def lade_messwerte(self):
         raise NotImplementedError()
 
     def impl_fit(self):
         raise NotImplementedError()
 
-    def abbruch(self):
-        self.weiter = False
+    def speichern(self, wohin):
+        raise NotImplementedError()

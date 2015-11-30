@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Dokumente/BE-ESM-Analysis/Design/Gui.ui'
 #
-# Created: Tue Nov 10 16:08:17 2015
+# Created: Mon Nov 30 13:12:16 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -107,11 +107,16 @@ class Ui_Gui(object):
         self.action_raster = QtGui.QAction(Gui)
         self.action_raster.setObjectName(_fromUtf8("action_raster"))
         self.action_anregung = QtGui.QAction(Gui)
+        self.action_anregung.setEnabled(True)
         self.action_anregung.setObjectName(_fromUtf8("action_anregung"))
-        self.action_frequenzabh = QtGui.QAction(Gui)
-        self.action_frequenzabh.setObjectName(_fromUtf8("action_frequenzabh"))
+        self.action_spektr_amp = QtGui.QAction(Gui)
+        self.action_spektr_amp.setObjectName(_fromUtf8("action_spektr_amp"))
         self.action_spektroskopie = QtGui.QAction(Gui)
         self.action_spektroskopie.setObjectName(_fromUtf8("action_spektroskopie"))
+        self.action_spektr_freq = QtGui.QAction(Gui)
+        self.action_spektr_freq.setObjectName(_fromUtf8("action_spektr_freq"))
+        self.action_spektr_phase = QtGui.QAction(Gui)
+        self.action_spektr_phase.setObjectName(_fromUtf8("action_spektr_phase"))
         self.menu_auswertung.addAction(self.action_raster)
         self.menu_auswertung.addAction(self.action_spektroskopie)
         self.menu_auswertung.addSeparator()
@@ -127,7 +132,10 @@ class Ui_Gui(object):
         self.menu_raster.addSeparator()
         self.menu_raster.addAction(self.action_alles)
         self.menu_spektroskopie.addAction(self.action_anregung)
-        self.menu_spektroskopie.addAction(self.action_frequenzabh)
+        self.menu_spektroskopie.addSeparator()
+        self.menu_spektroskopie.addAction(self.action_spektr_amp)
+        self.menu_spektroskopie.addAction(self.action_spektr_freq)
+        self.menu_spektroskopie.addAction(self.action_spektr_phase)
         self.menubar.addAction(self.menu_auswertung.menuAction())
         self.menubar.addAction(self.menu_raster.menuAction())
         self.menubar.addAction(self.menu_spektroskopie.menuAction())
@@ -159,6 +167,8 @@ class Ui_Gui(object):
         self.action_sweep.setText(_translate("Gui", "Sweep...", None))
         self.action_raster.setText(_translate("Gui", "Raster...", None))
         self.action_anregung.setText(_translate("Gui", "Anregungsspektrum", None))
-        self.action_frequenzabh.setText(_translate("Gui", "Frequenzabhängigkeit", None))
+        self.action_spektr_amp.setText(_translate("Gui", "Amplitude", None))
         self.action_spektroskopie.setText(_translate("Gui", "Spektroskopie...", None))
+        self.action_spektr_freq.setText(_translate("Gui", "Resonanzfrequenz", None))
+        self.action_spektr_phase.setText(_translate("Gui", "Phase", None))
 
