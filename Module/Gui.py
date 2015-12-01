@@ -162,14 +162,14 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.menu_spektroskopie.setEnabled(True)
         print("TODO")
 
-        ac = self.fit.messwerte.omega(1).ac(10.0)
+        # ac = self.fit.messwerte.omega(1).ac(10.0)
         """ @type: Module.Spektroskopie.Messreihe.AC """
-        from matplotlib import pyplot as plt
+        """from matplotlib import pyplot as plt
         plt.plot(ac.dc, ac.amp_dc, '.', label="Test")
         plt.legend(loc=9)
         plt.ylabel('Amplitude (XKorr a.u.)')
         plt.xlabel('Offset (V)')
-        plt.show()
+        plt.show()"""
 
     def aktualisieren(self):
         for plt in self.plots:
