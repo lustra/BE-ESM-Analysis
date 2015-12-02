@@ -51,6 +51,7 @@ class Fit(AbstraktFit):
         :type phase: numpy.multiarray.ndarray
         """
         par = self.par
+        """ @type: Module.Spektroskopie.Parameter.Parameter """
 
         amplitude = self.filter(amplitude)
         index_max = np.argmax(amplitude)
@@ -74,7 +75,7 @@ class Fit(AbstraktFit):
 
         neben_resfreq = int((erg.best_values['resfreq'] - par.fmin) / par.df) + par.phase_versatz
         neben_resfreq = max(min(neben_resfreq, len(phase)-1), 0)  # Bereichsüberschreitung verhindern
-        ph = self.filter(phase)[neben_resfreq] / par.messpunkte
+        ph = self.filter(phase)[neben_resfreq] / par.mittelungen
 
         return erg, ph
 
