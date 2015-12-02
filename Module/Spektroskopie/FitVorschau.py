@@ -10,6 +10,7 @@ from Module.Spektroskopie.Messwerte import Messwerte
 
 class FitVorschau(Fit):
     """ Fit-Vorschau; Die Messwerte werden sofort geladen """
+
     def __init__(self, laden, par):
         """
         :type laden: Module.Spektroskopie.Laden.GuiSpektrLaden
@@ -25,3 +26,9 @@ class FitVorschau(Fit):
         # Die Messwerte wurden bereits eingelesen, wenn der Fit startet
         if self.messwerte is None:
             self.messwerte = Messwerte(self.par, self.signal_weiter)
+
+    def speichern(self, wohin):
+        """
+        :type wohin: str
+        """
+        Fit.speichern(self, wohin)

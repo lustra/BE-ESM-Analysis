@@ -11,6 +11,7 @@ from lmfit import Model, Parameters
 
 from Module.Abstrakt.Fit import Fit as AbstraktFit
 from Module.Spektroskopie.Messwerte import Messwerte
+from Module.Phase import phase_ermitteln
 from Module.Signal import signal
 
 
@@ -49,6 +50,7 @@ class Fit(AbstraktFit):
         """
         :type amplitude: numpy.multiarray.ndarray
         :type phase: numpy.multiarray.ndarray
+        :returns: lmfit.model.ModelResult, float
         """
         par = self.par
         """ @type: Module.Spektroskopie.Parameter.Parameter """
@@ -77,10 +79,25 @@ class Fit(AbstraktFit):
         neben_resfreq = max(min(neben_resfreq, len(phase)-1), 0)  # Bereichsüberschreitung verhindern
         ph = self.filter(phase)[neben_resfreq] / par.mittelungen
 
+        """ph = phase_ermitteln(
+            phase_freq=phase / par.mittelungen,
+            resfreq=int((erg.best_values['resfreq'] - par.fmin) / par.df),
+            versatz=par.phase_versatz,
+            filter_fkt=self.filter
+        )"""
+
         return erg, ph
 
     def filter(self, daten):
+        """
+        :type daten: numpy.multiarray.ndarray
+        :return: Der mittels Savitzky-Golay-Methode geglätte Verlauf
+        :returns: numpy.multiarray.ndarray
+        """
         return savgol_filter(daten, self.par.fenster, self.par.ordnung)
 
     def speichern(self, wohin):
+        """
+        :type wohin: str
+        """
         self.messwerte.speichern(wohin)

@@ -8,14 +8,20 @@
 class Messreihe:
     def __init__(self):
         self._param = []
+        """ @type: list[int | float] """
         self._reihe = []
+        """ @type: list[Messreihe] """
 
     def _get(self, wert):
+        """
+        :type wert: int | float
+        """
         return self._reihe[self._param.index(wert)]
 
     def alle(self):
         """
         :return: [DC0, DC1, ...], komprimiert für alle Elemente aller Reihen in dieser Reihe
+        :returns: list[AC]
         """
         return [element for sub in self._reihe for element in sub.alle()]
 
@@ -52,4 +58,7 @@ class AC(Omega):
         self.phase_dc = []
 
     def alle(self):
+        """
+        :returns: list[AC]
+        """
         return [self]

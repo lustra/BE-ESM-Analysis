@@ -6,11 +6,10 @@
 
 import os
 import time
-from PyQt4 import QtCore, QtGui
+from PyQt4 import QtGui
 from ConfigParser import ConfigParser
 
 from ResonanzFit import hinweis, lang, ordner
-from Module.Signal import signal
 from Module.Strings import *
 
 
@@ -19,6 +18,7 @@ class GuiAbstraktLaden(QtGui.QMainWindow):
     def __init__(self, app, app_fit_fertig):
         """
         :type app: Module.Gui.Gui
+        :type app_fit_fertig: () -> None
         """
         QtGui.QMainWindow.__init__(self)
         self.app = app

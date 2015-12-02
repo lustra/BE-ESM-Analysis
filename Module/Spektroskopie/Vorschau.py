@@ -14,6 +14,6 @@ from Module.Strings import *
 class Vorschau(Plotter):
     def __init__(self, gui):
         """
-        :type gui:
+        :type gui: PyQt4.QtGui.QWidget
         """
         Plotter.__init__(self, gui, Achsenbeschriftung(spektr_dc[lang], spektr_amp[lang]))

@@ -14,7 +14,7 @@ def resonance_lorentz(freq, resfreq, amp, guete, off):
     :type amp: float
     :type guete: float
     :type off: float
-    :return Lorentzverteilung für den Cantilever
+    :return: Lorentzverteilung für den Cantilever
     """
     return amp * resfreq**2 / (
         guete * np.sqrt((freq**2 - resfreq**2)**2 + (freq * resfreq / guete)**2)

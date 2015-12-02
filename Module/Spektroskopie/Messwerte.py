@@ -8,7 +8,6 @@ import os
 import numpy as np
 from nptdms import TdmsFile
 from glob import glob
-from PyQt4.QtGui import QFileDialog
 
 from Module.Abstrakt.Messwerte import Messwerte as AbstraktMesswerte
 from Module.Sonstige import Fehler, punkt
@@ -19,6 +18,7 @@ class Messwerte(AbstraktMesswerte, Messreihe):
     def __init__(self, par, signal_weiter):
         """
         :type par: Module.Spektroskopie.Parameter.Parameter
+        :type signal_weiter: () -> None
         """
         AbstraktMesswerte.__init__(self, par)
         Messreihe.__init__(self)
@@ -85,6 +85,13 @@ class Messwerte(AbstraktMesswerte, Messreihe):
         return daten
 
     def add(self, omega, ac, dc, amplitude, phase):
+        """
+        :type omega: int
+        :type ac: float
+        :type dc: float
+        :type amplitude: numpy.multiarray.ndarray
+        :type phase: numpy.multiarray.ndarray
+        """
         if omega not in self._param:
             self._param.append(omega)
             self._reihe.append(Omega(omega))
@@ -121,6 +128,12 @@ class Messwerte(AbstraktMesswerte, Messreihe):
 
 
 def datei_speichern(wohin, reihen, bezeichnung, messwert):
+    """
+    :type wohin: str
+    :type reihen: list[AC]
+    :type bezeichnung: str
+    :type messwert: (AC, int) -> str
+    """
     datei = open(wohin, 'w')
 
     zeile = 'DC/V'

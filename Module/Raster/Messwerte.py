@@ -53,6 +53,7 @@ class Messwerte(AbstraktMesswerte):
 def split_list(alist, wanted_parts=1):
     """
     :type alist: numpy.multiarray.ndarray
+    :type wanted_parts: int
     """
     length = len(alist)
     return [alist[i * length // wanted_parts: (i + 1) * length // wanted_parts]

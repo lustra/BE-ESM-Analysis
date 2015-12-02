@@ -16,6 +16,7 @@ class Parameter(AbstraktParameter):
         :type verzeichnis: str
         :type fmin: int
         :type fmax: int
+        :type fitfunktion: (float, float, float, float, float) -> float
         :param fenster: Breite des Savitzky-Golay-Filters (für Amplitude und Phase gegen Frequenz) in Datenpunkten.
         :type fenster: int
         :param ordnung: Ordnung des Polynoms des Savitzky-Golay-Filters.

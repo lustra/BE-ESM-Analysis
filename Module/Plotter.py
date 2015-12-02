@@ -13,8 +13,11 @@ from matplotlib.figure import Figure
 class Plotter(FigureCanvas):
     def __init__(self, canvas, beschriftung, width=5, height=5, dpi=75):
         """
-        :type canvas: Module.Canvas.Canvas
+        :type canvas: Module.Canvas.Canvas | QtGui.QWidget
         :type beschriftung: Module.Sonstige.Achsenbeschriftung
+        :type width: int
+        :type height: int
+        :type dpi: int
         """
         self.canvas = canvas
         self.beschriftung = beschriftung
@@ -28,7 +31,7 @@ class Plotter(FigureCanvas):
         self.setSizePolicy(QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Expanding)
         self.updateGeometry()
 
-        try:
+        try:  # QWidget ohne Statusleiste
             self.statusbar = canvas.statusbar
             self.mpl_connect("motion_notify_event", self.maus_bewegt)
         except AttributeError:
@@ -39,8 +42,10 @@ class Plotter(FigureCanvas):
         :type event: matplotlib.backend_bases.MouseEvent
         """
         if event.inaxes is not None:
+            canvas = self.canvas  # Das ist nur sinnvoll für ein Canvas
+            """ @type: Module.Canvas.Canvas """
             self.statusbar.showMessage(
-                self.canvas.str_status(event.xdata, event.ydata)
+                canvas.str_status(event.xdata, event.ydata)
             )
         else:
             self.statusbar.clearMessage()

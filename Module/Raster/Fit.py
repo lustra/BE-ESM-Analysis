@@ -21,9 +21,9 @@ class Fit(AbstraktFit):
         """
         AbstraktFit.__init__(self, laden, par)
         self.messwerte = None
-        """ @type: Module.Raster.Messwerte.Messwerte """
+        """ @type: Messwerte """
         self.erg = None
-        """ @type: Module.Ergebnis.Ergebnis """
+        """ @type: Ergebnis """
 
     def impl_fit(self):
         # p0 = Initial guess
@@ -74,4 +74,7 @@ class Fit(AbstraktFit):
         self.messwerte = Messwerte(self.par)
 
     def speichern(self, wohin):
+        """
+        :type wohin: str
+        """
         self.erg.speichern(wohin)

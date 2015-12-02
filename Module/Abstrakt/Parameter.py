@@ -14,6 +14,8 @@ class Parameter:
         :type verzeichnis: str
         :type fmin: float
         :type fmax: float
+        :param fitfunktion: Mit den Parametern Frequenz, Resonanzfrequenz, Amplitude, Güte und Offset
+        :type fitfunktion: (float, float, float, float, float) -> float
         :type fenster: int
         :type ordnung: int
         :type phase_versatz: int
