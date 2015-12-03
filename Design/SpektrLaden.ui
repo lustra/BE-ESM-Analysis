@@ -467,6 +467,9 @@
          </item>
          <item>
           <widget class="QDoubleSpinBox" name="box_guete_min">
+           <property name="maximum">
+            <double>9999.989999999999782</double>
+           </property>
            <property name="value">
             <double>5.000000000000000</double>
            </property>
@@ -487,6 +490,9 @@
          </item>
          <item>
           <widget class="QDoubleSpinBox" name="box_guete_max">
+           <property name="maximum">
+            <double>9999.989999999999782</double>
+           </property>
            <property name="value">
             <double>25.000000000000000</double>
            </property>

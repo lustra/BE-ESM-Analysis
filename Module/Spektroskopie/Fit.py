@@ -6,12 +6,10 @@
 
 import numpy as np
 from scipy.signal import savgol_filter
-
 from lmfit import Model, Parameters
 
 from Module.Abstrakt.Fit import Fit as AbstraktFit
 from Module.Spektroskopie.Messwerte import Messwerte
-from Module.Phase import phase_ermitteln
 from Module.Signal import signal
 
 
@@ -25,6 +23,7 @@ class Fit(AbstraktFit):
         AbstraktFit.__init__(self, laden, par)
         self.messwerte = None
         """ @type: Module.Spektroskopie.Messwerte.Messwerte """
+        self.anzahl = len(Messwerte.glob_amp(par.verzeichnis))
 
     def impl_fit(self):
         for reihe in self.messwerte.alle():

@@ -36,7 +36,7 @@ class Messwerte(AbstraktMesswerte, Messreihe):
         else:
             self.frequenzen = self.frequenzen[par.bereich_links:par.bereich_rechts]
 
-        dateien = glob(self.par.verzeichnis + 'amp*.tdms')
+        dateien = Messwerte.glob_amp(self.par.verzeichnis)
         for dat_amp in dateien:
 
             name = dat_amp.split(os.sep + 'amp')[-1].split('w')
@@ -55,6 +55,10 @@ class Messwerte(AbstraktMesswerte, Messreihe):
             self.amplitude_namen.append(dat_amp.split(os.sep)[-1])
             self.phase_namen.append(dat_phase.split(os.sep)[-1])
             signal_weiter()
+
+    @staticmethod
+    def glob_amp(verzeichnis):
+        return glob(verzeichnis + 'amp*.tdms')
 
     def lade_tdms(self, datei):
         """

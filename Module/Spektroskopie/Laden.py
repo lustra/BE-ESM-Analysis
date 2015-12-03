@@ -135,8 +135,7 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         self.app.fit = Fit(self, parameter)
 
         # Fortschrittsbalken vorbereiten
-        #self.progress_bar.setMaximum(self.app.fit.messwerte.anzahl_messreihen)
-        self.progress_bar.setMaximum(400)
+        self.progress_bar.setMaximum(2 * self.app.fit.anzahl)
 
         # Fitten
         self.app.fit.start()

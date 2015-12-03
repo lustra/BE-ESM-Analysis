@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Dokumente/BE-ESM-Analysis/Design/SpektrLaden.ui'
 #
-# Created: Thu Dec  3 10:16:52 2015
+# Created: Thu Dec  3 11:41:20 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -250,6 +250,7 @@ class Ui_SpektrLaden(object):
         self.label_guete_min.setObjectName(_fromUtf8("label_guete_min"))
         self.horizontallayout6.addWidget(self.label_guete_min)
         self.box_guete_min = QtGui.QDoubleSpinBox(self.horizontalLayoutWidget)
+        self.box_guete_min.setMaximum(9999.99)
         self.box_guete_min.setProperty("value", 5.0)
         self.box_guete_min.setObjectName(_fromUtf8("box_guete_min"))
         self.horizontallayout6.addWidget(self.box_guete_min)
@@ -262,6 +263,7 @@ class Ui_SpektrLaden(object):
         self.label_guete_max.setObjectName(_fromUtf8("label_guete_max"))
         self.horizontallayout6.addWidget(self.label_guete_max)
         self.box_guete_max = QtGui.QDoubleSpinBox(self.horizontalLayoutWidget)
+        self.box_guete_max.setMaximum(9999.99)
         self.box_guete_max.setProperty("value", 25.0)
         self.box_guete_max.setObjectName(_fromUtf8("box_guete_max"))
         self.horizontallayout6.addWidget(self.box_guete_max)
