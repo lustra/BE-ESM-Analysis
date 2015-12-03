@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Dokumente/BE-ESM-Analysis/Design/SpektrLaden.ui'
 #
-# Created: Mon Nov 30 13:37:03 2015
+# Created: Thu Dec  3 10:16:52 2015
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -308,32 +308,21 @@ class Ui_SpektrLaden(object):
         self.label_omega.setEnabled(False)
         self.label_omega.setObjectName(_fromUtf8("label_omega"))
         self.horizontallayout8.addWidget(self.label_omega)
-        self.box_omega = QtGui.QSpinBox(self.horizontalLayoutWidget)
-        self.box_omega.setEnabled(False)
+        self.box_omega = QtGui.QComboBox(self.horizontalLayoutWidget)
         self.box_omega.setObjectName(_fromUtf8("box_omega"))
         self.horizontallayout8.addWidget(self.box_omega)
         self.label_ac = QtGui.QLabel(self.horizontalLayoutWidget)
         self.label_ac.setEnabled(False)
         self.label_ac.setObjectName(_fromUtf8("label_ac"))
         self.horizontallayout8.addWidget(self.label_ac)
-        self.box_ac = QtGui.QDoubleSpinBox(self.horizontalLayoutWidget)
-        self.box_ac.setEnabled(False)
-        self.box_ac.setDecimals(6)
-        self.box_ac.setMinimum(-99.999999)
-        self.box_ac.setMaximum(99.999999)
-        self.box_ac.setSingleStep(0.1)
+        self.box_ac = QtGui.QComboBox(self.horizontalLayoutWidget)
         self.box_ac.setObjectName(_fromUtf8("box_ac"))
         self.horizontallayout8.addWidget(self.box_ac)
         self.label_dc = QtGui.QLabel(self.horizontalLayoutWidget)
         self.label_dc.setEnabled(False)
         self.label_dc.setObjectName(_fromUtf8("label_dc"))
         self.horizontallayout8.addWidget(self.label_dc)
-        self.box_dc = QtGui.QDoubleSpinBox(self.horizontalLayoutWidget)
-        self.box_dc.setEnabled(False)
-        self.box_dc.setDecimals(6)
-        self.box_dc.setMinimum(-99.999999)
-        self.box_dc.setMaximum(99.999999)
-        self.box_dc.setSingleStep(0.1)
+        self.box_dc = QtGui.QComboBox(self.horizontalLayoutWidget)
         self.box_dc.setObjectName(_fromUtf8("box_dc"))
         self.horizontallayout8.addWidget(self.box_dc)
         self.verticallayout1.addLayout(self.horizontallayout8)
@@ -341,9 +330,6 @@ class Ui_SpektrLaden(object):
         SpektrLaden.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(SpektrLaden)
-        QtCore.QObject.connect(self.button_vorschau, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.box_omega.setEnabled)
-        QtCore.QObject.connect(self.button_vorschau, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.box_ac.setEnabled)
-        QtCore.QObject.connect(self.button_vorschau, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.box_dc.setEnabled)
         QtCore.QObject.connect(self.button_vorschau, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.label_omega.setEnabled)
         QtCore.QObject.connect(self.button_vorschau, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.label_ac.setEnabled)
         QtCore.QObject.connect(self.button_vorschau, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.label_dc.setEnabled)

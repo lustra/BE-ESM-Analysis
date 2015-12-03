@@ -6,6 +6,7 @@
 
 import os
 import numpy as np
+from bisect import bisect_left
 from nptdms import TdmsFile
 from glob import glob
 
@@ -23,6 +24,7 @@ class Messwerte(AbstraktMesswerte, Messreihe):
         AbstraktMesswerte.__init__(self, par)
         Messreihe.__init__(self)
         self.omega = self._get
+        """ @type: (int) -> Omega """
         self.anzahl_messreihen = 0
 
         if par.messpunkte + par.bereich_rechts <= par.bereich_links or par.bereich_links < 0:
@@ -93,34 +95,51 @@ class Messwerte(AbstraktMesswerte, Messreihe):
         :type phase: numpy.multiarray.ndarray
         """
         if omega not in self._param:
-            self._param.append(omega)
-            self._reihe.append(Omega(omega))
+            index = bisect_left(self._param, omega)
+            self._param.insert(index, omega)
+            self._reihe.insert(index, Omega(omega))
 
         zgr = self.omega(omega)
-        """ @type: Omega """
-
         if ac not in zgr._param:
-            zgr._param.append(ac)
-            zgr._reihe.append(AC(omega, ac))
+            index = bisect_left(zgr._param, ac)
+            zgr._param.insert(index, ac)
+            zgr._reihe.insert(index, AC(omega, ac))
 
         zgr = zgr.ac(ac)
         """ @type: AC """
-        zgr.dc.append(dc)
-        zgr.amp_freq.append(amplitude)
-        zgr.phase_freq.append(phase)
+        index = bisect_left(zgr.dc, dc)  # Sortiert einfügen
+        zgr.dc.insert(index, dc)
+        zgr.amp_freq.insert(index, amplitude)
+        zgr.phase_freq.insert(index, phase)
 
         self.anzahl_messreihen += 1
+
+    def str_omegas(self):
+        return [str(omega) for omega in self._param]
+
+    def str_acs(self, omega):
+        """
+        :type omega: int
+        """
+        return [str(ac) for ac in self.omega(omega)._param]
+
+    def str_dcs(self, omega, ac):
+        """
+        :type omega: int
+        :type ac: float
+        """
+        return [str(dc) for dc in self.omega(omega).ac(ac).dc]
 
     def speichern(self, wohin):
         """
         :type wohin: str
         """
         reihen = self.alle()
-        for reihe in reihen:
+        """for reihe in reihen:
             # Sortieren nach DC (weil die Daten beim ersten Speichern noch ungeordnet vorliegen)
             abh_dc = zip(reihe.dc, reihe.amp_dc, reihe.resfreq_dc, reihe.phase_dc)
             abh_dc.sort()
-            reihe.dc, reihe.amp_dc, reihe.resfreq_dc, reihe.phase_dc = zip(*abh_dc)
+            reihe.dc, reihe.amp_dc, reihe.resfreq_dc, reihe.phase_dc = zip(*abh_dc)"""
 
         datei_speichern(wohin + '.amp', reihen, 'Amp. (bel.)', lambda r, n: str(r.amp_dc[n]))
         datei_speichern(wohin + '.freq', reihen, 'Resfreq. (kHz)', lambda r, n: str(r.resfreq_dc[n]))

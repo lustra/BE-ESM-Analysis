@@ -15,6 +15,7 @@ class Messreihe:
     def _get(self, wert):
         """
         :type wert: int | float
+        :returns: Messreihe
         """
         return self._reihe[self._param.index(wert)]
 
@@ -35,6 +36,10 @@ class Omega(Messreihe):
         self.omega = omega
 
     def ac(self, wert):
+        """
+        :param wert: float
+        :returns: AC
+        """
         return self._get(wert)
 
 

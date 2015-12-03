@@ -587,11 +587,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QSpinBox" name="box_omega">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-          </widget>
+          <widget class="QComboBox" name="box_omega"/>
          </item>
          <item>
           <widget class="QLabel" name="label_ac">
@@ -604,23 +600,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="box_ac">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="decimals">
-            <number>6</number>
-           </property>
-           <property name="minimum">
-            <double>-99.999999000000003</double>
-           </property>
-           <property name="maximum">
-            <double>99.999999000000003</double>
-           </property>
-           <property name="singleStep">
-            <double>0.100000000000000</double>
-           </property>
-          </widget>
+          <widget class="QComboBox" name="box_ac"/>
          </item>
          <item>
           <widget class="QLabel" name="label_dc">
@@ -633,23 +613,7 @@
           </widget>
          </item>
          <item>
-          <widget class="QDoubleSpinBox" name="box_dc">
-           <property name="enabled">
-            <bool>false</bool>
-           </property>
-           <property name="decimals">
-            <number>6</number>
-           </property>
-           <property name="minimum">
-            <double>-99.999999000000003</double>
-           </property>
-           <property name="maximum">
-            <double>99.999999000000003</double>
-           </property>
-           <property name="singleStep">
-            <double>0.100000000000000</double>
-           </property>
-          </widget>
+          <widget class="QComboBox" name="box_dc"/>
          </item>
         </layout>
        </item>
@@ -669,54 +633,6 @@
  </customwidgets>
  <resources/>
  <connections>
-  <connection>
-   <sender>button_vorschau</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>box_omega</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>520</x>
-     <y>425</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>686</x>
-     <y>431</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>button_vorschau</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>box_ac</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>475</x>
-     <y>421</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>808</x>
-     <y>419</y>
-    </hint>
-   </hints>
-  </connection>
-  <connection>
-   <sender>button_vorschau</sender>
-   <signal>toggled(bool)</signal>
-   <receiver>box_dc</receiver>
-   <slot>setEnabled(bool)</slot>
-   <hints>
-    <hint type="sourcelabel">
-     <x>490</x>
-     <y>420</y>
-    </hint>
-    <hint type="destinationlabel">
-     <x>900</x>
-     <y>425</y>
-    </hint>
-   </hints>
-  </connection>
   <connection>
    <sender>button_vorschau</sender>
    <signal>toggled(bool)</signal>

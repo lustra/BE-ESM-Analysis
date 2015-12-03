@@ -27,9 +27,13 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         self.init_ui()
 
         self.button_vorschau.clicked.connect(self.init_vorschau)
-        self.box_omega.valueChanged.connect(self.fit_vorschau)
-        self.box_ac.valueChanged.connect(self.fit_vorschau)
-        self.box_dc.valueChanged.connect(self.fit_vorschau)
+        self.box_omega.currentIndexChanged.connect(self.fit_vorschau)
+        self.box_ac.currentIndexChanged.connect(self.fit_vorschau)
+        self.box_dc.currentIndexChanged.connect(self.fit_vorschau)
+
+        self.box_omega.value = lambda: int(self.box_omega.currentText())
+        self.box_ac.value = lambda: float(self.box_ac.currentText())
+        self.box_dc.value = lambda: float(self.box_dc.currentText())
 
     def retranslateUi(self, ui):
         """
@@ -139,18 +143,32 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
 
     def init_vorschau(self):
         if self.button_vorschau.isEnabled():
-            self.app.fit = FitVorschau(self, self.packe_parameter())
+            fit = FitVorschau(self, self.packe_parameter())
+            self.app.fit = fit
+            self.box_omega.clear()
+            self.box_omega.addItems(fit.messwerte.str_omegas())
+            self.box_ac.clear()
+            self.box_ac.addItems(fit.messwerte.str_acs(self.box_omega.value()))
+            self.box_dc.clear()
+            self.box_dc.addItems(fit.messwerte.str_dcs(self.box_omega.value(), self.box_ac.value()))
 
     def fit_vorschau(self):
-        self.app.fit.par = self.packe_parameter()
-        ac = self.app.fit.messwerte.omega(self.box_omega.value()).ac(self.box_ac.value())
-        """ @type: Module.Spektroskopie.Messreihe.AC """
-        dc = ac.dc.index(self.box_dc.value())
+        try:
+            self.app.fit.par = self.packe_parameter()
+            ac = self.app.fit.messwerte.omega(self.box_omega.value()).ac(self.box_ac.value())
+            """ @type: Module.Spektroskopie.Messreihe.AC """
+            dc = ac.dc.index(self.box_dc.value())
 
-        erg, phase = self.app.fit.fit(ac.amp_freq[dc], ac.phase_freq[dc])
+            erg, phase = self.app.fit.fit(ac.amp_freq[dc], ac.phase_freq[dc])
 
-        self.plotter.axes.plot(self.app.fit.messwerte.frequenzen, ac.amp_freq[dc], antialiased=True)
-        self.plotter.axes.hold(True)
-        self.plotter.axes.plot(self.app.fit.messwerte.frequenzen, erg.best_fit)
-        self.plotter.axes.hold(False)
-        self.plotter.draw()
+            self.plotter.axes.plot(self.app.fit.messwerte.frequenzen, ac.amp_freq[dc], antialiased=True)
+            self.plotter.axes.hold(True)
+            self.plotter.axes.plot(self.app.fit.messwerte.frequenzen, erg.best_fit)
+            self.plotter.axes.hold(False)
+            self.plotter.draw()
+        except ValueError:
+            """
+            Wenn die Boxen noch gefüllt werden, dann wird diese Funktion aufgerufen, versucht aber bereits auf alle
+            gleichzeitig zu verwenden. Das würde zu Fehlern führen.
+            """
+            pass
