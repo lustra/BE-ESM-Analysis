@@ -7,10 +7,11 @@
 import numpy as np
 
 from Module.Abstrakt.Fit import Fit as AbstraktFit
-from Module.Raster.FitZeile import FitZeile
-from Module.Raster.Messwerte import Messwerte
-from Module.Raster.Ergebnis import Ergebnis
 from Module.Signal import signal
+
+from FitZeile import FitZeile
+from Messwerte import Messwerte
+from Ergebnis import Ergebnis
 
 
 class Fit(AbstraktFit):

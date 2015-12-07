@@ -4,55 +4,49 @@
 @author: Sebastian Badur
 """
 
-import numpy as np
 import matplotlib.pyplot as plt
+from lmfit import Parameters, Model
+
+from FitFunktion import phase_lorentz, phase_phenom
 
 
-epsilon = 20  # TODO
-
-
-def phase_ermitteln(phase_freq, resfreq, versatz, filter_fkt):
+def phase_ermitteln(phase_freq, resfreq, versatz):
     """
     :param phase_freq: Phase in Abhängigkeit der Frequenz in Grad
     :type phase_freq: numpy.multiarray.ndarray
     :param resfreq: Index der Resonanzfrequenz (ohne Versatz)
     :type resfreq: int
     :type versatz: int
-    :type filter_fkt: (self: Module.Abstrakt.Fit.Fit, numpy.multiarray.ndarray) -> numpy.multiarray.ndarray
     :return: Phase neben der Resonanzfrequenz, wobei Phasensprünge jenseits der Resonanzfrequenz entfernt wurden
     """
+    von = max(resfreq - abs(versatz), 0)
+    bis = min(resfreq + abs(versatz), len(phase_freq)-1)
 
-    plt.plot(range(len(phase_freq)), filter_fkt(phase_freq), '.', label='Oh!')
+    # Fitparameter für die Fitfunktion
+    params = Parameters()
+    params.add('resfreq', value=resfreq, min=von, max=bis)
+    params.add('guete', value=1, min=-10000, max=10000)
+    params.add('off', value=0, min=-180, max=180)
+
+    mod = Model(phase_phenom)  # phase_lorentz
+    erg = mod.fit(
+        data=phase_freq[von:bis],
+        freq=range(von, bis),
+        params=params
+    )
+
+    plt.plot(range(len(phase_freq)), phase_freq, '-', label='Vorher!')
+    plt.plot(range(von, bis), erg.best_fit, '-', label='Nachher!')
     plt.ylabel('PHASE')
     plt.xlabel('INDEX')
     plt.show()
 
-
-    phase_null = phase_freq[resfreq]
-    phase_freq -= phase_null
-
-    """
-    Betrachten kleinen Bereich jenseits der Resonanzfrequenz zur Bestimmung der Phasenlage. Die Phase rauscht hier
-    möglichst noch nicht über +/- 90°. Aber kleine Fehler im Amplitudenfit wirken sich hingegen durch größere Bereiche
-    weniger stark aus.
-    """
-    if np.median(phase_freq[resfreq:resfreq+epsilon]) > 0:
-        phase_freq[resfreq:] = positiv(phase_freq[resfreq:])
-        phase_freq[:resfreq] = negativ(phase_freq[:resfreq])
-    else:  # Für den Fall 0 streng genommen undefiniert (hier raten)
-        phase_freq[resfreq:] = negativ(phase_freq[resfreq:])
-        phase_freq[:resfreq] = positiv(phase_freq[:resfreq])
-
-    resfreq = max(min(resfreq + versatz, len(phase_freq)-1), 0)  # Bereichsüberschreitung verhindern
-
-
-    plt.plot(range(len(phase_freq)), filter_fkt(phase_freq), '.', label='Oh!')
-    plt.ylabel('PHASE')
-    plt.xlabel('INDEX')
-    plt.show()
-
-
-    return filter_fkt(phase_freq)[resfreq]
+    if versatz < 0:
+        return erg.best_fit[0]
+    elif versatz > 0:
+        return erg.best_fit[-1]
+    else:
+        return erg.best_fit[(bis - von) // 2]
 
 
 def positiv(alt):

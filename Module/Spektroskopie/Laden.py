@@ -11,9 +11,10 @@ from Design.SpektrLaden import Ui_SpektrLaden
 from Module.Abstrakt.Laden import GuiAbstraktLaden
 from Module import FitFunktion
 from Module.Strings import *
-from Module.Spektroskopie.Fit import Fit
-from Module.Spektroskopie.FitVorschau import FitVorschau
-from Module.Spektroskopie.Parameter import Parameter
+
+from Fit import Fit
+from FitVorschau import FitVorschau
+from Parameter import Parameter
 
 
 class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
@@ -109,7 +110,7 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
                 fitfunktion=FitFunktion.errorfunc[self.box_methode.currentIndex()],
                 fenster=15,  # TODO
                 ordnung=5,
-                phase_versatz=10,
+                phase_versatz=30,
                 fmin=int(1000*self.box_fmin.value()),
                 fmax=int(1000*self.box_fmax.value()),
                 df=self.box_df.value(),
@@ -155,7 +156,6 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         try:
             self.app.fit.par = self.packe_parameter()
             ac = self.app.fit.messwerte.omega(self.box_omega.value()).ac(self.box_ac.value())
-            """ @type: Module.Spektroskopie.Messreihe.AC """
             dc = ac.dc.index(self.box_dc.value())
 
             erg, phase = self.app.fit.fit(ac.amp_freq[dc], ac.phase_freq[dc])

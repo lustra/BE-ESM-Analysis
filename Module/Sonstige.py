@@ -30,6 +30,6 @@ def komma(f):
 
 def punkt(s):
     """
-    :param s: str
+    :type s: str
     """
     return float(s.replace(',', '.'))

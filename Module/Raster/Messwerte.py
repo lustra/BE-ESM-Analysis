@@ -10,7 +10,8 @@ from ResonanzFit import lang
 from Module.Abstrakt.Messwerte import Messwerte as AbstraktMesswerte
 from Module.Sonstige import Fehler
 from Module.Strings import *
-from Module.TDMS import lade_tdms
+
+from TDMS import lade_tdms
 
 
 class Messwerte(AbstraktMesswerte):

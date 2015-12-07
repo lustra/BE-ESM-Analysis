@@ -4,8 +4,8 @@
 @author: Sebastian Badur
 """
 
-from Module.Spektroskopie.Fit import Fit
-from Module.Spektroskopie.Messwerte import Messwerte
+from Fit import Fit
+from Messwerte import Messwerte
 
 
 class FitVorschau(Fit):

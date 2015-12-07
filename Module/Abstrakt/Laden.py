@@ -7,7 +7,7 @@
 import os
 import time
 from PyQt4 import QtGui
-from ConfigParser import ConfigParser
+from ConfigParser import ConfigParser, NoSectionError
 
 from ResonanzFit import hinweis, lang, ordner
 from Module.Strings import *
@@ -43,11 +43,14 @@ class GuiAbstraktLaden(QtGui.QMainWindow):
         self.edit_pfad.setText(
             QtGui.QFileDialog().getExistingDirectory(self, rf_ordner[lang], ordner)
         )
-        self.konfig_lesen()
+        try:
+            self.konfig_lesen()
+        except NoSectionError:
+            print('Messkonfigurationsdatei fehlerhaft / nicht gefunden')
 
     def konfig_lesen(self):
         parser = ConfigParser()
-        parser.read(str(self.edit_pfad.text()) + os.sep + "konfig.ini")
+        parser.read(str(self.edit_pfad.text()) + os.sep + 'konfig.ini')
         return parser
 
     def geklickt(self):

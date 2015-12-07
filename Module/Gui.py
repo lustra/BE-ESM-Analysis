@@ -9,14 +9,15 @@ import sys
 from PyQt4 import QtGui
 
 from ResonanzFit import hinweis, lang
-from Module.Raster.Raster import Raster
-from Module.Raster.Resonanzkurve import Resonanzkurve
-from Module.Raster.Schnitt import Schnitt
 from Design.Gui import Ui_Gui
-from Module.Raster.Laden import GuiRasterLaden
-from Module.Spektroskopie.Laden import GuiSpektrLaden
-from Module.Sonstige import Achsenbeschriftung
-from Module.Strings import *
+
+from Raster.Raster import Raster
+from Raster.Resonanzkurve import Resonanzkurve
+from Raster.Schnitt import Schnitt
+from Raster.Laden import GuiRasterLaden
+from Spektroskopie.Laden import GuiSpektrLaden
+from Sonstige import Achsenbeschriftung
+from Strings import *
 
 
 class Gui(QtGui.QMainWindow, Ui_Gui):
@@ -162,13 +163,56 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.menu_spektroskopie.setEnabled(True)
         print("TODO")
 
-        # ac = self.fit.messwerte.omega(1).ac(10.0)
-        """ @type: Module.Spektroskopie.Messreihe.AC """
         """from matplotlib import pyplot as plt
-        plt.plot(ac.dc, ac.amp_dc, '.', label="Test")
-        plt.legend(loc=9)
-        plt.ylabel('Amplitude (XKorr a.u.)')
-        plt.xlabel('Offset (V)')
+
+        ac = self.fit.messwerte.omega(1).ac(10.0)
+        dc = ac.dc.index(-2.999)
+        plt.plot(self.fit.messwerte.frequenzen, ac.amp_freq[dc], '.', label="10V")
+
+        ac = self.fit.messwerte.omega(1).ac(8.0)
+        dc = ac.dc.index(-2.999)
+        plt.plot(self.fit.messwerte.frequenzen, ac.amp_freq[dc], '.', label="8V")
+
+        ac = self.fit.messwerte.omega(1).ac(6.0)
+        dc = ac.dc.index(-2.999)
+        plt.plot(self.fit.messwerte.frequenzen, ac.amp_freq[dc], '.', label="6V")
+
+        ac = self.fit.messwerte.omega(1).ac(4.0)
+        dc = ac.dc.index(-2.999)
+        plt.plot(self.fit.messwerte.frequenzen, ac.amp_freq[dc], '.', label="4V")
+
+        ac = self.fit.messwerte.omega(1).ac(2.0)
+        dc = ac.dc.index(-2.999)
+        plt.plot(self.fit.messwerte.frequenzen, ac.amp_freq[dc], '.', label="2V")
+
+        plt.legend(loc=3)
+        plt.ylabel('Amplitude (XKorr 0,1 mV)')
+        plt.xlabel('Frequenz (kHz)')
+        plt.show()
+        
+        ac = self.fit.messwerte.omega(1).ac(10.0)
+        dc = ac.dc.index(-2.999)
+        plt.plot(self.fit.messwerte.frequenzen, ac.phase_freq[dc], '.', label="10V")
+
+        ac = self.fit.messwerte.omega(1).ac(8.0)
+        dc = ac.dc.index(-2.999)
+        plt.plot(self.fit.messwerte.frequenzen, ac.phase_freq[dc], '.', label="8V")
+
+        ac = self.fit.messwerte.omega(1).ac(6.0)
+        dc = ac.dc.index(-2.999)
+        plt.plot(self.fit.messwerte.frequenzen, ac.phase_freq[dc], '.', label="6V")
+
+        ac = self.fit.messwerte.omega(1).ac(4.0)
+        dc = ac.dc.index(-2.999)
+        plt.plot(self.fit.messwerte.frequenzen, ac.phase_freq[dc], '.', label="4V")
+
+        ac = self.fit.messwerte.omega(1).ac(2.0)
+        dc = ac.dc.index(-2.999)
+        plt.plot(self.fit.messwerte.frequenzen, ac.phase_freq[dc], '.', label="2V")
+
+        plt.legend(loc=3)
+        plt.ylabel('Phase (Grad)')
+        plt.xlabel('Frequenz (kHz)')
         plt.show()"""
 
     def aktualisieren(self):

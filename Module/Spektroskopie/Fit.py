@@ -9,8 +9,10 @@ from scipy.signal import savgol_filter
 from lmfit import Model, Parameters
 
 from Module.Abstrakt.Fit import Fit as AbstraktFit
-from Module.Spektroskopie.Messwerte import Messwerte
+from Module.Phase import phase_ermitteln
 from Module.Signal import signal
+
+from Messwerte import Messwerte
 
 
 class Fit(AbstraktFit):
@@ -22,7 +24,7 @@ class Fit(AbstraktFit):
         """
         AbstraktFit.__init__(self, laden, par)
         self.messwerte = None
-        """ @type: Module.Spektroskopie.Messwerte.Messwerte """
+        """ @type: Messwerte.Messwerte """
         self.anzahl = len(Messwerte.glob_amp(par.verzeichnis))
 
     def impl_fit(self):
@@ -49,7 +51,7 @@ class Fit(AbstraktFit):
         """
         :type amplitude: numpy.multiarray.ndarray
         :type phase: numpy.multiarray.ndarray
-        :returns: lmfit.model.ModelResult, float
+        :rtype: lmfit.model.ModelResult, float
         """
         par = self.par
         """ @type: Module.Spektroskopie.Parameter.Parameter """
@@ -81,8 +83,7 @@ class Fit(AbstraktFit):
         """ph = phase_ermitteln(
             phase_freq=phase / par.mittelungen,
             resfreq=int((erg.best_values['resfreq'] - par.fmin) / par.df),
-            versatz=par.phase_versatz,
-            filter_fkt=self.filter
+            versatz=par.phase_versatz
         )"""
 
         return erg, ph
@@ -91,7 +92,7 @@ class Fit(AbstraktFit):
         """
         :type daten: numpy.multiarray.ndarray
         :return: Der mittels Savitzky-Golay-Methode geglätte Verlauf
-        :returns: numpy.multiarray.ndarray
+        :rtype: numpy.multiarray.ndarray
         """
         return savgol_filter(daten, self.par.fenster, self.par.ordnung)
 

@@ -12,7 +12,8 @@ from glob import glob
 
 from Module.Abstrakt.Messwerte import Messwerte as AbstraktMesswerte
 from Module.Sonstige import Fehler, punkt
-from Module.Spektroskopie.Messreihe import *
+
+from Messreihe import *
 
 
 class Messwerte(AbstraktMesswerte, Messreihe):
@@ -64,6 +65,7 @@ class Messwerte(AbstraktMesswerte, Messreihe):
         """
         :type datei: str
         :return: Die gemittelten Messwerte aus der angegebenen Datei
+        :rtype: numpy.mutliarray.ndarray
         """
         tdms = TdmsFile(datei).object('Unbenannt', 'Untitled')
         # Beschnittene Daten (links: positiv, rechts: negativ)

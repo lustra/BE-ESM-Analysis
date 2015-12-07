@@ -9,10 +9,11 @@ from PyQt4 import QtGui
 from ResonanzFit import hinweis, lang
 from Design.RasterLaden import Ui_RasterLaden
 from Module.Abstrakt.Laden import GuiAbstraktLaden
-from Module.Raster.Parameter import Parameter
-from Module.Raster.Fit import Fit
 from Module import FitFunktion
 from Module.Strings import *
+
+from Parameter import Parameter
+from Fit import Fit
 
 
 class GuiRasterLaden(GuiAbstraktLaden, Ui_RasterLaden):
@@ -83,7 +84,8 @@ class GuiRasterLaden(GuiAbstraktLaden, Ui_RasterLaden):
                 fenster=self.box_fenster.value(),
                 ordnung=self.box_ordnung.value(),
                 pixel=self.box_pixel.value(),
-                messpunkte=self.box_messpunkte.value()
+                messpunkte=self.box_messpunkte.value(),
+                phase_versatz=10  # TODO
             )
             self.app.fit = Fit(self, parameter)
             self.app.fit.start()
