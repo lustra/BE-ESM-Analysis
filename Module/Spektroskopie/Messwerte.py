@@ -90,7 +90,7 @@ class Messwerte(AbstraktMesswerte, Messreihe):
                 if not index_fehler:
                     index_fehler = True
                     print('Fehlende Messwerte in Datei ' + datei)
-        return daten
+        return daten / self.par.mittelungen
 
     def add(self, omega, ac, dc, amplitude, phase):
         """

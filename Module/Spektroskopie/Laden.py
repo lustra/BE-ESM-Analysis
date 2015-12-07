@@ -27,7 +27,15 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         self.setupUi(self)
         self.init_ui()
 
+        self.breite_ohne_vorschau = self.widget_param.width() + 2 * self.widget_param.x()
+        self.breite_mit_vorschau = self.width()
+
+        self.widget_vorschau.setVisible(False)
+        self.setFixedWidth(self.breite_ohne_vorschau)
+
         self.button_vorschau.clicked.connect(self.init_vorschau)
+        self.button_zeige_amp.clicked.connect(self.fit_vorschau)
+        self.button_zeige_phase.clicked.connect(self.fit_vorschau)
         self.box_omega.currentIndexChanged.connect(self.fit_vorschau)
         self.box_ac.currentIndexChanged.connect(self.fit_vorschau)
         self.box_dc.currentIndexChanged.connect(self.fit_vorschau)
@@ -55,42 +63,18 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         self.label_bereich_links.setText(laden_links[lang])
         self.label_bereich_rechts.setText(laden_rechts[lang])
         self.label_fitparameter.setText(laden_fitparameter[lang])
-        self.label_amp_min.setText(laden_amp[lang])
-        self.label_amp_max.setText(laden_bis[lang])
-        self.label_untergrund_min.setText(laden_untergrund[lang])
-        self.label_untergrund_max.setText(laden_bis[lang])
+        self.label_min.setText(laden_min[lang])
+        self.label_max.setText(laden_max[lang])
+        self.label_amp.setText(laden_amp[lang])
+        self.label_untergrund.setText(laden_untergrund[lang])
         self.label_guete.setText(laden_guete[lang])
-        self.label_guete_min.setText(laden_von[lang])
-        self.label_guete_max.setText(laden_bis[lang])
         self.button_fitten.setText(laden_fitten[lang])
         self.button_vorschau.setText(laden_vorschau[lang])
         self.label_omega.setText(laden_omega[lang])
         self.label_ac.setText(laden_ac[lang])
         self.label_dc.setText(laden_dc[lang])
-
-    def set_input_enabled(self, b):
-        """
-        :type b: bool
-        """
-        self.edit_pfad.setEnabled(b)
-        self.button_aendern.setEnabled(b)
-        self.button_konfig.setEnabled(b)
-        self.box_mittelungen.setEnabled(b)
-        self.box_df.setEnabled(b)
-        self.box_fmin.setEnabled(b)
-        self.box_fmax.setEnabled(b)
-        self.box_methode.setEnabled(b)
-        self.box_bereich_links.setEnabled(b)
-        self.box_bereich_rechts.setEnabled(b)
-        self.box_fmin.setEnabled(b)
-        self.box_fmax.setEnabled(b)
-        self.box_amp_min.setEnabled(b)
-        self.box_amp_max.setEnabled(b)
-        self.box_untergrund_min.setEnabled(b)
-        self.box_untergrund_max.setEnabled(b)
-        self.box_guete.setEnabled(b)
-        self.box_guete_min.setEnabled(b)
-        self.box_guete_max.setEnabled(b)
+        self.button_zeige_amp.setText(gui_amplitude[lang])
+        self.button_zeige_phase.setText(gui_phase[lang])
 
     def konfig_lesen(self):
         parser = GuiAbstraktLaden.konfig_lesen(self)
@@ -119,7 +103,6 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
                 bereich_rechts=self.box_bereich_rechts.value(),
                 amp_min=self.box_amp_min.value(),
                 amp_max=self.box_amp_max.value(),
-                guete=self.box_guete.value(),
                 guete_min=self.box_guete_min.value(),
                 guete_max=self.box_guete_max.value(),
                 off_min=self.box_untergrund_min.value(),
@@ -141,8 +124,9 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         # Fitten
         self.app.fit.start()
 
-    def init_vorschau(self):
-        if self.button_vorschau.isEnabled():
+    def init_vorschau(self, aktiviert):
+        if aktiviert:
+            self.setFixedWidth(self.breite_mit_vorschau)
             fit = FitVorschau(self, self.packe_parameter())
             self.app.fit = fit
             self.box_omega.clear()
@@ -151,23 +135,50 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
             self.box_ac.addItems(fit.messwerte.str_acs(self.box_omega.value()))
             self.box_dc.clear()
             self.box_dc.addItems(fit.messwerte.str_dcs(self.box_omega.value(), self.box_ac.value()))
+        else:
+            self.setFixedWidth(self.breite_ohne_vorschau)
 
     def fit_vorschau(self):
         try:
-            self.app.fit.par = self.packe_parameter()
-            ac = self.app.fit.messwerte.omega(self.box_omega.value()).ac(self.box_ac.value())
+            fit = self.app.fit
+            """ @type: Fit """
+            fit.par = self.packe_parameter()
+            ac = fit.messwerte.omega(self.box_omega.value()).ac(self.box_ac.value())
             dc = ac.dc.index(self.box_dc.value())
 
-            erg, phase = self.app.fit.fit(ac.amp_freq[dc], ac.phase_freq[dc])
+            amp, phase = fit.fit(ac.amp_freq[dc], ac.phase_freq[dc])
 
-            self.plotter.axes.plot(self.app.fit.messwerte.frequenzen, ac.amp_freq[dc], antialiased=True)
-            self.plotter.axes.hold(True)
-            self.plotter.axes.plot(self.app.fit.messwerte.frequenzen, erg.best_fit)
-            self.plotter.axes.hold(False)
-            self.plotter.draw()
+            if self.button_zeige_amp.isChecked():
+                self.fit_plot(
+                    x1=fit.messwerte.frequenzen,
+                    y1=ac.amp_freq[dc],
+                    x2=fit.messwerte.frequenzen,
+                    y2=amp.best_fit
+                )
+            else:
+                self.fit_plot(
+                    x1=fit.messwerte.frequenzen,
+                    y1=ac.phase_freq[dc],
+                    x2=[fit.messwerte.frequenzen[f] for f in range(phase.von, phase.bis)],
+                    y2=phase.best_fit
+                )
         except ValueError:
             """
             Wenn die Boxen noch gefüllt werden, dann wird diese Funktion aufgerufen, versucht aber bereits auf alle
             gleichzeitig zu verwenden. Das würde zu Fehlern führen.
             """
             pass
+
+    def fit_plot(self, x1, y1, x2, y2):
+        """
+        Es sind (x1 | y1) zu glättende Messwerte und (x2 | y2) der Fit darüber.
+        :type x1: list
+        :type y1: list
+        :type x2: list
+        :type y2: list
+        """
+        self.plotter.axes.hold(False)
+        self.plotter.axes.plot(x1, y1, antialiased=True)
+        self.plotter.axes.hold(True)
+        self.plotter.axes.plot(x2, y2)
+        self.plotter.draw()

@@ -33,12 +33,6 @@ class GuiAbstraktLaden(QtGui.QMainWindow):
         self.button_konfig.clicked.connect(self.konfig_lesen)
         self.button_fitten.clicked.connect(self.geklickt)
 
-    def set_input_enabled(self, b):
-        """
-        :type b: bool
-        """
-        raise NotImplementedError()
-
     def ordnerwahl(self):
         self.edit_pfad.setText(
             QtGui.QFileDialog().getExistingDirectory(self, rf_ordner[lang], ordner)
