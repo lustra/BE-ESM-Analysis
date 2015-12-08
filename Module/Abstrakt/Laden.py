@@ -11,6 +11,7 @@ from ConfigParser import ConfigParser, NoSectionError
 
 from ResonanzFit import hinweis, lang, ordner
 from Module.Strings import *
+from Module.Sonstige import Fehler
 
 
 class GuiAbstraktLaden(QtGui.QMainWindow):
@@ -49,7 +50,11 @@ class GuiAbstraktLaden(QtGui.QMainWindow):
 
     def geklickt(self):
         if self.entsperrt:
-            self.start_fit()
+            try:
+                self.start_fit()
+            except Fehler:
+                self.entsperren()
+                hinweis(self, laden_min_max[lang])
         else:
             self.app.fit.abbruch()
             while self.app.fit.isRunning():
@@ -59,12 +64,11 @@ class GuiAbstraktLaden(QtGui.QMainWindow):
 
     def entsperren(self):
         self.entsperrt = True
-        self.set_input_enabled(True)
         self.progress_bar.setValue(0)
+        self.button_fitten.setChecked(False)
         self.button_fitten.setText(laden_fitten[lang])
 
     def start_fit(self):
-        self.set_input_enabled(False)
         self.entsperrt = False
         self.button_fitten.setText(laden_abbrechen[lang])
 

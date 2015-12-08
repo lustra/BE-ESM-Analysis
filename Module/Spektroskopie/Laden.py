@@ -11,6 +11,7 @@ from Design.SpektrLaden import Ui_SpektrLaden
 from Module.Abstrakt.Laden import GuiAbstraktLaden
 from Module import FitFunktion
 from Module.Strings import *
+from Module.Sonstige import Fehler
 
 from Fit import Fit
 from FitVorschau import FitVorschau
@@ -109,7 +110,7 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
                 off_max=self.box_untergrund_max.value()
             )
         else:
-            hinweis(self, laden_min_max[lang])
+            raise Fehler()
 
     def start_fit(self):
         GuiAbstraktLaden.start_fit(self)
@@ -126,15 +127,19 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
 
     def init_vorschau(self, aktiviert):
         if aktiviert:
-            self.setFixedWidth(self.breite_mit_vorschau)
-            fit = FitVorschau(self, self.packe_parameter())
-            self.app.fit = fit
-            self.box_omega.clear()
-            self.box_omega.addItems(fit.messwerte.str_omegas())
-            self.box_ac.clear()
-            self.box_ac.addItems(fit.messwerte.str_acs(self.box_omega.value()))
-            self.box_dc.clear()
-            self.box_dc.addItems(fit.messwerte.str_dcs(self.box_omega.value(), self.box_ac.value()))
+            try:
+                fit = FitVorschau(self, self.packe_parameter())
+                self.app.fit = fit
+                self.box_omega.clear()
+                self.box_omega.addItems(fit.messwerte.str_omegas())
+                self.box_ac.clear()
+                self.box_ac.addItems(fit.messwerte.str_acs(self.box_omega.value()))
+                self.box_dc.clear()
+                self.box_dc.addItems(fit.messwerte.str_dcs(self.box_omega.value(), self.box_ac.value()))
+                self.setFixedWidth(self.breite_mit_vorschau)
+            except Fehler:
+                self.button_vorschau.setChecked(False)
+                hinweis(self, laden_min_max[lang])
         else:
             self.setFixedWidth(self.breite_ohne_vorschau)
 
