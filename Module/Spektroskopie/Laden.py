@@ -45,6 +45,9 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         self.box_dc.currentIndexChanged.connect(self.fit_vorschau)
 
         # Fitparameter variieren
+        self.box_methode.currentIndexChanged.connect(self.fit_var)
+        self.box_phase_fit.currentIndexChanged.connect(self.fit_var)
+        self.box_phase_versatz.valueChanged.connect(self.fit_var)
         self.box_amp_min.valueChanged.connect(self.fit_var)
         self.box_amp_max.valueChanged.connect(self.fit_var)
         self.box_untergrund_min.valueChanged.connect(self.fit_var)
@@ -71,7 +74,6 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         self.label_methode.setText(laden_methode[lang])
         self.box_methode.setItemText(0, laden_damp[lang])
         self.box_methode.setItemText(1, laden_camp[lang])
-        self.box_methode.setItemText(2, laden_phase[lang])
         self.label_bereich.setText(laden_bereich[lang])
         self.label_bereich_links.setText(laden_links[lang])
         self.label_bereich_rechts.setText(laden_rechts[lang])
@@ -87,7 +89,15 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         self.label_ac.setText(laden_ac[lang])
         self.label_dc.setText(laden_dc[lang])
         self.button_zeige_amp.setText(gui_amplitude[lang])
-        self.button_zeige_phase.setText(gui_phase[lang])
+        self.button_zeige_phase.setText(laden_phase[lang])
+        self.label_phase_fit.setText(laden_phase[lang])
+        self.label_phase_versatz.setText(laden_versatz[lang])
+        self.label_savgol.setText(laden_savgol[lang])
+        self.label_fenster.setText(laden_fenster[lang])
+        self.label_ordnung.setText(laden_ordnung[lang])
+        self.box_phase_fit.setItemText(0, laden_ph_lorentz[lang])
+        self.box_phase_fit.setItemText(1, laden_ph_penom[lang])
+        self.box_phase_fit.setItemText(2, laden_ph_direkt[lang])
 
     def konfig_lesen(self):
         parser = GuiAbstraktLaden.konfig_lesen(self)
@@ -101,9 +111,10 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         return Parameter(
             verzeichnis=str(self.edit_pfad.text()),
             fitfunktion=FitFunktion.errorfunc[self.box_methode.currentIndex()],
-            fenster=15,  # TODO
-            ordnung=5,
-            phase_versatz=30,
+            fenster=self.box_fenster.value(),
+            ordnung=self.box_ordnung.value(),
+            phase_modus=self.box_phase_fit.currentIndex(),
+            phase_versatz=self.box_phase_versatz.value(),
             fmin=int(1000*self.box_fmin.value()),
             fmax=int(1000*self.box_fmax.value()),
             df=self.box_df.value(),

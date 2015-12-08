@@ -43,7 +43,7 @@ class Fit(AbstraktFit):
                 elif self.par.phase_versatz > 0:
                     ph = phase.best_fit[-1]
                 else:
-                    ph = phase.best_fit[(phase.bis - phase.von) // 2]
+                    ph = phase.best_fit[len(phase.best_fit) // 2]
                 reihe.phase_dc.append(ph)
 
                 self.signal_weiter()
@@ -91,15 +91,12 @@ class Fit(AbstraktFit):
             #}
         )
 
-        # TODO Phasen-Fit-Auswahl
-        """neben_resfreq = int((erg.best_values['resfreq'] - par.fmin) / par.df) + par.phase_versatz
-        neben_resfreq = max(min(neben_resfreq, len(phase)-1), 0)  # Bereichsüberschreitung verhindern
-        ph = self.filter(phase)[neben_resfreq] / par.mittelungen"""
-
         ph = phase_ermitteln(
             phase_freq=phase,
             resfreq=int((erg.best_values['resfreq'] - par.fmin) / par.df),
-            versatz=par.phase_versatz
+            versatz=par.phase_versatz,
+            modus=par.phase_modus,
+            savgol=self.filter
         )
 
         return erg, ph

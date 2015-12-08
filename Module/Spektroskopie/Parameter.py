@@ -10,7 +10,7 @@ from Module.Sonstige import Fehler
 
 class Parameter(AbstraktParameter):
     """ Mess- und Fitparameter der Spektroskopie """
-    def __init__(self, verzeichnis, fmin, fmax, fitfunktion, fenster, ordnung, phase_versatz,
+    def __init__(self, verzeichnis, fmin, fmax, fitfunktion, fenster, ordnung, phase_modus, phase_versatz,
                  df, mittelungen, bereich_links, bereich_rechts, amp_min, amp_max,
                  guete_min, guete_max, off_min, off_max):
         """
@@ -22,6 +22,8 @@ class Parameter(AbstraktParameter):
         :type fenster: int
         :param ordnung: Ordnung des Polynoms des Savitzky-Golay-Filters.
         :type ordnung: int
+        :param phase_modus: Der Parameter 'modus' der Funktion Module.Phase.phase_ermitteln()
+        :type phase_modus: int
         :param phase_versatz: Die zur Resonanz gehörige Phase wird diese Anzahl an Messpunkten neben der
         Resonanzfrequenz aus der geglätteten Phasenmessung entnommen.
         :type phase_versatz: int
@@ -36,7 +38,9 @@ class Parameter(AbstraktParameter):
         :type off_min: float
         :type off_max: float
         """
-        AbstraktParameter.__init__(self, verzeichnis, fmin, fmax, fitfunktion, fenster, ordnung, phase_versatz)
+        AbstraktParameter.__init__(
+            self, verzeichnis, fmin, fmax, fitfunktion, fenster, ordnung, phase_modus, phase_versatz
+        )
         if amp_min >= amp_max or guete_min >= guete_max or off_min >= off_max:
             raise Fehler()
 

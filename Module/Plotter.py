@@ -13,7 +13,7 @@ from matplotlib.figure import Figure
 class Plotter(FigureCanvas):
     def __init__(self, canvas, beschriftung, width=5, height=5, dpi=75):
         """
-        :type canvas: Module.Canvas.Canvas | QtGui.QWidget
+        :type canvas: [Module.Canvas.Canvas | QtGui.QWidget]
         :type beschriftung: Module.Sonstige.Achsenbeschriftung
         :type width: int
         :type height: int

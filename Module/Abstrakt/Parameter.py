@@ -11,7 +11,7 @@ from Module.Sonstige import Fehler
 
 class Parameter:
     """ Alle für den Fit einer Rastermessung nötigen Messparameter """
-    def __init__(self, verzeichnis, fmin, fmax, fitfunktion, fenster, ordnung, phase_versatz):
+    def __init__(self, verzeichnis, fmin, fmax, fitfunktion, fenster, ordnung, phase_modus, phase_versatz):
         """
         :type verzeichnis: str
         :type fmin: float
@@ -20,6 +20,8 @@ class Parameter:
         :type fitfunktion: (float, float, float, float, float) -> float
         :type fenster: int
         :type ordnung: int
+        :param phase_modus: Der Parameter 'modus' der Funktion Module.Phase.phase_ermitteln()
+        :type phase_modus: int
         :type phase_versatz: int
         """
         if fmin >= fmax:
@@ -31,4 +33,5 @@ class Parameter:
         self.fitfunktion = fitfunktion
         self.fenster = fenster
         self.ordnung = ordnung
+        self.phase_modus = phase_modus
         self.phase_versatz = phase_versatz

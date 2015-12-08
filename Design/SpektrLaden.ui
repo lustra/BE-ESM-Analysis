@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1001</width>
-    <height>499</height>
+    <height>572</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,9 +18,9 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>170</y>
+      <y>150</y>
       <width>381</width>
-      <height>281</height>
+      <height>371</height>
      </rect>
     </property>
     <widget class="QWidget" name="verticalLayoutWidget_2">
@@ -29,7 +29,7 @@
        <x>0</x>
        <y>0</y>
        <width>379</width>
-       <height>281</height>
+       <height>371</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticallayout2">
@@ -88,19 +88,6 @@
        </layout>
       </item>
       <item>
-       <spacer name="verticalspacer3">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
-      </item>
-      <item>
        <widget class="Line" name="line">
         <property name="orientation">
          <enum>Qt::Horizontal</enum>
@@ -108,7 +95,7 @@
        </widget>
       </item>
       <item>
-       <spacer name="verticalspacer1">
+       <spacer name="verticalspacer3">
         <property name="orientation">
          <enum>Qt::Vertical</enum>
         </property>
@@ -147,11 +134,120 @@
             <string>Cantilever</string>
            </property>
           </item>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontalLayout">
+        <item>
+         <widget class="QLabel" name="label_phase_fit">
+          <property name="text">
+           <string>Phase</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QComboBox" name="box_phase_fit">
+          <property name="sizePolicy">
+           <sizepolicy hsizetype="MinimumExpanding" vsizetype="Fixed">
+            <horstretch>0</horstretch>
+            <verstretch>0</verstretch>
+           </sizepolicy>
+          </property>
           <item>
            <property name="text">
-            <string>Phase</string>
+            <string>Lorentz-Fit (physikalisch)</string>
            </property>
           </item>
+          <item>
+           <property name="text">
+            <string>Phänomenologisch (zuverlässig)</string>
+           </property>
+          </item>
+          <item>
+           <property name="text">
+            <string>Aus den Messwerten (ohne Fit)</string>
+           </property>
+          </item>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_phase_versatz">
+          <property name="text">
+           <string>Versatz</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="box_phase_versatz">
+          <property name="minimum">
+           <number>-999999</number>
+          </property>
+          <property name="maximum">
+           <number>999999</number>
+          </property>
+          <property name="value">
+           <number>30</number>
+          </property>
+         </widget>
+        </item>
+       </layout>
+      </item>
+      <item>
+       <spacer name="verticalspacer1">
+        <property name="orientation">
+         <enum>Qt::Vertical</enum>
+        </property>
+        <property name="sizeHint" stdset="0">
+         <size>
+          <width>20</width>
+          <height>40</height>
+         </size>
+        </property>
+       </spacer>
+      </item>
+      <item>
+       <widget class="QLabel" name="label_savgol">
+        <property name="text">
+         <string>Savitzky-Golay-Filter:</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <layout class="QHBoxLayout" name="horizontallayout5">
+        <item>
+         <widget class="QLabel" name="label_fenster">
+          <property name="text">
+           <string>Koeffizientenanzahl</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="box_fenster">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="value">
+           <number>15</number>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_ordnung">
+          <property name="text">
+           <string>Ordnung des Polynoms</string>
+          </property>
+         </widget>
+        </item>
+        <item>
+         <widget class="QSpinBox" name="box_ordnung">
+          <property name="minimum">
+           <number>1</number>
+          </property>
+          <property name="value">
+           <number>3</number>
+          </property>
          </widget>
         </item>
        </layout>
@@ -353,7 +449,7 @@
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>460</y>
+      <y>530</y>
       <width>381</width>
       <height>31</height>
      </rect>
@@ -406,7 +502,7 @@
       <x>10</x>
       <y>10</y>
       <width>381</width>
-      <height>151</height>
+      <height>141</height>
      </rect>
     </property>
     <widget class="QWidget" name="verticalLayoutWidget">
@@ -415,7 +511,7 @@
        <x>0</x>
        <y>0</y>
        <width>379</width>
-       <height>151</height>
+       <height>134</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticallayout3">
@@ -433,34 +529,12 @@
           <property name="enabled">
            <bool>true</bool>
           </property>
-          <property name="sizePolicy">
-           <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-            <horstretch>0</horstretch>
-            <verstretch>0</verstretch>
-           </sizepolicy>
-          </property>
           <property name="text">
            <string>Ändern...</string>
           </property>
          </widget>
         </item>
        </layout>
-      </item>
-      <item>
-       <spacer name="verticalspacer0">
-        <property name="orientation">
-         <enum>Qt::Vertical</enum>
-        </property>
-        <property name="sizeType">
-         <enum>QSizePolicy::Expanding</enum>
-        </property>
-        <property name="sizeHint" stdset="0">
-         <size>
-          <width>20</width>
-          <height>40</height>
-         </size>
-        </property>
-       </spacer>
       </item>
       <item>
        <widget class="QPushButton" name="button_konfig">
@@ -595,7 +669,7 @@
       <x>400</x>
       <y>10</y>
       <width>591</width>
-      <height>481</height>
+      <height>551</height>
      </rect>
     </property>
     <widget class="QWidget" name="layoutWidget">
@@ -604,7 +678,7 @@
        <x>0</x>
        <y>0</y>
        <width>591</width>
-       <height>481</height>
+       <height>551</height>
       </rect>
      </property>
      <layout class="QVBoxLayout" name="verticallayout1">
@@ -705,6 +779,11 @@
      </layout>
     </widget>
    </widget>
+   <zorder>widget_param</zorder>
+   <zorder>widget_fit</zorder>
+   <zorder>widget_pfad</zorder>
+   <zorder>widget_vorschau</zorder>
+   <zorder>label_phase_fit</zorder>
   </widget>
  </widget>
  <customwidgets>
