@@ -75,14 +75,20 @@ class Fit(AbstraktFit):
         params = Parameters()
         params.add('resfreq', value=start_freq, min=par.fmin, max=par.fmax)
         params.add('amp', value=start_amp, min=par.amp_min, max=par.amp_max)
-        params.add('guete', min=par.guete_min, max=par.guete_max)
+        params.add('guete', value=0.5*(par.guete_max+par.guete_min), min=par.guete_min, max=par.guete_max)
         params.add('off', value=start_off, min=par.off_min, max=par.off_max)
 
         mod = Model(par.fitfunktion)
         erg = mod.fit(
             data=amplitude,
             freq=self.messwerte.frequenzen,
-            params=params
+            params=params#,
+            #fit_kws={
+            #    'ftol': 0.000001,
+            #    'xtol': 0.000001,
+            #    'gtol': 0.000001,
+            #    'maxfev': 2**31-1
+            #}
         )
 
         # TODO Phasen-Fit-Auswahl
