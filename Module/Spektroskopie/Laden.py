@@ -34,13 +34,25 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         self.widget_vorschau.setVisible(False)
         self.setFixedWidth(self.breite_ohne_vorschau)
 
+        # Vorschau einrichten
         self.button_vorschau.clicked.connect(self.init_vorschau)
+
+        # Messreihe auswählen
         self.button_zeige_amp.clicked.connect(self.fit_vorschau)
         self.button_zeige_phase.clicked.connect(self.fit_vorschau)
         self.box_omega.currentIndexChanged.connect(self.fit_vorschau)
         self.box_ac.currentIndexChanged.connect(self.fit_vorschau)
         self.box_dc.currentIndexChanged.connect(self.fit_vorschau)
 
+        # Fitparameter variieren
+        self.box_amp_min.valueChanged.connect(self.fit_var)
+        self.box_amp_max.valueChanged.connect(self.fit_var)
+        self.box_untergrund_min.valueChanged.connect(self.fit_var)
+        self.box_untergrund_max.valueChanged.connect(self.fit_var)
+        self.box_guete_min.valueChanged.connect(self.fit_var)
+        self.box_guete_max.valueChanged.connect(self.fit_var)
+
+        # Methoden zur typengerechten Abfrage der aktuell ausgewählten Werte
         self.box_omega.value = lambda: int(self.box_omega.currentText())
         self.box_ac.value = lambda: float(self.box_ac.currentText())
         self.box_dc.value = lambda: float(self.box_dc.currentText())
@@ -86,31 +98,25 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         self.box_mittelungen.setValue(parser.getint(konfig, 'mittelungen'))
 
     def packe_parameter(self):
-        if self.box_fmin.value() < self.box_fmax.value()\
-                and self.box_amp_min.value() < self.box_amp_max.value()\
-                and self.box_guete_min.value() < self.box_guete_max.value()\
-                and self.box_untergrund_min.value() < self.box_untergrund_max.value():
-            return Parameter(
-                verzeichnis=str(self.edit_pfad.text()),
-                fitfunktion=FitFunktion.errorfunc[self.box_methode.currentIndex()],
-                fenster=15,  # TODO
-                ordnung=5,
-                phase_versatz=30,
-                fmin=int(1000*self.box_fmin.value()),
-                fmax=int(1000*self.box_fmax.value()),
-                df=self.box_df.value(),
-                mittelungen=self.box_mittelungen.value(),
-                bereich_links=self.box_bereich_links.value(),
-                bereich_rechts=self.box_bereich_rechts.value(),
-                amp_min=self.box_amp_min.value(),
-                amp_max=self.box_amp_max.value(),
-                guete_min=self.box_guete_min.value(),
-                guete_max=self.box_guete_max.value(),
-                off_min=self.box_untergrund_min.value(),
-                off_max=self.box_untergrund_max.value()
-            )
-        else:
-            raise Fehler()
+        return Parameter(
+            verzeichnis=str(self.edit_pfad.text()),
+            fitfunktion=FitFunktion.errorfunc[self.box_methode.currentIndex()],
+            fenster=15,  # TODO
+            ordnung=5,
+            phase_versatz=30,
+            fmin=int(1000*self.box_fmin.value()),
+            fmax=int(1000*self.box_fmax.value()),
+            df=self.box_df.value(),
+            mittelungen=self.box_mittelungen.value(),
+            bereich_links=self.box_bereich_links.value(),
+            bereich_rechts=self.box_bereich_rechts.value(),
+            amp_min=self.box_amp_min.value(),
+            amp_max=self.box_amp_max.value(),
+            guete_min=self.box_guete_min.value(),
+            guete_max=self.box_guete_max.value(),
+            off_min=self.box_untergrund_min.value(),
+            off_max=self.box_untergrund_max.value()
+        )
 
     def start_fit(self):
         GuiAbstraktLaden.start_fit(self)
@@ -173,6 +179,20 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
             gleichzeitig zu verwenden. Das würde zu Fehlern führen.
             """
             pass
+
+    def fit_var(self):
+        """
+        Wenn ein Fitparameter verändert wurde, dann soll, sofern die Fitvorschau aktiviert wurde, diese aktualisiert
+        werden. Ansonsten passiert nichts, weil die Werte unmittelbar vor dem Fit noch einmal abgerufen werden.
+        """
+        if self.widget_vorschau.isVisible():
+            try:
+                self.fit_vorschau()
+            except Fehler:
+                """
+                Bei der Eingabe von Fitparametern sollen Fehler noch unterdrückt werden.
+                """
+                pass
 
     def fit_plot(self, x1, y1, x2, y2):
         """

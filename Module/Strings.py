@@ -78,7 +78,7 @@ raster_fehler = ["Fehler anzeigen", "Show error"]
 raster_prozent = ["prozentual", "percentage"]
 
 spektr_dc = ["DC-Offset / V", "DC-offset / V"]
-spektr_amp = ["Amplitude (bel.)", "Amplitude (a.u.)"]
+spektr_amp = ["Amplitude (mV)", "Amplitude (mV)"]
 
 rf_ordner = [u"Messverzeichnis auswählen"]
 mw_pixelzahl = [u"<b>Fehler:</b><br>Überprüfen Sie die Pixelanzahl, da sie womöglich nicht stimmt.",

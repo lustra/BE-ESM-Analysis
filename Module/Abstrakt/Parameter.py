@@ -6,6 +6,8 @@
 
 import os
 
+from Module.Sonstige import Fehler
+
 
 class Parameter:
     """ Alle für den Fit einer Rastermessung nötigen Messparameter """
@@ -20,6 +22,9 @@ class Parameter:
         :type ordnung: int
         :type phase_versatz: int
         """
+        if fmin >= fmax:
+            raise Fehler()
+
         self.verzeichnis = verzeichnis if verzeichnis.endswith(os.sep) else verzeichnis + os.sep
         self.fmin = fmin
         self.fmax = fmax

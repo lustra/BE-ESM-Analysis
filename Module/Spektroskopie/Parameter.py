@@ -5,6 +5,7 @@
 """
 
 from Module.Abstrakt.Parameter import Parameter as AbstraktParameter
+from Module.Sonstige import Fehler
 
 
 class Parameter(AbstraktParameter):
@@ -36,6 +37,9 @@ class Parameter(AbstraktParameter):
         :type off_max: float
         """
         AbstraktParameter.__init__(self, verzeichnis, fmin, fmax, fitfunktion, fenster, ordnung, phase_versatz)
+        if amp_min >= amp_max or guete_min >= guete_max or off_min >= off_max:
+            raise Fehler()
+
         self.df = df
         self.mittelungen = mittelungen
         self.bereich_links = bereich_links

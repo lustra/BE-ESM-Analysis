@@ -48,7 +48,8 @@ class Messwerte(AbstraktMesswerte, Messreihe):
 
             dat_phase = self.par.verzeichnis + 'phase' + str(omega) + 'w' + ac + 'G' + dc + 'V.tdms'
 
-            amplitude = self.lade_tdms(dat_amp)
+            amplitude = self.lade_tdms(dat_amp) * 1000  # V -> mV
+            """ @type: numpy.multiarray.ndarray """
             phase = self.lade_tdms(dat_phase)
 
             self.add(omega, punkt(ac), punkt(dc), amplitude, phase)
@@ -115,7 +116,7 @@ class Messwerte(AbstraktMesswerte, Messreihe):
         """ @type: AC """
         index = bisect_left(zgr.dc, dc)  # Sortiert einfügen
         zgr.dc.insert(index, dc)
-        zgr.amp_freq.insert(index, amplitude)
+        zgr.amp_freq.insert(index, 1000 * amplitude)
         zgr.phase_freq.insert(index, phase)
 
         self.anzahl_messreihen += 1
@@ -147,7 +148,7 @@ class Messwerte(AbstraktMesswerte, Messreihe):
             abh_dc.sort()
             reihe.dc, reihe.amp_dc, reihe.resfreq_dc, reihe.phase_dc = zip(*abh_dc)"""
 
-        datei_speichern(wohin + '.amp', reihen, 'Amp. (bel.)', lambda r, n: str(r.amp_dc[n]))
+        datei_speichern(wohin + '.amp', reihen, 'Amp. (mV)', lambda r, n: str(r.amp_dc[n]))
         datei_speichern(wohin + '.freq', reihen, 'Resfreq. (kHz)', lambda r, n: str(r.resfreq_dc[n]))
         datei_speichern(wohin + '.phase', reihen, 'Phase (Grad)', lambda r, n: str(r.phase_dc[n]))
 
