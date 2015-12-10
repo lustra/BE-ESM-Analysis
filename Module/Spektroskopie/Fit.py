@@ -4,6 +4,7 @@
 @author: Sebastian Badur
 """
 
+from sys import maxint
 import numpy as np
 from scipy.signal import savgol_filter
 from lmfit import Model, Parameters
@@ -24,7 +25,7 @@ class Fit(AbstraktFit):
         """
         AbstraktFit.__init__(self, laden, par)
         self.messwerte = None
-        """ @type: Messwerte.Messwerte """
+        """ :type: Messwerte.Messwerte """
         self.anzahl = len(Messwerte.glob_amp(par.verzeichnis))
 
     def impl_fit(self):
@@ -63,7 +64,7 @@ class Fit(AbstraktFit):
         :rtype: lmfit.model.ModelResult, lmfit.model.ModelResult
         """
         par = self.par
-        """ @type: Module.Spektroskopie.Parameter.Parameter """
+        """ :type: Module.Abstrakt.Parameter.Parameter """
 
         amplitude = self.filter(amplitude)
         index_max = np.argmax(amplitude)
@@ -82,13 +83,14 @@ class Fit(AbstraktFit):
         erg = mod.fit(
             data=amplitude,
             freq=self.messwerte.frequenzen,
-            params=params#,
-            #fit_kws={
-            #    'ftol': 0.000001,
-            #    'xtol': 0.000001,
-            #    'gtol': 0.000001,
-            #    'maxfev': 2**31-1
-            #}
+            params=params,
+            fit_kws={
+                'ftol': 1e-9,
+                'xtol': 1e-9,
+                'gtol': 1e-9,
+                'maxfev': maxint,
+                'factor': 0.1
+            }
         )
 
         ph = phase_ermitteln(

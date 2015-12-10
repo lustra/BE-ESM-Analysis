@@ -14,13 +14,13 @@ from ResonanzFit import lang
 
 
 class Resonanzkurve(Canvas):
-    def __init__(self, app, titel, beschriftung):
+    def __init__(self, gui, titel, beschriftung):
         """
-        :type app: Module.Gui.Gui
+        :type gui: Module.Gui.Gui
         :type titel: str
         :type beschriftung: Module.Sonstige.Achsenbeschriftung
         """
-        Canvas.__init__(self, app, titel)
+        Canvas.__init__(self, gui, titel)
         vertikal = QtGui.QVBoxLayout()
         self.centralWidget().setLayout(vertikal)
         horizontal = QtGui.QHBoxLayout()
@@ -54,14 +54,14 @@ class Resonanzkurve(Canvas):
         :type neu: numpy.multiarray.ndarray
         """
         for spin in self.koord:
-            spin.setMaximum(self.app.fit.par.pixel)
+            spin.setMaximum(self.gui.fit.par.pixel)
         self._werte = neu  # Kein super-Aufruf, weil _werte hier streng genommen einen anderen Typ hat
         self.aktualisiere()
 
     def aktualisiere(self):
         if self._werte is not None:
             # Nur x,y wird betrachtet, aber es sind in dieser Liste alle Messpunkte pro Ort hintereinander
-            par = self.app.fit.par
+            par = self.gui.fit.par
             x_von = (self.koord[0].value() + 1) * par.messpunkte
             x_bis = x_von + par.messpunkte
             self.plotter.axes.plot(

@@ -23,7 +23,7 @@ class Canvas(QtGui.QMainWindow):
         self.setStatusBar(self.statusbar)
 
         self._werte = None
-        """ @type: Module.Ergebnis.FitWerte """
+        """ :type: Module.Ergebnis.FitWerte """
 
     def set_werte(self, neu):
         """

@@ -25,7 +25,7 @@ class Messwerte(AbstraktMesswerte, Messreihe):
         AbstraktMesswerte.__init__(self, par)
         Messreihe.__init__(self)
         self.omega = self._get
-        """ @type: (int) -> Omega """
+        """ :type: (int) -> Omega """
         self.anzahl_messreihen = 0
 
         if par.messpunkte + par.bereich_rechts <= par.bereich_links or par.bereich_links < 0:
@@ -49,7 +49,7 @@ class Messwerte(AbstraktMesswerte, Messreihe):
             dat_phase = self.par.verzeichnis + 'phase' + str(omega) + 'w' + ac + 'G' + dc + 'V.tdms'
 
             amplitude = self.lade_tdms(dat_amp) * 1000  # V -> mV
-            """ @type: numpy.multiarray.ndarray """
+            """ :type: numpy.multiarray.ndarray """
             phase = self.lade_tdms(dat_phase)
 
             self.add(omega, punkt(ac), punkt(dc), amplitude, phase)
@@ -113,7 +113,7 @@ class Messwerte(AbstraktMesswerte, Messreihe):
             zgr._reihe.insert(index, AC(omega, ac))
 
         zgr = zgr.ac(ac)
-        """ @type: AC """
+        """ :type: AC """
         index = bisect_left(zgr.dc, dc)  # Sortiert einfügen
         zgr.dc.insert(index, dc)
         zgr.amp_freq.insert(index, 1000 * amplitude)

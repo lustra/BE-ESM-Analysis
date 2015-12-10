@@ -37,7 +37,6 @@ laden_raster_titel = ["Raster - Messung einlesen", "Raster - parsing measurement
 laden_spektr_titel = ["Spektroskopie - Messung einlesen", "Spectroscopy - parsing measurement"]
 laden_aendern = [u"Ändern...", "Change..."]
 laden_konfiguration = ["Messkonfiguration aus Datei einlesen", "Import measurement configuration from file"]
-laden_messpunkte = ["Messpunkte pro Pixel", "Measure points per pixel"]
 laden_pixel = ["Pixel", "Pixel"]
 laden_fmin = ["Freq Min (kHz)", "Freq Min (kHz)"]
 laden_fmax = ["Freq Max (kHz)", "Freq Max (kHz)"]

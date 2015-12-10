@@ -23,7 +23,7 @@ class Plotter(FigureCanvas):
         self.beschriftung = beschriftung
         self.figure = Figure(figsize=(width, height), dpi=dpi)
         self.axes = self.figure.add_subplot(111, xlabel=beschriftung.x, ylabel=beschriftung.y)
-        """ @type: matplotlib.axes.Axes """
+        """ :type: matplotlib.axes.Axes """
         self.axes.hold(False)
         self.colorbar = None
 
@@ -43,7 +43,7 @@ class Plotter(FigureCanvas):
         """
         if event.inaxes is not None:
             canvas = self.canvas  # Das ist nur sinnvoll für ein Canvas
-            """ @type: Module.Canvas.Canvas """
+            """ :type: Module.Canvas.Canvas """
             self.statusbar.showMessage(
                 canvas.str_status(event.xdata, event.ydata)
             )

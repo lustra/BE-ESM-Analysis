@@ -30,21 +30,9 @@ class GuiRasterLaden(GuiAbstraktLaden, Ui_RasterLaden):
         """
         :type ui: QtGui.QMainWindow
         """
-        ui.setWindowTitle(laden_raster_titel[lang])
-        self.button_aendern.setText(laden_aendern[lang])
-        self.button_konfig.setText(laden_konfiguration[lang])
-        self.label_messpunkte.setText(laden_messpunkte[lang])
+        self.beschriften()
+        self.label_df.setText(laden_df[lang])
         self.label_pixel.setText(laden_pixel[lang])
-        self.label_fmin.setText(laden_fmin[lang])
-        self.label_fmax.setText(laden_fmax[lang])
-        self.label_methode.setText(laden_methode[lang])
-        self.box_methode.setItemText(0, laden_damp[lang])
-        self.box_methode.setItemText(1, laden_camp[lang])
-        self.box_methode.setItemText(2, laden_phase[lang])
-        self.label_savgol.setText(laden_savgol[lang])
-        self.label_fenster.setText(laden_fenster[lang])
-        self.label_ordnung.setText(laden_ordnung[lang])
-        self.button_fitten.setText(laden_fitten[lang])
 
     def set_input_enabled(self, b):
         """
@@ -84,8 +72,17 @@ class GuiRasterLaden(GuiAbstraktLaden, Ui_RasterLaden):
                 fenster=self.box_fenster.value(),
                 ordnung=self.box_ordnung.value(),
                 pixel=self.box_pixel.value(),
-                messpunkte=self.box_messpunkte.value(),
-                phase_versatz=10  # TODO
+                df=self.box_df.value(),
+                phase_versatz=self.box_phase_versatz.value(),
+                phase_modus=self.box_phase_fit.currentIndex(),
+                amp_max=self.box_amp_max.value(),
+                amp_min=self.box_amp_min.value(),
+                off_max=self.box_untergrund_max.value(),
+                off_min=self.box_untergrund_min.value(),
+                guete_max=self.box_guete_max.value(),
+                guete_min=self.box_guete_min.value(),
+                bereich_links=self.box_bereich_links.value(),
+                bereich_rechts=self.box_bereich_rechts.value()
             )
             self.app.fit = Fit(self, parameter)
             self.app.fit.start()

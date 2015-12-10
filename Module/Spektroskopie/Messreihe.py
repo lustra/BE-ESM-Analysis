@@ -8,9 +8,9 @@
 class Messreihe:
     def __init__(self):
         self._param = []
-        """ @type: list[int | float] """
+        """ :type: list[int | float] """
         self._reihe = []
-        """ @type: list[Messreihe] """
+        """ :type: list[Messreihe] """
 
     def _get(self, wert):
         """

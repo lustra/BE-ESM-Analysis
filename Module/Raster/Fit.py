@@ -22,9 +22,9 @@ class Fit(AbstraktFit):
         """
         AbstraktFit.__init__(self, laden, par)
         self.messwerte = None
-        """ @type: Messwerte """
+        """ :type: Messwerte """
         self.erg = None
-        """ @type: Ergebnis """
+        """ :type: Ergebnis """
 
     def impl_fit(self):
         # p0 = Initial guess

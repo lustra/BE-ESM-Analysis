@@ -11,6 +11,8 @@ from lmfit.models import Model
 from lmfit import Parameters
 # # from PyQt4.QtCore import QRunnable
 
+from Module.Phase import phase_ermitteln
+
 
 debug_schnell = False
 
@@ -48,6 +50,7 @@ class FitZeile:
 
     def run(self):
         par = self.par
+        """ :type: Module.Raster.Parameter.Parameter """
         
         if debug_schnell:
             self.fitparameter = np.random.rand(par.pixel, 3)
@@ -59,7 +62,7 @@ class FitZeile:
         amplituden = self.messwerte.amplituden(self.y)
         phasen = self.messwerte.phasen(self.y)
 
-        for x in range(par.pixel):  # x-Axis
+        for x in range(par.pixel):  # x-Achse
             savgol_amplituden = savgol_filter(amplituden[x], par.fenster, par.ordnung)
             
             # Fitparameter für die Fitfunktion
@@ -71,33 +74,22 @@ class FitZeile:
 
             # Fitprozess starten
             mod = Model(par.fitfunktion)
-            pixel_fit = mod.fit(
+            erg = mod.fit(
                 data=savgol_amplituden,
                 freq=self.messwerte.frequenzen,
                 params=params
             )
-            #pixel_fit = FitLeastSq(par.errorfunc, self.p0, self.messwerte.frequenzen, savgol_amplituden)
-            self.fitparameter[x] = np.array(pixel_fit.solp, dtype=float)
 
-            # Berechnung der Standardabweichung ##########
-            # noinspection PyUnresolvedReferences
-            s_sq = (par.errorfunc(
-                self.fitparameter[x], self.messwerte.frequenzen, amplituden[x]
-            ) ** 2).sum() / self.norm
-            pconx = pixel_fit.convx * s_sq
-
-            error = []
-            for j in range(len(pconx)):
-                error.append(np.sqrt(np.absolute(pconx[j][j])))
-            self.error_fitparameter[x] = error
-            # ##########
-
-            self.iterationen[x] = pixel_fit.infodict.get("nfev")
-
-            # Phase calculation ##########
-            smoothed_phase = savgol_filter(phasen[x], par.fenster, par.ordnung)
-            ind = np.argmax(savgol_amplituden) + 20  # TODO Phasenveränderung off resonanz per Frequenz nicht Punkte ändern.
-            self.sphase[x] = smoothed_phase[ind]
+            self.sphase[x] = phase_ermitteln(
+                phase_freq=phasen[x],
+                resfreq=int((erg.best_values['resfreq'] - par.fmin) / par.df),
+                versatz=par.phase_versatz,
+                modus=par.phase_modus,
+                savgol=self.filter
+            )
 
         # # from Module.Fit import signal
         # # self.emit(signal.weiter)
+
+    def filter(self, daten):
+        return savgol_filter(daten, self.par.fenster, self.par.ordnung)

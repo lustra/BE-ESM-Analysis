@@ -28,46 +28,46 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.setFixedSize(self.size())
 
         self.fit = None
-        """ @type: Module.Abstrakt.Fit.Fit """
+        """ :type: Module.Abstrakt.Fit.Fit """
         self.gui_raster_laden = GuiRasterLaden(self)
         self.gui_spektr_laden = GuiSpektrLaden(self)
 
         self.plots = []
         self.plt_resonanzkurve = Resonanzkurve(
-            app=self,
+            gui=self,
             titel=gui_resonanzkurve[lang],
             beschriftung=Achsenbeschriftung(x=achse_freq[lang], y=achse_amp[lang])
         )
         self.plt_phase_schnitt = Schnitt(
-            app=self,
+            gui=self,
             titel=gui_phase_schnitt[lang],
             beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_phase[lang])
         )
         self.plt_amp_schnitt = Schnitt(
-            app=self,
+            gui=self,
             titel=gui_amp_schnitt[lang],
             beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_amp[lang])
         )
         self.plt_phase = Raster(
-            app=self,
+            gui=self,
             resonanzkurve=self.plt_resonanzkurve,
             titel=gui_phase[lang],
             beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_punkt_y[lang], farbe=achse_phase[lang])
         )
         self.plt_resfreq = Raster(
-            app=self,
+            gui=self,
             resonanzkurve=self.plt_resonanzkurve,
             titel=gui_resfreq[lang],
             beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_punkt_y[lang], farbe=achse_freq[lang])
         )
         self.plt_amplitude = Raster(
-            app=self,
+            gui=self,
             resonanzkurve=self.plt_resonanzkurve,
             titel=gui_amplitude[lang],
             beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_punkt_y[lang], farbe=achse_amp[lang])
         )
         self.plt_qfaktor = Raster(
-            app=self,
+            gui=self,
             resonanzkurve=self.plt_resonanzkurve,
             titel=gui_qfaktor[lang],
             beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_punkt_y[lang])

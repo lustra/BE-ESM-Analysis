@@ -10,7 +10,7 @@ from Module.Abstrakt.Parameter import Parameter as AbstraktParameter
 class Parameter(AbstraktParameter):
     """ Alle für den Fit einer Rastermessung nötigen Messparameter """
     def __init__(self, verzeichnis, fmin, fmax, fitfunktion, fenster, ordnung, phase_modus, phase_versatz,
-                 pixel, messpunkte):
+                 df, pixel, bereich_links, bereich_rechts, amp_min, amp_max, guete_min, guete_max, off_min, off_max):
         """
         :type verzeichnis: str
         :type fmin: int
@@ -25,11 +25,20 @@ class Parameter(AbstraktParameter):
         :param phase_versatz: Die zur Resonanz gehörige Phase wird diese Anzahl an Messpunkten neben der
         Resonanzfrequenz aus der geglätteten Phasenmessung entnommen.
         :type phase_versatz: int
+        :type df: int
         :type pixel: int
-        :type messpunkte: int
+        :type bereich_links: int
+        :type bereich_rechts: int
+        :type amp_min: float
+        :type amp_max: float
+        :type guete_min: float
+        :type guete_max: float
+        :type off_min: float
+        :type off_max: float
         """
         AbstraktParameter.__init__(
-            self, verzeichnis, fmin, fmax, fitfunktion, fenster, ordnung, phase_modus, phase_versatz
+            self, verzeichnis, fmin, fmax, fitfunktion, fenster, ordnung, phase_modus, phase_versatz,
+            df, bereich_links, bereich_rechts, amp_min, amp_max, guete_min, guete_max, off_min, off_max
         )
-        self.messpunkte = messpunkte
+
         self.pixel = pixel

@@ -64,40 +64,14 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         """
         :type ui: QtGui.QMainWindow
         """
-        ui.setWindowTitle(laden_spektr_titel[lang])
-        self.button_aendern.setText(laden_aendern[lang])
-        self.button_konfig.setText(laden_konfiguration[lang])
-        self.label_mittelungen.setText(laden_mittelungen[lang])
+        self.beschriften()
         self.label_df.setText(laden_df[lang])
-        self.label_fmin.setText(laden_fmin[lang])
-        self.label_fmax.setText(laden_fmax[lang])
-        self.label_methode.setText(laden_methode[lang])
-        self.box_methode.setItemText(0, laden_damp[lang])
-        self.box_methode.setItemText(1, laden_camp[lang])
-        self.label_bereich.setText(laden_bereich[lang])
-        self.label_bereich_links.setText(laden_links[lang])
-        self.label_bereich_rechts.setText(laden_rechts[lang])
-        self.label_fitparameter.setText(laden_fitparameter[lang])
-        self.label_min.setText(laden_min[lang])
-        self.label_max.setText(laden_max[lang])
-        self.label_amp.setText(laden_amp[lang])
-        self.label_untergrund.setText(laden_untergrund[lang])
-        self.label_guete.setText(laden_guete[lang])
-        self.button_fitten.setText(laden_fitten[lang])
-        self.button_vorschau.setText(laden_vorschau[lang])
+        self.label_mittelungen.setText(laden_mittelungen[lang])
         self.label_omega.setText(laden_omega[lang])
         self.label_ac.setText(laden_ac[lang])
         self.label_dc.setText(laden_dc[lang])
         self.button_zeige_amp.setText(gui_amplitude[lang])
         self.button_zeige_phase.setText(laden_phase[lang])
-        self.label_phase_fit.setText(laden_phase[lang])
-        self.label_phase_versatz.setText(laden_versatz[lang])
-        self.label_savgol.setText(laden_savgol[lang])
-        self.label_fenster.setText(laden_fenster[lang])
-        self.label_ordnung.setText(laden_ordnung[lang])
-        self.box_phase_fit.setItemText(0, laden_ph_lorentz[lang])
-        self.box_phase_fit.setItemText(1, laden_ph_penom[lang])
-        self.box_phase_fit.setItemText(2, laden_ph_direkt[lang])
 
     def konfig_lesen(self):
         parser = GuiAbstraktLaden.konfig_lesen(self)
@@ -163,7 +137,7 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
     def fit_vorschau(self):
         try:
             fit = self.app.fit
-            """ @type: Fit """
+            """ :type: Fit """
             fit.par = self.packe_parameter()
             ac = fit.messwerte.omega(self.box_omega.value()).ac(self.box_ac.value())
             dc = ac.dc.index(self.box_dc.value())
