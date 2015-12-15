@@ -120,6 +120,7 @@ class Ui_SpektrLaden(object):
         self.verticallayout2.addLayout(self.horizontalLayout)
         spacerItem1 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticallayout2.addItem(spacerItem1)
+        # todo hier eine Aufteilung machen Amplitudeneinstellungen und Phaseneinstellungen sonst zu durcheinander
         self.label_savgol = QtGui.QLabel(self.verticalLayoutWidget_2)
         self.label_savgol.setObjectName(_fromUtf8("label_savgol"))
         self.verticallayout2.addWidget(self.label_savgol)
