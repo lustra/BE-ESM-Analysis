@@ -35,7 +35,6 @@ class GuiAbstraktLaden(QtGui.QMainWindow):
         self.button_fitten.clicked.connect(self.geklickt)
 
     def beschriften(self):
-        self.setWindowTitle(laden_spektr_titel[lang])
         self.button_aendern.setText(laden_aendern[lang])
         self.button_konfig.setText(laden_konfiguration[lang])
         self.label_fmin.setText(laden_fmin[lang])

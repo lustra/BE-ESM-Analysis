@@ -59,4 +59,4 @@ class Parameter:
         self.off_max = off_max
 
         self.df = df
-        self.messpunkte = (fmax - fmin) // df
+        self.messpunkte = int((fmax - fmin) // df)

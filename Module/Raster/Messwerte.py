@@ -25,10 +25,7 @@ class Messwerte(AbstraktMesswerte):
         self.phase, self.phase_namen = lade_tdms(par, 'phase')
 
         # Definition der Frequenz:
-        self.frequenzen = np.arange(
-            par.fmin, par.fmax,
-            float((par.fmax - par.fmin) / float(par.messpunkte))  # delta f
-        )
+        self.frequenzen = np.arange(par.fmin, par.fmax, par.df)
         if par.pixel != len(self.amplitude[0]) / par.messpunkte:
             raise Fehler(mw_pixelzahl[lang])
 

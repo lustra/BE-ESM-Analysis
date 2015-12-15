@@ -65,6 +65,7 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         :type ui: QtGui.QMainWindow
         """
         self.beschriften()
+        self.setWindowTitle(laden_spektr_titel[lang])
         self.label_df.setText(laden_df[lang])
         self.label_mittelungen.setText(laden_mittelungen[lang])
         self.label_omega.setText(laden_omega[lang])

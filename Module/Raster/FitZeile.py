@@ -80,13 +80,21 @@ class FitZeile:
                 params=params
             )
 
+            # TODO Auf jeden Fall überarbeiten! Das ist nur eine Behilfslösung zur Anpassung an die veraltete Struktur.
+            self.fitparameter[x, 0] = erg.best_values['resfreq']
+            self.fitparameter[x, 1] = erg.best_values['amp']
+            self.fitparameter[x, 2] = erg.best_values['guete']
+            self.error_fitparameter[x, 0] = erg.chisqr
+            self.error_fitparameter[x, 1] = erg.chisqr
+            self.error_fitparameter[x, 2] = erg.chisqr
+
             self.sphase[x] = phase_ermitteln(
                 phase_freq=phasen[x],
                 resfreq=int((erg.best_values['resfreq'] - par.fmin) / par.df),
                 versatz=par.phase_versatz,
                 modus=par.phase_modus,
                 savgol=self.filter
-            )
+            ).best_fit[0]
 
         # # from Module.Fit import signal
         # # self.emit(signal.weiter)

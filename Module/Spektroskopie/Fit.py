@@ -4,7 +4,6 @@
 @author: Sebastian Badur
 """
 
-from sys import maxint
 import numpy as np
 from scipy.signal import savgol_filter
 from lmfit import Model, Parameters
@@ -35,8 +34,8 @@ class Fit(AbstraktFit):
                 amp, phase = self.fit(reihe.amp_freq[dc], reihe.phase_freq[dc])
 
                 # Amplitude auswerten:
-                reihe.amp_dc.append(amp.best_values['amp'])
-                reihe.resfreq_dc.append(amp.best_values['resfreq'])
+                reihe.amp_dc[dc] = amp.best_values['amp']
+                reihe.resfreq_dc[dc] = amp.best_values['resfreq']
 
                 # Phase auswerten:
                 if self.par.phase_versatz < 0:
@@ -45,7 +44,7 @@ class Fit(AbstraktFit):
                     ph = phase.best_fit[-1]
                 else:
                     ph = phase.best_fit[len(phase.best_fit) // 2]
-                reihe.phase_dc.append(ph)
+                reihe.phase_dc[dc] = ph
 
                 self.signal_weiter()
 
@@ -88,7 +87,7 @@ class Fit(AbstraktFit):
                 'ftol': 1e-9,
                 'xtol': 1e-9,
                 'gtol': 1e-9,
-                'maxfev': maxint,
+                'maxfev': 2**31-1,
                 'factor': 0.1
             }
         )
@@ -110,6 +109,7 @@ class Fit(AbstraktFit):
         :rtype: numpy.multiarray.ndarray
         """
         return savgol_filter(daten, self.par.fenster, self.par.ordnung)
+        # TODO Filtereinstellungen für Phase und Amplitude trennen (bei Phase nur für geglättete Messwerte benötigt)
 
     def speichern(self, wohin):
         """

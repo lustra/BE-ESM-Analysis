@@ -31,6 +31,7 @@ class GuiRasterLaden(GuiAbstraktLaden, Ui_RasterLaden):
         :type ui: QtGui.QMainWindow
         """
         self.beschriften()
+        self.setWindowTitle(laden_raster_titel[lang])
         self.label_df.setText(laden_df[lang])
         self.label_pixel.setText(laden_pixel[lang])
 
@@ -66,8 +67,8 @@ class GuiRasterLaden(GuiAbstraktLaden, Ui_RasterLaden):
             # Fitten
             parameter = Parameter(
                 verzeichnis=str(self.edit_pfad.text()),
-                fmin=self.box_fmin.value(),
-                fmax=self.box_fmax.value(),
+                fmin=1000*self.box_fmin.value(),
+                fmax=1000*self.box_fmax.value(),
                 fitfunktion=FitFunktion.errorfunc[self.box_methode.currentIndex()],
                 fenster=self.box_fenster.value(),
                 ordnung=self.box_ordnung.value(),
