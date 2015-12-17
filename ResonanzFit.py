@@ -21,9 +21,8 @@ def hinweis(ursprung, nachricht):
 
 if __name__ == "__main__":
     if "debug_schnell" in sys.argv:
-        from Module.Raster import FitZeile
-
-        FitZeile.debug_schnell = True
+        from Module.Abstrakt.Fit import Fit
+        Fit.debug_schnell = True
 
     app = QtGui.QApplication(sys.argv)
     from Module.Gui import Gui

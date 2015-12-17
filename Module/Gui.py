@@ -151,12 +151,14 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
     def raster_fit_fertig(self):
         self.action_speichern.setEnabled(True)
         self.menu_raster.setEnabled(True)
-        self.plt_phase_schnitt.set_werte(self.fit.erg.phase)
-        self.plt_amp_schnitt.set_werte(self.fit.erg.damp)
-        self.plt_phase.set_werte(self.fit.erg.phase)
-        self.plt_resfreq.set_werte(self.fit.erg.resfreq)
-        self.plt_amplitude.set_werte(self.fit.erg.damp)
-        self.plt_qfaktor.set_werte(self.fit.erg.q)
+        erg = self.fit.erg
+        """ :type: Module.Raster.Ergebnis.Ergebnis """
+        self.plt_phase_schnitt.set_werte(erg.phase)
+        self.plt_amp_schnitt.set_werte(erg.amp)
+        self.plt_phase.set_werte(erg.phase)
+        self.plt_resfreq.set_werte(erg.resfreq)
+        self.plt_amplitude.set_werte(erg.amp)
+        self.plt_qfaktor.set_werte(erg.q)
 
     def spektr_fit_fertig(self):
         self.action_speichern.setEnabled(True)

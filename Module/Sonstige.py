@@ -5,6 +5,12 @@
 """
 
 
+int_max = 2**31-1
+""" Größter 32-Bit int-Wert """
+int_min = -2**31
+""" Kleinster 32-Bit in-Wert """
+
+
 class Achsenbeschriftung:
     def __init__(self, x, y, farbe=None):
         """

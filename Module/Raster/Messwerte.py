@@ -31,19 +31,19 @@ class Messwerte(AbstraktMesswerte):
 
     def amplituden(self, y):
         """
-        :type y: numpy.multiarray.ndarray
+        :type y: int
         """
         return split_list(
-            np.array(np.multiply(self.amplitude[y], 100), dtype=np.double),
+            self.amplitude[y],
             wanted_parts=self.par.pixel
         )
 
     def phasen(self, y):
         """
-        :type y: numpy.multiarray.ndarray
+        :type y: int
         """
         return split_list(
-            np.array(self.phase[y], dtype=np.double),
+            self.phase[y],
             wanted_parts=self.par.pixel
         )
 

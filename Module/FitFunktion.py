@@ -65,7 +65,7 @@ def phase_phenom(freq, resfreq, guete, off):
     """
     return (in_grad * np.arctan(
         guete * (freq - resfreq)
-    ) + 180) % 360 - 180 + off
+    ) + 180) % 360 - 180 + off  # TODO Phasenoffset (im Modulo)
 
 
 errorfunc = [  # Bessere Lösung finden oder Reihenfolge mit Strings abgleichen!

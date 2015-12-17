@@ -42,21 +42,46 @@ class Parameter:
             raise Fehler()
 
         self.verzeichnis = verzeichnis if verzeichnis.endswith(os.sep) else verzeichnis + os.sep
+        """ Pfad zum Ordner, der alle Messdateien enthält """
         self.fmin = fmin
+        """ Anfangsfrequenz des Spektrums der Bandanregung in Hz """
         self.fmax = fmax
+        """ Endfrequenz des Spektrums der Bandanregung in Hz """
         self.fitfunktion = fitfunktion
+        """ Zum Fitten der Amplitude in Abhängigkeit zur Phase für jede einzelne Messung verwendete Funktion """
+        if not fenster & 1:  # Die Breite muss ungerade sein
+            fenster += 1
         self.fenster = fenster
+        """ Messpunkteanzahl der Breite des Savitzky-Golay-Filters, ist immer ungerade """
         self.ordnung = ordnung
+        """ Grad des für den Savitzky-Golay-Filter verwendeten Polynoms """
         self.phase_modus = phase_modus
+        """
+        Fitmethodik für die Phase:
+        0 = Lorentz,
+        1 = atan(phi),
+        2 = Messwerte
+        """
         self.phase_versatz = phase_versatz
+        """ Die Phase wird diese Anzahl an Messpunkten neben der Resonanzfrequenz der Phasenauswertung entnommen """
         self.bereich_links = bereich_links
+        """ Die Anzahl der zu entfernenden niedrigen Frequenzen """
         self.bereich_rechts = bereich_rechts
+        """ Die Anzahl der zu entfernenden hohen Frequenzen """
         self.amp_min = amp_min
+        """ Minimale Amplitude für den Fit """
         self.amp_max = amp_max
+        """ Maximale Amplitude für den Fit """
         self.guete_min = guete_min
+        """ Minimaler Gütefaktor beim Amplitudenfit """
         self.guete_max = guete_max
+        """ Maximaler Gütefaktor beim Amplitudenfit """
         self.off_min = off_min
+        """ Minimaler Untergrund beim Amplitudenfit """
         self.off_max = off_max
+        """ Maximaler Untergrund beim Amplitudenfit """
 
         self.df = df
+        """ Abstand der Messwerte auf der Frequenzskala in Hz """
         self.messpunkte = int((fmax - fmin) // df)
+        """ Anzahl der Messpunkte bezüglich der Freqzenz """
