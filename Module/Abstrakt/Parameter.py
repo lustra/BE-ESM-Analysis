@@ -5,7 +5,9 @@
 """
 
 import os
+from lmfit import Model
 
+from Module.FitFunktion import phase_lorentz, phase_phenom
 from Module.Sonstige import Fehler
 
 
@@ -23,7 +25,7 @@ class Parameter:
         :type fenster: int
         :param ordnung: Ordnung des Polynoms des Savitzky-Golay-Filters.
         :type ordnung: int
-        :param phase_modus: Der Parameter 'modus' der Funktion Module.Phase.phase_ermitteln()
+        :param phase_modus: Fitmethodik für die Phase: 1 = atan(phi), 2 = Messwerte
         :type phase_modus: int
         :param phase_versatz: Die zur Resonanz gehörige Phase wird diese Anzahl an Messpunkten neben der
         Resonanzfrequenz aus der geglätteten Phasenmessung entnommen.
@@ -47,7 +49,7 @@ class Parameter:
         """ Anfangsfrequenz des Spektrums der Bandanregung in Hz """
         self.fmax = fmax
         """ Endfrequenz des Spektrums der Bandanregung in Hz """
-        self.fitfunktion = fitfunktion
+        self.mod_amp = Model(fitfunktion)
         """ Zum Fitten der Amplitude in Abhängigkeit zur Phase für jede einzelne Messung verwendete Funktion """
         if not fenster & 1:  # Die Breite muss ungerade sein
             fenster += 1
@@ -55,13 +57,12 @@ class Parameter:
         """ Messpunkteanzahl der Breite des Savitzky-Golay-Filters, ist immer ungerade """
         self.ordnung = ordnung
         """ Grad des für den Savitzky-Golay-Filter verwendeten Polynoms """
-        self.phase_modus = phase_modus
-        """
-        Fitmethodik für die Phase:
-        0 = Lorentz,
-        1 = atan(phi),
-        2 = Messwerte
-        """
+        self.mod_ph = [
+            Model(phase_lorentz),
+            Model(phase_phenom),
+            None
+        ][phase_modus]
+        """ Fit-Model für die Phase """
         self.phase_versatz = phase_versatz
         """ Die Phase wird diese Anzahl an Messpunkten neben der Resonanzfrequenz der Phasenauswertung entnommen """
         self.bereich_links = bereich_links

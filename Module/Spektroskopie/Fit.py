@@ -5,7 +5,6 @@
 """
 
 from Module.Abstrakt.Fit import Fit as AbstraktFit
-from Module.Signal import signal
 
 from Messwerte import Messwerte
 

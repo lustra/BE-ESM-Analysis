@@ -80,9 +80,9 @@ class GuiAbstraktLaden(QtGui.QMainWindow):
         if self.entsperrt:
             try:
                 self.start_fit()
-            except Fehler:
+            except Fehler as f:
                 self.entsperren()
-                hinweis(self, laden_min_max[lang])
+                self.fehler(f)
         else:
             self.app.fit.abbruch()
             while self.app.fit.isRunning():

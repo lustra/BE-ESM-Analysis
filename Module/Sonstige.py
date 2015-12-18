@@ -27,6 +27,10 @@ class Fehler(Exception):
     pass
 
 
+class Abbruch(Exception):
+    pass
+
+
 def komma(f):
     """
     :type f: float

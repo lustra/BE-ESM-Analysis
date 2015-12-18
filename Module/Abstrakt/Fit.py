@@ -8,12 +8,11 @@ import time
 import numpy as np
 from PyQt4 import QtCore
 from scipy.signal import savgol_filter
-from lmfit import Model, Parameters
+from lmfit import Parameters
 from lmfit.model import ModelResult
 
-from Module.FitFunktion import phase_lorentz, phase_phenom
 from Module.Signal import signal
-from Module.Sonstige import Fehler, int_min, int_max
+from Module.Sonstige import Fehler, Abbruch, int_min, int_max
 
 
 class Fit(QtCore.QThread):
@@ -49,6 +48,8 @@ class Fit(QtCore.QThread):
             self.emit(signal.importiert)
         except Fehler as f:
             self.emit(signal.fehler, f)
+            return
+        except Abbruch:
             return
 
         self.impl_fit()
@@ -87,8 +88,7 @@ class Fit(QtCore.QThread):
         par_amp.add('guete', value=0.5*(par.guete_max+par.guete_min), min=par.guete_min, max=par.guete_max)
         par_amp.add('off', value=start_off, min=par.off_min, max=par.off_max)
 
-        mod_amp = Model(par.fitfunktion)
-        amp = mod_amp.fit(
+        amp = self.mod_amp.fit(
             data=amplitude,
             freq=self.messwerte.frequenzen,
             params=par_amp,
@@ -110,30 +110,21 @@ class Fit(QtCore.QThread):
         von = max(resfreq - abs(par.phase_versatz), 0)
         bis = max(min(resfreq + abs(par.phase_versatz), len(phase)-1), von+1)
 
-        def phase_fitten(funktion):
-            # Fitparameter für die Fitfunktion
-            par_ph = Parameters()
-            par_ph.add('resfreq', value=resfreq, min=von, max=bis)
-            par_ph.add('guete', value=1, min=int_min, max=int_max)
-            par_ph.add('off', value=0, min=-180, max=180)
+        # Fitparameter für die Fitfunktion
+        par_ph = Parameters()
+        par_ph.add('resfreq', value=resfreq, min=von, max=bis)
+        par_ph.add('guete', value=1, min=int_min, max=int_max)
+        par_ph.add('off', value=0, min=-180, max=180)
 
-            mod_ph = Model(funktion)
-            return mod_ph.fit(
+        if self.mod_ph is not None:
+            ph = self.mod_ph.fit(
                 data=phase[von:bis],
                 freq=range(von, bis),
                 params=par_ph
             )
-
-        def phase_direkt():
-            direkt = ModelResult(Model(None), Parameters())
-            direkt.best_fit = self.filter(phase[von:bis])
-            return direkt
-
-        ph = [
-            lambda: phase_fitten(phase_lorentz),
-            lambda: phase_fitten(phase_phenom),
-            phase_direkt
-        ][par.phase_modus]()
+        else:
+            ph = ModelResult(None, None)
+            ph.best_fit = self.filter(phase[von:bis])
 
         # Zusätzliche Informationen für den Phasenfit:
         if self.par.phase_versatz < 0:
@@ -148,7 +139,10 @@ class Fit(QtCore.QThread):
         return amp, ph
 
     def signal_weiter(self):
-        self.emit(signal.weiter)
+        if self.weiter:
+            self.emit(signal.weiter)
+        else:
+            raise Abbruch()
 
     def filter(self, daten):
         """

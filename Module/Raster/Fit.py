@@ -7,6 +7,7 @@
 import numpy as np
 
 from Module.Abstrakt.Fit import Fit as AbstraktFit
+from Module.Pool import omap
 
 from Messwerte import Messwerte
 from Ergebnis import Ergebnis, FitWerte
@@ -43,6 +44,14 @@ class Fit(AbstraktFit):
 
         if Fit.debug_schnell:
             pixel = 0
+
+        """Pool().map(
+            lambda y: Pool().map(
+                lambda x: self.fit(amplituden[x], phasen[y]),
+                range(pixel)
+            ),
+            range(pixel)
+        )"""
 
         for y in range(pixel):
             amplituden = self.messwerte.amplituden(y)
