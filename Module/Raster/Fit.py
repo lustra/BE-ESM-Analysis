@@ -7,7 +7,6 @@
 import numpy as np
 
 from Module.Abstrakt.Fit import Fit as AbstraktFit
-from Module.Pool import omap
 
 from Messwerte import Messwerte
 from Ergebnis import Ergebnis, FitWerte
@@ -58,7 +57,7 @@ class Fit(AbstraktFit):
             phasen = self.messwerte.phasen(y)
             
             for x in range(pixel):
-                amp, ph = self.fit(amplituden[x], phasen[y])
+                amp, ph = self.fit(amplituden[x], phasen[x])
                 
                 erg_resfreq[y, x] = amp.best_values['resfreq']
                 fhlr_resfreq[y, x] = amp.params['resfreq'].stderr
