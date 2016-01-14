@@ -4,6 +4,8 @@
 @author: Sebastian Badur
 """
 
+import numpy as np
+
 from Module.Abstrakt.Fit import Fit as AbstraktFit
 
 from Messwerte import Messwerte
@@ -23,7 +25,14 @@ class Fit(AbstraktFit):
 
     def impl_fit(self):
         for reihe in self.messwerte.alle():
-            for dc in range(len(reihe.dc)):  # Indizes zu den bestimmten DC-Werten
+
+            # Die leeren Listen vorbereiten
+            anz_dc = len(reihe.dc)
+            reihe.amp_dc = np.ndarray((anz_dc,))
+            reihe.resfreq_dc = np.ndarray((anz_dc,))
+            reihe.phase_dc = np.ndarray((anz_dc,))
+
+            for dc in range(anz_dc):  # Indizes zu den bestimmten DC-Werten
 
                 amp, phase = self.fit(reihe.amp_freq[dc], reihe.phase_freq[dc])
 
