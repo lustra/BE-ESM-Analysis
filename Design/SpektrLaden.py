@@ -2,7 +2,7 @@
 
 # Form implementation generated from reading ui file 'Dokumente/BE-ESM-Analysis/Design/SpektrLaden.ui'
 #
-# Created: Tue Dec  8 13:49:57 2015
+# Created: Fri Jan 15 12:08:12 2016
 #      by: PyQt4 UI code generator 4.10.4
 #
 # WARNING! All changes made in this file will be lost!
@@ -120,7 +120,6 @@ class Ui_SpektrLaden(object):
         self.verticallayout2.addLayout(self.horizontalLayout)
         spacerItem1 = QtGui.QSpacerItem(20, 40, QtGui.QSizePolicy.Minimum, QtGui.QSizePolicy.Expanding)
         self.verticallayout2.addItem(spacerItem1)
-        # todo hier eine Aufteilung machen Amplitudeneinstellungen und Phaseneinstellungen sonst zu durcheinander
         self.label_savgol = QtGui.QLabel(self.verticalLayoutWidget_2)
         self.label_savgol.setObjectName(_fromUtf8("label_savgol"))
         self.verticallayout2.addWidget(self.label_savgol)
@@ -151,7 +150,7 @@ class Ui_SpektrLaden(object):
         self.box_guete_min.setDecimals(3)
         self.box_guete_min.setMinimum(-999999.999)
         self.box_guete_min.setMaximum(999999.999)
-        self.box_guete_min.setProperty("value", 5.0)
+        self.box_guete_min.setProperty("value", 0.001)
         self.box_guete_min.setObjectName(_fromUtf8("box_guete_min"))
         self.gridlayout2.addWidget(self.box_guete_min, 3, 1, 1, 1)
         self.label_guete = QtGui.QLabel(self.verticalLayoutWidget_2)
@@ -165,25 +164,26 @@ class Ui_SpektrLaden(object):
         self.box_untergrund_max = QtGui.QDoubleSpinBox(self.verticalLayoutWidget_2)
         self.box_untergrund_max.setDecimals(3)
         self.box_untergrund_max.setMaximum(999999.999)
-        self.box_untergrund_max.setProperty("value", 5.0)
+        self.box_untergrund_max.setProperty("value", 1000.0)
         self.box_untergrund_max.setObjectName(_fromUtf8("box_untergrund_max"))
         self.gridlayout2.addWidget(self.box_untergrund_max, 2, 2, 1, 1)
         self.box_amp_min = QtGui.QDoubleSpinBox(self.verticalLayoutWidget_2)
         self.box_amp_min.setDecimals(3)
         self.box_amp_min.setMaximum(999999.999)
-        self.box_amp_min.setProperty("value", 10.0)
+        self.box_amp_min.setProperty("value", 0.001)
         self.box_amp_min.setObjectName(_fromUtf8("box_amp_min"))
         self.gridlayout2.addWidget(self.box_amp_min, 1, 1, 1, 1)
         self.box_untergrund_min = QtGui.QDoubleSpinBox(self.verticalLayoutWidget_2)
         self.box_untergrund_min.setDecimals(3)
         self.box_untergrund_min.setMaximum(999999.999)
+        self.box_untergrund_min.setProperty("value", 0.001)
         self.box_untergrund_min.setObjectName(_fromUtf8("box_untergrund_min"))
         self.gridlayout2.addWidget(self.box_untergrund_min, 2, 1, 1, 1)
         self.box_amp_max = QtGui.QDoubleSpinBox(self.verticalLayoutWidget_2)
         self.box_amp_max.setDecimals(3)
         self.box_amp_max.setMinimum(0.0)
         self.box_amp_max.setMaximum(999999.999)
-        self.box_amp_max.setProperty("value", 100.0)
+        self.box_amp_max.setProperty("value", 1000.0)
         self.box_amp_max.setObjectName(_fromUtf8("box_amp_max"))
         self.gridlayout2.addWidget(self.box_amp_max, 1, 2, 1, 1)
         self.label_untergrund = QtGui.QLabel(self.verticalLayoutWidget_2)
@@ -206,7 +206,7 @@ class Ui_SpektrLaden(object):
         self.box_guete_max.setDecimals(3)
         self.box_guete_max.setMinimum(-999999.999)
         self.box_guete_max.setMaximum(999999.999)
-        self.box_guete_max.setProperty("value", 25.0)
+        self.box_guete_max.setProperty("value", 1000.0)
         self.box_guete_max.setObjectName(_fromUtf8("box_guete_max"))
         self.gridlayout2.addWidget(self.box_guete_max, 3, 2, 1, 1)
         self.label_fitparameter = QtGui.QLabel(self.verticalLayoutWidget_2)
@@ -381,6 +381,7 @@ class Ui_SpektrLaden(object):
         SpektrLaden.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(SpektrLaden)
+        self.box_phase_fit.setCurrentIndex(2)
         QtCore.QObject.connect(self.button_fitten, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.widget_param.setDisabled)
         QtCore.QObject.connect(self.button_fitten, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.widget_pfad.setDisabled)
         QtCore.QObject.connect(self.button_fitten, QtCore.SIGNAL(_fromUtf8("toggled(bool)")), self.widget_vorschau.setDisabled)

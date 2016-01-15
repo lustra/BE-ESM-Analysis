@@ -11,7 +11,7 @@ from scipy.signal import savgol_filter
 from lmfit import Parameters
 
 from Module.Signal import signal
-from Module.Sonstige import Fehler, Abbruch, int_min, int_max
+from Module.Sonstige import Fehler, Abbruch, Nichts, int_min, int_max
 
 
 class Fit(QtCore.QThread):
@@ -163,8 +163,3 @@ class Fit(QtCore.QThread):
 
     def speichern(self, wohin):
         raise NotImplementedError()
-
-
-class Nichts:
-    def __init__(self):
-        pass

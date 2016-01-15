@@ -116,7 +116,7 @@ class Messwerte(AbstraktMesswerte, Messreihe):
         """ :type: AC """
         index = bisect_left(zgr.dc, dc)  # Sortiert einfügen
         zgr.dc.insert(index, dc)
-        zgr.amp_freq.insert(index, 1000 * amplitude)
+        zgr.amp_freq.insert(index, amplitude)
         zgr.phase_freq.insert(index, phase)
 
         self.anzahl_messreihen += 1
@@ -149,7 +149,7 @@ class Messwerte(AbstraktMesswerte, Messreihe):
             reihe.dc, reihe.amp_dc, reihe.resfreq_dc, reihe.phase_dc = zip(*abh_dc)"""
 
         datei_speichern(wohin + '.amp', reihen, 'Amp. (mV)', lambda r, n: str(r.amp_dc[n]))
-        datei_speichern(wohin + '.freq', reihen, 'Resfreq. (kHz)', lambda r, n: str(r.resfreq_dc[n]))
+        datei_speichern(wohin + '.freq', reihen, 'Resfreq. (Hz)', lambda r, n: str(r.resfreq_dc[n]))
         datei_speichern(wohin + '.phase', reihen, 'Phase (Grad)', lambda r, n: str(r.phase_dc[n]))
 
 

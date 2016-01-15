@@ -155,6 +155,9 @@
             <verstretch>0</verstretch>
            </sizepolicy>
           </property>
+          <property name="currentIndex">
+           <number>2</number>
+          </property>
           <item>
            <property name="text">
             <string>Lorentz-Fit (physikalisch)</string>
@@ -279,7 +282,7 @@
            <double>999999.998999999952503</double>
           </property>
           <property name="value">
-           <double>5.000000000000000</double>
+           <double>0.001000000000000</double>
           </property>
          </widget>
         </item>
@@ -305,7 +308,7 @@
            <double>999999.998999999952503</double>
           </property>
           <property name="value">
-           <double>5.000000000000000</double>
+           <double>1000.000000000000000</double>
           </property>
          </widget>
         </item>
@@ -318,7 +321,7 @@
            <double>999999.998999999952503</double>
           </property>
           <property name="value">
-           <double>10.000000000000000</double>
+           <double>0.001000000000000</double>
           </property>
          </widget>
         </item>
@@ -329,6 +332,9 @@
           </property>
           <property name="maximum">
            <double>999999.998999999952503</double>
+          </property>
+          <property name="value">
+           <double>0.001000000000000</double>
           </property>
          </widget>
         </item>
@@ -344,7 +350,7 @@
            <double>999999.998999999952503</double>
           </property>
           <property name="value">
-           <double>100.000000000000000</double>
+           <double>1000.000000000000000</double>
           </property>
          </widget>
         </item>
@@ -386,7 +392,7 @@
            <double>999999.998999999952503</double>
           </property>
           <property name="value">
-           <double>25.000000000000000</double>
+           <double>1000.000000000000000</double>
           </property>
          </widget>
         </item>
@@ -779,11 +785,6 @@
      </layout>
     </widget>
    </widget>
-   <zorder>widget_param</zorder>
-   <zorder>widget_fit</zorder>
-   <zorder>widget_pfad</zorder>
-   <zorder>widget_vorschau</zorder>
-   <zorder>label_phase_fit</zorder>
   </widget>
  </widget>
  <customwidgets>

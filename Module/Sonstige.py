@@ -31,6 +31,11 @@ class Abbruch(Exception):
     pass
 
 
+class Nichts:
+    def __init__(self):
+        pass
+
+
 def komma(f):
     """
     :type f: float
