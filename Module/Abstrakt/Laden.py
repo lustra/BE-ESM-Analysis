@@ -64,7 +64,7 @@ class GuiAbstraktLaden(QtGui.QMainWindow):
 
     def ordnerwahl(self):
         self.edit_pfad.setText(
-            QtGui.QFileDialog().getExistingDirectory(self, rf_ordner[lang], ordner)
+            QtGui.QFileDialog().getExistingDirectory(self, rf_ordner[lang], self.edit_pfad.text())
         )
         try:
             self.konfig_lesen()
