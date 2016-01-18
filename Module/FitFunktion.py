@@ -40,32 +40,32 @@ def drive_lorentz(freq, resfreq, amp, guete, off):
     ) + off
 
 
-def phase_lorentz(freq, resfreq, guete, off):
+def phase_lorentz(freq, resfreq, guete, phase):
     """
     :type freq: float
     :type resfreq: float
     :type guete: float
-    :type off: float
-    :return: Phase in Grad (antreibendes System)
-    :rtype: float
-    """
-    return in_grad * np.arctan(
-        resfreq * freq / (guete * (resfreq**2 - freq**2))
-    ) + off
-
-
-def phase_phenom(freq, resfreq, guete, off):
-    """
-    :type freq: float
-    :type resfreq: float
-    :type guete: float
-    :type off: float
+    :type phase: float
     :return: Phase in Grad (antreibendes System)
     :rtype: float
     """
     return (in_grad * np.arctan(
-        guete * (freq - resfreq)
-    ) + 180) % 360 - 180 + off  # TODO Phasenoffset (im Modulo)
+        resfreq * freq / (guete * (resfreq**2 - freq**2))
+    ) + phase) % 360 - 180
+
+
+def phase_phenom(freq, resfreq, guete, phase):
+    """
+    :type freq: float
+    :type resfreq: float
+    :type guete: float
+    :type phase: float
+    :return: Phase in Grad (antreibendes System)
+    :rtype: float
+    """
+    return (in_grad * np.arctan(
+        (resfreq - freq) / (100 * guete)
+    ) + phase) % 360 - 180
 
 
 errorfunc = [  # Bessere Lösung finden oder Reihenfolge mit Strings abgleichen!

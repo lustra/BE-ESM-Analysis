@@ -11,7 +11,16 @@ from scipy.signal import savgol_filter
 from lmfit import Parameters
 
 from Module.Signal import signal
-from Module.Sonstige import Fehler, Abbruch, Nichts, int_min, int_max
+from Module.Sonstige import Fehler, Abbruch, Nichts, int_max
+
+
+fit_genauigkeit = {
+    'ftol': 1e-9,  # Geringe Toleranzen
+    'xtol': 1e-9,
+    'gtol': 1e-9,
+    'maxfev': int_max,  # Maximale Iterationsanzahl
+    'factor': 0.1  # Kleinster möglicher Schrittwert für die leastsq-Methode
+}
 
 
 class Fit(QtCore.QThread):
@@ -91,16 +100,10 @@ class Fit(QtCore.QThread):
             data=amplitude,
             freq=self.messwerte.frequenzen,
             params=par_amp,
-            fit_kws={
-                'ftol': 1e-9,  # Geringe Toleranzen
-                'xtol': 1e-9,
-                'gtol': 1e-9,
-                'maxfev': int_max,  # Maximale Iterationsanzahl
-                'factor': 0.1  # Kleinster möglicher Schrittwert für die leastsq-Methode
-            }
+            fit_kws=fit_genauigkeit
         )
         # Index der Resonanzfrequenz
-        resfreq = int((amp.best_values['resfreq'] - par.fmin) / par.df)
+        resfreq = int((amp.best_values['resfreq'] - par.fmin) // par.df)
 
         # ----------------------------------------
         # ------------- PHASE fitten -------------
@@ -110,16 +113,17 @@ class Fit(QtCore.QThread):
         bis = max(min(resfreq + abs(par.phase_versatz), len(phase)-1), von+1)
 
         # Fitparameter für die Fitfunktion
-        par_ph = Parameters()
+        par_ph = Parameters()  # TODO
         par_ph.add('resfreq', value=resfreq, min=von, max=bis)
-        par_ph.add('guete', value=1, min=int_min, max=int_max)
-        par_ph.add('off', value=0, min=-180, max=180)
+        par_ph.add('guete', value=6, min=-10, max=10)
+        par_ph.add('phase', value=45, min=90, max=425)
 
         if par.mod_ph is not None:
             ph = par.mod_ph.fit(
                 data=phase[von:bis],
                 freq=range(von, bis),
-                params=par_ph
+                params=par_ph,
+                fit_kws=fit_genauigkeit
             )
         else:
             ph = Nichts()
