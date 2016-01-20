@@ -132,8 +132,11 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.list_amplitude.setModel(model(self.fit.messwerte.amplitude_namen))
         self.list_phase.setModel(model(self.fit.messwerte.phase_namen))
 
-        #  Resonanzplots bereitstellen
-        self.plt_resonanzkurve.set_werte(self.fit.messwerte.amplitude)
+        try:  # TODO
+            #  Resonanzplots bereitstellen
+            self.plt_resonanzkurve.set_werte(self.fit.messwerte.amplitude)
+        except AttributeError:
+            print 'TODO: Laden fertig, Resonanzkurven bereitstellen'
 
     def raster_laden(self):
         self.gui_raster_laden.show()
@@ -163,7 +166,7 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
     def spektr_fit_fertig(self):
         self.action_speichern.setEnabled(True)
         self.menu_spektroskopie.setEnabled(True)
-        print("TODO")
+        print('TODO: Fit fertig, restliche Plots bereitstellen')
 
         """from matplotlib import pyplot as plt
 

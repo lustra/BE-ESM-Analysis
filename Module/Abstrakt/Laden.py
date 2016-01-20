@@ -99,6 +99,7 @@ class GuiAbstraktLaden(QtGui.QMainWindow):
     def start_fit(self):
         self.entsperrt = False
         self.button_fitten.setText(laden_abbrechen[lang])
+        self.progress_bar.reset()
 
     def fehler(self, fehler):
         """

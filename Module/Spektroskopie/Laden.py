@@ -156,7 +156,7 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
                 self.fit_plot(
                     x1=fit.messwerte.frequenzen,
                     y1=ac.phase_freq[dc],
-                    x2=[fit.messwerte.frequenzen[f] for f in range(phase.von, phase.bis)],
+                    x2=phase.frequenzen,
                     y2=phase.best_fit
                 )
         except ValueError:

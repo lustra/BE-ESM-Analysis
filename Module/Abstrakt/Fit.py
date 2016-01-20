@@ -102,15 +102,29 @@ class Fit(QtCore.QThread):
             params=par_amp,
             fit_kws=fit_genauigkeit
         )
-        # Index der Resonanzfrequenz
-        resfreq = int((amp.best_values['resfreq'] - par.fmin) // par.df)
+        # Resonanzfrequenz
+        resfreq = amp.best_values['resfreq']
 
         # ----------------------------------------
         # ------------- PHASE fitten -------------
         # ----------------------------------------
 
-        von = max(resfreq - abs(par.phase_versatz), 0)
-        bis = max(min(resfreq + abs(par.phase_versatz), len(phase)-1), von+1)
+        halb = abs(par.phase_versatz) * par.df  # Halbe Frequenzbreite des Phasenversatzes
+        von = resfreq - halb  # Untere Versatzgrenze
+        bis = resfreq + halb  # Obere Versatzgrenze
+        if von < par.fmin:  # Die Resonanzfrequenz liegt zu weit links:
+            # Auswahlbereich nach rechts verschieben, aber nicht über den Frequenzbereich hinaus
+            bis = min(bis + von, par.fmax)
+            von = par.fmin
+        elif bis > par.fmax:  # Die Resonanz lieg zu weit rechts:
+            von = max(von - bis, par.fmin)  # Verschieben, aber nicht über linken Rand hinaus
+            bis = par.fmax
+
+        # Phase und Frequenz beschneiden
+        index_von = self.freq_index(von)
+        index_bis = self.freq_index(bis)
+        wahl_phase = phase[index_von:index_bis]
+        wahl_frequenz = self.messwerte.frequenzen[index_von:index_bis]
 
         # Fitparameter für die Fitfunktion
         par_ph = Parameters()  # TODO
@@ -120,14 +134,14 @@ class Fit(QtCore.QThread):
 
         if par.mod_ph is not None:
             ph = par.mod_ph.fit(
-                data=phase[von:bis],
-                freq=range(von, bis),
+                data=wahl_phase,
+                freq=wahl_frequenz,
                 params=par_ph,
                 fit_kws=fit_genauigkeit
             )
         else:
             ph = Nichts()
-            ph.best_fit = self.filter(phase[von:bis])
+            ph.best_fit = self.filter(wahl_phase)
 
         # Zusätzliche Informationen für den Phasenfit:
         if par.phase_versatz < 0:
@@ -136,10 +150,12 @@ class Fit(QtCore.QThread):
             ph.mit_versatz = ph.best_fit[-1]
         else:
             ph.mit_versatz = ph.best_fit[len(ph.best_fit) // 2]
-        ph.von = von
-        ph.bis = bis
+        ph.frequenzen = wahl_frequenz
 
         return amp, ph
+
+    def freq_index(self, freq):
+        return int((freq - self.par.fmin) // self.par.df)
 
     def signal_weiter(self):
         if self.weiter:
