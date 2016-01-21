@@ -133,14 +133,15 @@ class Fit(QtCore.QThread):
         # Fitparameter für die Fitfunktion
         par_ph = Parameters()  # TODO
         par_ph.add('resfreq', value=resfreq, min=von, max=bis)
-        par_ph.add('guete', value=6, min=-10, max=10)
-        par_ph.add('phase', value=45, min=90, max=425)
+        par_ph.add('guete', value=3, min=-10, max=10)
+        par_ph.add('phase', value=200, min=90, max=425)
 
         if par.mod_ph is not None:
             ph = par.mod_ph.fit(
                 data=wahl_phase,
                 freq=wahl_frequenz,
                 params=par_ph,
+                method='differential_evolution',  # 'cg' passt auch gut
                 fit_kws=fit_genauigkeit
             )
         else:

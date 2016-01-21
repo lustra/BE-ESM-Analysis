@@ -46,7 +46,7 @@ def phase_lorentz(freq, resfreq, guete, phase):
     :type resfreq: float
     :type guete: float
     :type phase: float
-    :return: Phase in Grad (antreibendes System)
+    :return: Phase in Grad
     :rtype: float
     """
     return (in_grad * np.arctan(
@@ -60,11 +60,11 @@ def phase_phenom(freq, resfreq, guete, phase):
     :type resfreq: float
     :type guete: float
     :type phase: float
-    :return: Phase in Grad (antreibendes System)
+    :return: Phase in Grad
     :rtype: float
     """
     return (in_grad * np.arctan(
-        (resfreq - freq) / (100 * guete)
+        (resfreq - freq) / (500 * guete)
     ) + phase) % 360 - 180
 
 
