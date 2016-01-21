@@ -112,13 +112,17 @@ class Fit(QtCore.QThread):
         halb = abs(par.phase_versatz) * par.df  # Halbe Frequenzbreite des Phasenversatzes
         von = resfreq - halb  # Untere Versatzgrenze
         bis = resfreq + halb  # Obere Versatzgrenze
-        if von < par.fmin:  # Die Resonanzfrequenz liegt zu weit links:
+
+        fmin = par.fmin + par.bereich_links * par.df
+        fmax = par.fmax + par.bereich_rechts * par.df  # Ist negativ definiert
+
+        if von < fmin:  # Die Resonanzfrequenz liegt zu weit links:
             # Auswahlbereich nach rechts verschieben, aber nicht über den Frequenzbereich hinaus
-            bis = min(bis + von, par.fmax)
-            von = par.fmin
-        elif bis > par.fmax:  # Die Resonanz lieg zu weit rechts:
-            von = max(von - bis, par.fmin)  # Verschieben, aber nicht über linken Rand hinaus
-            bis = par.fmax
+            bis = min(bis - von + fmin, fmax)
+            von = fmin
+        elif bis > fmax:  # Die Resonanz lieg zu weit rechts:
+            von = max(von - bis + fmax, fmin)  # Verschieben, aber nicht über linken Rand hinaus
+            bis = fmax
 
         # Phase und Frequenz beschneiden
         index_von = self.freq_index(von)
@@ -155,7 +159,7 @@ class Fit(QtCore.QThread):
         return amp, ph
 
     def freq_index(self, freq):
-        return int((freq - self.par.fmin) // self.par.df)
+        return int((freq - self.par.fmin) // self.par.df) - self.par.bereich_links
 
     def signal_weiter(self):
         if self.weiter:
