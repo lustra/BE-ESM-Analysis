@@ -11,6 +11,7 @@ from Design.RasterLaden import Ui_RasterLaden
 from Module.Abstrakt.Laden import GuiAbstraktLaden
 from Module import FitFunktion
 from Module.Strings import *
+from Module.Sonstige import punkt
 
 from Parameter import Parameter
 from Fit import Fit
@@ -55,7 +56,7 @@ class GuiRasterLaden(GuiAbstraktLaden, Ui_RasterLaden):
         konfig = "konfig"
         self.box_fmin.setValue(0.001 * parser.getint(konfig, "fmin"))
         self.box_fmax.setValue(0.001 * parser.getint(konfig, "fmax"))
-        self.box_df.setValue(parser.getfloat(konfig, "df"))
+        self.box_df.setValue(punkt(parser.get(konfig, "df")))
         self.box_mittelungen.setValue(parser.getint(konfig, "mittelungen"))
 
     def start_fit(self):
