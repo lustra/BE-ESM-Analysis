@@ -11,10 +11,12 @@ from PyQt4 import QtGui
 from ResonanzFit import hinweis, lang
 from Design.Gui import Ui_Gui
 
+from Raster.Fit import Fit as RasterFit
 from Raster.Raster import Raster
-from Raster.Resonanzkurve import Resonanzkurve
+from Raster.Resonanzkurve import Resonanzkurve as RasterResonanz
 from Raster.Schnitt import Schnitt
 from Raster.Laden import GuiRasterLaden
+from Spektroskopie.Resonanzkurve import Resonanzkurve as SpektrResonanz
 from Spektroskopie.Laden import GuiSpektrLaden
 from Sonstige import Achsenbeschriftung
 from Strings import *
@@ -32,59 +34,75 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.gui_raster_laden = GuiRasterLaden(self)
         self.gui_spektr_laden = GuiSpektrLaden(self)
 
-        self.plots = []
-        self.plt_resonanzkurve = Resonanzkurve(
+        # TODO nicht mehr nötig:
+        self.plots = []  # Die Plots werden durch ihren Konstruktor automatisch dieser Liste hinzugefügt
+
+        # Raster-Plots
+        self.plt_raster_resonanzkurve = RasterResonanz(
             gui=self,
             titel=gui_resonanzkurve[lang],
             beschriftung=Achsenbeschriftung(x=achse_freq[lang], y=achse_amp[lang])
         )
-        self.plt_phase_schnitt = Schnitt(
+        self.plt_raster_phase_schnitt = Schnitt(
             gui=self,
             titel=gui_phase_schnitt[lang],
             beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_phase[lang])
         )
-        self.plt_amp_schnitt = Schnitt(
+        self.plt_raster_amp_schnitt = Schnitt(
             gui=self,
             titel=gui_amp_schnitt[lang],
             beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_amp[lang])
         )
-        self.plt_phase = Raster(
+        self.plt_raster_phase = Raster(
             gui=self,
-            resonanzkurve=self.plt_resonanzkurve,
+            resonanzkurve=self.plt_raster_resonanzkurve,
             titel=gui_phase[lang],
             beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_punkt_y[lang], farbe=achse_phase[lang])
         )
-        self.plt_resfreq = Raster(
+        self.plt_raster_resfreq = Raster(
             gui=self,
-            resonanzkurve=self.plt_resonanzkurve,
+            resonanzkurve=self.plt_raster_resonanzkurve,
             titel=gui_resfreq[lang],
             beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_punkt_y[lang], farbe=achse_freq[lang])
         )
-        self.plt_amplitude = Raster(
+        self.plt_raster_amplitude = Raster(
             gui=self,
-            resonanzkurve=self.plt_resonanzkurve,
+            resonanzkurve=self.plt_raster_resonanzkurve,
             titel=gui_amplitude[lang],
             beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_punkt_y[lang], farbe=achse_amp[lang])
         )
-        self.plt_qfaktor = Raster(
+        self.plt_raster_qfaktor = Raster(
             gui=self,
-            resonanzkurve=self.plt_resonanzkurve,
+            resonanzkurve=self.plt_raster_resonanzkurve,
             titel=gui_qfaktor[lang],
             beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_punkt_y[lang])
+        )
+
+        # Spektroskopie-Plots
+        self.plt_spektr_resonanzkurve = SpektrResonanz(
+            gui=self,
+            titel=gui_resonanzkurve[lang],
+            beschriftung=Achsenbeschriftung(x=achse_freq[lang], y=achse_amp[lang])
         )
 
         self.action_raster.triggered.connect(self.raster_laden)
         self.action_spektroskopie.triggered.connect(self.spektr_laden)
         self.action_speichern.triggered.connect(self.speichern)
-        self.action_resonanzkurve.triggered.connect(self.plt_resonanzkurve.zeige)
-        self.action_phase_schnitt.triggered.connect(self.plt_phase_schnitt.zeige)
-        self.action_amp_schnitt.triggered.connect(self.plt_amp_schnitt.zeige)
-        self.action_resfreq.triggered.connect(self.plt_resfreq.zeige)
-        self.action_amplitude.triggered.connect(self.plt_amplitude.zeige)
-        self.action_phase.triggered.connect(self.plt_phase.zeige)
-        self.action_qfaktor.triggered.connect(self.plt_qfaktor.zeige)
+        self.action_resonanzkurve.triggered.connect(self.plt_raster_resonanzkurve.zeige)
+        self.action_phase_schnitt.triggered.connect(self.plt_raster_phase_schnitt.zeige)
+        self.action_amp_schnitt.triggered.connect(self.plt_raster_amp_schnitt.zeige)
+        self.action_resfreq.triggered.connect(self.plt_raster_resfreq.zeige)
+        self.action_amplitude.triggered.connect(self.plt_raster_amplitude.zeige)
+        self.action_phase.triggered.connect(self.plt_raster_phase.zeige)
+        self.action_qfaktor.triggered.connect(self.plt_raster_qfaktor.zeige)
         self.action_alles.triggered.connect(self.zeige_alles)
         self.action_aktualisieren.triggered.connect(self.aktualisieren)
+        self.action_anregung.triggered.connect(self.plt_spektr_resonanzkurve.zeige)
+
+        # TODO:
+        self.action_spektr_amp.setEnabled(False)
+        self.action_spektr_freq.setEnabled(False)
+        self.action_spektr_phase.setEnabled(False)
 
     def retranslateUi(self, ui):
         """
@@ -132,11 +150,15 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.list_amplitude.setModel(model(self.fit.messwerte.amplitude_namen))
         self.list_phase.setModel(model(self.fit.messwerte.phase_namen))
 
-        try:  # TODO
-            #  Resonanzplots bereitstellen
-            self.plt_resonanzkurve.set_werte(self.fit.messwerte.amplitude)
-        except AttributeError:
-            print 'TODO: Laden fertig, Resonanzkurven bereitstellen'
+        # Resonanzplots bereitstellen
+        if self.fit.__class__ == RasterFit:
+            self.plt_raster_resonanzkurve.set_werte(self.fit.messwerte.amplitude)
+            self.menu_raster.setEnabled(True)
+            self.menu_spektroskopie.setEnabled(False)
+        else:
+            self.plt_spektr_resonanzkurve.set_werte(self.fit.messwerte)
+            self.menu_raster.setEnabled(False)
+            self.menu_spektroskopie.setEnabled(True)
 
     def raster_laden(self):
         self.gui_raster_laden.show()
@@ -156,69 +178,17 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.menu_raster.setEnabled(True)
         erg = self.fit.erg
         """ :type: Module.Raster.Ergebnis.Ergebnis """
-        self.plt_phase_schnitt.set_werte(erg.phase)
-        self.plt_amp_schnitt.set_werte(erg.amp)
-        self.plt_phase.set_werte(erg.phase)
-        self.plt_resfreq.set_werte(erg.resfreq)
-        self.plt_amplitude.set_werte(erg.amp)
-        self.plt_qfaktor.set_werte(erg.q)
+        self.plt_raster_phase_schnitt.set_werte(erg.phase)
+        self.plt_raster_amp_schnitt.set_werte(erg.amp)
+        self.plt_raster_phase.set_werte(erg.phase)
+        self.plt_raster_resfreq.set_werte(erg.resfreq)
+        self.plt_raster_amplitude.set_werte(erg.amp)
+        self.plt_raster_qfaktor.set_werte(erg.q)
 
     def spektr_fit_fertig(self):
         self.action_speichern.setEnabled(True)
         self.menu_spektroskopie.setEnabled(True)
         print('TODO: Fit fertig, restliche Plots bereitstellen')
-
-        """from matplotlib import pyplot as plt
-
-        ac = self.fit.messwerte.omega(1).ac(10.0)
-        dc = ac.dc.index(-2.999)
-        plt.plot(self.fit.messwerte.frequenzen, ac.amp_freq[dc], '.', label="10V")
-
-        ac = self.fit.messwerte.omega(1).ac(8.0)
-        dc = ac.dc.index(-2.999)
-        plt.plot(self.fit.messwerte.frequenzen, ac.amp_freq[dc], '.', label="8V")
-
-        ac = self.fit.messwerte.omega(1).ac(6.0)
-        dc = ac.dc.index(-2.999)
-        plt.plot(self.fit.messwerte.frequenzen, ac.amp_freq[dc], '.', label="6V")
-
-        ac = self.fit.messwerte.omega(1).ac(4.0)
-        dc = ac.dc.index(-2.999)
-        plt.plot(self.fit.messwerte.frequenzen, ac.amp_freq[dc], '.', label="4V")
-
-        ac = self.fit.messwerte.omega(1).ac(2.0)
-        dc = ac.dc.index(-2.999)
-        plt.plot(self.fit.messwerte.frequenzen, ac.amp_freq[dc], '.', label="2V")
-
-        plt.legend(loc=3)
-        plt.ylabel('Amplitude (XKorr 0,1 mV)')
-        plt.xlabel('Frequenz (kHz)')
-        plt.show()
-        
-        ac = self.fit.messwerte.omega(1).ac(10.0)
-        dc = ac.dc.index(-2.999)
-        plt.plot(self.fit.messwerte.frequenzen, ac.phase_freq[dc], '.', label="10V")
-
-        ac = self.fit.messwerte.omega(1).ac(8.0)
-        dc = ac.dc.index(-2.999)
-        plt.plot(self.fit.messwerte.frequenzen, ac.phase_freq[dc], '.', label="8V")
-
-        ac = self.fit.messwerte.omega(1).ac(6.0)
-        dc = ac.dc.index(-2.999)
-        plt.plot(self.fit.messwerte.frequenzen, ac.phase_freq[dc], '.', label="6V")
-
-        ac = self.fit.messwerte.omega(1).ac(4.0)
-        dc = ac.dc.index(-2.999)
-        plt.plot(self.fit.messwerte.frequenzen, ac.phase_freq[dc], '.', label="4V")
-
-        ac = self.fit.messwerte.omega(1).ac(2.0)
-        dc = ac.dc.index(-2.999)
-        plt.plot(self.fit.messwerte.frequenzen, ac.phase_freq[dc], '.', label="2V")
-
-        plt.legend(loc=3)
-        plt.ylabel('Phase (Grad)')
-        plt.xlabel('Frequenz (kHz)')
-        plt.show()"""
 
     def aktualisieren(self):
         for plt in self.plots:

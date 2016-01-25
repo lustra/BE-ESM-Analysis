@@ -68,9 +68,9 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
         self.setWindowTitle(laden_spektr_titel[lang])
         self.label_df.setText(laden_df[lang])
         self.label_mittelungen.setText(laden_mittelungen[lang])
-        self.label_omega.setText(laden_omega[lang])
-        self.label_ac.setText(laden_ac[lang])
-        self.label_dc.setText(laden_dc[lang])
+        self.label_omega.setText(wahl_omega[lang])
+        self.label_ac.setText(wahl_ac[lang])
+        self.label_dc.setText(wahl_dc[lang])
         self.button_zeige_amp.setText(gui_amplitude[lang])
         self.button_zeige_phase.setText(laden_phase[lang])
 

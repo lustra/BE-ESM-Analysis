@@ -44,8 +44,8 @@ class Resonanzkurve(Canvas):
     @staticmethod
     def str_status(x, y):
         """
-        :type x: int
-        :type y: int
+        :type x: float
+        :type y: float
         """
         return str(x) + " | " + str(y)
 
