@@ -147,6 +147,7 @@ class Fit(QtCore.QThread):
         else:
             ph = Nichts()
             ph.best_fit = self.filter(wahl_phase)
+            ph.chisqr = 0 # TODO
 
         # Zusätzliche Informationen für den Phasenfit:
         if par.phase_versatz < 0:

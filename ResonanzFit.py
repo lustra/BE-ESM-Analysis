@@ -19,12 +19,13 @@ def hinweis(ursprung, nachricht):
     anzeige.exec_()
 
 
-if __name__ == "__main__":
-    if "debug_schnell" in sys.argv:
+if __name__ == '__main__':
+    if 'debug_schnell' in sys.argv:
         from Module.Abstrakt.Fit import Fit
         Fit.debug_schnell = True
 
     app = QtGui.QApplication(sys.argv)
+    app.setWindowIcon(QtGui.QIcon('Design/Raster.png'))
     from Module.Gui import Gui
     gui = Gui()
     gui.show()

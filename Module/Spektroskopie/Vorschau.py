@@ -16,4 +16,4 @@ class Vorschau(Plotter):
         """
         :type gui: PyQt4.QtGui.QWidget
         """
-        Plotter.__init__(self, gui, Achsenbeschriftung(spektr_dc[lang], spektr_amp[lang]))
+        Plotter.__init__(self, gui, Achsenbeschriftung(achse_freq[lang], achse_amp[lang]))

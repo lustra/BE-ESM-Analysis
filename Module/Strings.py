@@ -27,8 +27,8 @@ gui_lade_spektroskopie = ["Spektroskopie...", "Spectroscopy..."]
 gui_spektroskopie = ["Spektroskopie", "Spectroscopy"]
 gui_anregung = ["Anregungsspektrum", "Excitation spectrum"]
 
-achse_amp = ["Amplitude / mV", "amplitude / mV"]
-achse_freq = ["Frequenz / kHz", "frequency / kHz"]
+achse_amp = ["Amplitude (mV)", "amplitude (mV)"]
+achse_freq = ["Frequenz (Hz)", "frequency (Hz)"]
 achse_phase = [u"Phase / °", u"phase / °"]
 achse_punkt_x = ["Messpunkt X", "measure point X"]
 achse_punkt_y = ["Messpunkt Y", "measure point Y"]
@@ -80,9 +80,6 @@ canvas_spalte = ["Spalte:", "Column:"]
 raster_bereich = ["Bereich:", "Range:"]
 raster_fehler = ["Fehler anzeigen", "Show error"]
 raster_prozent = ["prozentual", "percentage"]
-
-spektr_dc = ["DC-Offset / V", "DC-offset / V"]
-spektr_amp = ["Amplitude (mV)", "Amplitude (mV)"]
 
 rf_ordner = [u"Messverzeichnis auswählen"]
 mw_pixelzahl = [u"<b>Fehler:</b><br>Überprüfen Sie die Pixelanzahl, da sie womöglich nicht stimmt.",
