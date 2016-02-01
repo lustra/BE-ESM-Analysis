@@ -40,6 +40,13 @@ def omap(fkt, par):
                     warte = False
 
 
+# TODO Ausprobieren:
+"""
+ http://stackoverflow.com/questions/3288595/multiprocessing-using-pool-map-on-a-function-defined-in-a-class
+ @author: klaus se
+"""
+
+
 def fun(f,q_in,q_out):
     while True:
         i,x = q_in.get()
