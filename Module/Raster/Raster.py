@@ -13,7 +13,7 @@ from Module.Strings import *
 from ResonanzFit import lang
 
 
-bereich_schritt = 0.01
+bereich_schritt = 0.00001
 
 
 class Raster(Canvas):
