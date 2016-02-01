@@ -68,6 +68,7 @@ class Fit(QtCore.QThread):
             self.emit(signal.fertig)
 
     debug_schnell = False
+    konsole = False
 
     def fit(self, amplitude, phase):
         """
@@ -104,6 +105,9 @@ class Fit(QtCore.QThread):
         )
         # Resonanzfrequenz
         resfreq = amp.best_values['resfreq']
+
+        if Fit.konsole:
+            print(amp.best_values)
 
         # ----------------------------------------
         # ------------- PHASE fitten -------------
@@ -147,7 +151,7 @@ class Fit(QtCore.QThread):
         else:
             ph = Nichts()
             ph.best_fit = self.filter(wahl_phase)
-            ph.chisqr = 0 # TODO
+            ph.chisqr = 0  # TODO
 
         # Zusätzliche Informationen für den Phasenfit:
         if par.phase_versatz < 0:
