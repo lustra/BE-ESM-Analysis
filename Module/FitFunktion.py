@@ -54,6 +54,20 @@ def phase_lorentz(freq, resfreq, guete, phase):
     ) + phase) % 360 - 180
 
 
+def phase_aghr(freq, resfreq, guete, phase):
+    """
+    :type freq: float
+    :type resfreq: float
+    :type guete: float
+    :type phase: float
+    :return: Phase in Grad nach T. R. Albrecht, P. Grutter, D. Horne, D. Rugar, J. Appl. Phys., 1991, 69, 668–673.
+    :rtype: float
+    """
+    return (in_grad * np.arctan(
+        5 * guete * (freq / resfreq - resfreq / freq)
+    ) + phase) % 360 - 180
+
+
 def phase_phenom(freq, resfreq, guete, phase):
     """
     :type freq: float

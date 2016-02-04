@@ -190,6 +190,22 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.menu_spektroskopie.setEnabled(True)
         print('TODO: Fit fertig, restliche Plots bereitstellen')
 
+        """import matplotlib.pyplot as plt
+        ac = self.fit.messwerte.omega(1).ac(7.)
+        dc = ac.dc.index(-4.)
+        plt.plot(
+            self.fit.messwerte.frequenzen,
+            ac.amp_freq[dc],
+            antialiased=True
+        )
+        dc = ac.dc.index(-4.025)
+        plt.plot(
+            self.fit.messwerte.frequenzen,
+            ac.amp_freq[dc],
+            antialiased=True
+        )
+        plt.show()"""
+
     def aktualisieren(self):
         for plt in self.plots:
             plt.aktualisieren()

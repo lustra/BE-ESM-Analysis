@@ -83,6 +83,32 @@ class Messwerte(AbstraktMesswerte, Messreihe):
                 links = start + self.par.bereich_links
                 rechts = start + self.par.messpunkte + self.par.bereich_rechts
                 daten += tdms.data[links:rechts]
+
+                """if mittelung == 0:
+                    name = raw_input('$')
+                    import matplotlib.pyplot as plt
+                    plt.title(name+ ": Einzelmessung")
+                    plt.xlabel(u"Frequenz / Hz")
+                    plt.ylabel(u"Amplitude / µV")
+                    plt.plot(
+                        self.frequenzen,
+                        daten * (1000*1000/50/2.9),
+                        antialiased=True
+                    )
+                    plt.show()
+                elif mittelung == self.par.mittelungen-1:
+                    name = raw_input('$')
+                    import matplotlib.pyplot as plt
+                    plt.title(name+ ": 200x gemittelt")
+                    plt.xlabel(u"Frequenz / Hz")
+                    plt.ylabel(u"Amplitude / µV")
+                    plt.plot(
+                        self.frequenzen,
+                        daten / self.par.mittelungen * (1000*1000/180),
+                        antialiased=True
+                    )
+                    plt.show()"""
+
             except (ValueError, IndexError):
                 """
                 In diesem Fall ist ein Messfehler aufgetreten. Das kann (sehr selten) passieren, weshalb der Fit
