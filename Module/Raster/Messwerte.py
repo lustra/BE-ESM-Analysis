@@ -22,7 +22,11 @@ class Messwerte(AbstraktMesswerte):
         """
         AbstraktMesswerte.__init__(self, par)
         self.amplitude, self.amplitude_namen = lade_tdms(par, 'amp')
-        self.phase, self.phase_namen = lade_tdms(par, 'phase')
+        if True:  # TODO False setzen für OHNE Phase, aber da muss natürlich noch ein Anzeigeelement her
+            self.phase, self.phase_namen = lade_tdms(par, 'phase')
+        else:
+            self.phase = np.ndarray((par.pixel, par.pixel * par.messpunkte))
+            self.phase_namen = []
 
         # Definition der Frequenz:
         self.frequenzen = np.arange(par.fmin, par.fmax, par.df)

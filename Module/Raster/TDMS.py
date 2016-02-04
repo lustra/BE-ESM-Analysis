@@ -16,7 +16,7 @@ from Module.Strings import *
 
 def lade_tdms(par, typ):
     """
-    :type par: Module.Sonstige.Parameter
+    :type par: Parameter.Parameter
     :type typ: str
     """
     daten = []
@@ -24,7 +24,7 @@ def lade_tdms(par, typ):
 
     # Dateinamen aufteilen und numerisch sortieren:
     sorted_fnames = sorted(
-        glob(os.path.join(par.verzeichnis, typ + "*.tdms")),  # alle Dateien in diesem Ordner mit der Endung TDMS
+        glob(os.path.join(par.verzeichnis, typ + '*.tdms')),  # alle Dateien in diesem Ordner mit der Endung TDMS
         key=lambda x: int(x.split(os.sep)[-1].split(typ)[1].split('.')[0])  # Zeilennummer hinter dem Typnamen
     )
 
@@ -45,7 +45,7 @@ def lade_tdms(par, typ):
 
     # Es fehlen Messdaten, die letzte Zeile wird einfach vervielfacht
     if verbleibend > 0:
-        print("Fehlende Messdaten")
+        print("Fehlende Messdaten (" + typ + ")")
         while verbleibend > 0:
             verbleibend -= 1
             daten.append(daten[-1])
