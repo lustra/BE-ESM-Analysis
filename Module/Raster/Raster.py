@@ -13,7 +13,12 @@ from Module.Strings import *
 from ResonanzFit import lang
 
 
-bereich_schritt = 0.00001
+def genauigkeit(box):
+    """
+    :type box: QtGui.QDoubleSpinBox
+    """
+    box.setSingleStep(0.01)
+    box.setDecimals(0.0000001)
 
 
 class Raster(Canvas):
@@ -36,12 +41,12 @@ class Raster(Canvas):
 
         self.box_min = QtGui.QDoubleSpinBox()
         self.box_min.setMinimum(-sys.float_info.max)
-        self.box_min.setSingleStep(bereich_schritt)
+        genauigkeit(self.box_min)
         horizontal.addWidget(self.box_min)
 
         self.box_max = QtGui.QDoubleSpinBox()
         self.box_max.setMaximum(sys.float_info.max)
-        self.box_max.setSingleStep(bereich_schritt)
+        genauigkeit(self.box_max)
         horizontal.addWidget(self.box_max)
 
         self.box_fehler = QtGui.QCheckBox(raster_fehler[lang])

@@ -46,7 +46,7 @@ class Fit(AbstraktFit):
 
         """Pool().map(
             lambda y: Pool().map(
-                lambda x: self.fit(amplituden[x], phasen[y]),
+                lambda x: self.fit(amplituden[x], phasen[x]),
                 range(pixel)
             ),
             range(pixel)

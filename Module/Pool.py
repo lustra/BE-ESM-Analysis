@@ -4,15 +4,21 @@
 @author: Sebastian Badur
 """
 
-from multiprocessing import *
+from PyQt4.QtCore import QRunnable, QThreadPool
 
 
-def parallel(fkt, port):
-    """
-    :type fkt: ()->
-    :type port: multiprocessing.queues.Queue
-    """
-    port.put(fkt(port.get()))
+class Parallel(QRunnable):
+    def __init__(self, fkt, p):
+        """
+        :type fkt: ()->
+        :type p: object
+        """
+        QRunnable.__init__(self)
+        self.fkt = fkt
+        self.p = p
+
+    def run(self):
+        self.fkt(self.p)
 
 
 def omap(fkt, par):
@@ -21,20 +27,8 @@ def omap(fkt, par):
     :type par: list
     :rtype: list
     """
-    kerne = range(cpu_count())
-    port = [None] * len(kerne)
-    """ :type: list[multiprocessing.queues.Queue] """
-    prozess = [None] * len(kerne)
-    """ :type: list[Process] """
-    for k in kerne:
-        port[k] = Queue()
-        prozess[k] = Process(target=parallel, args=(fkt, port[k]))
-
+    # Die Anzahl der Prozesse ist ohne Aufwand auf einen idealen Wert beschränkt
+    pool = QThreadPool()
+    erg = [None] * len(par)
     for p in par:
-        warte = True
-        while warte:
-            for k in kerne:
-                if not prozess[k].is_alive():
-                    port[k].put(p)
-                    prozess[k].start()
-                    warte = False
+        pool.start(QRunnable(fkt, p))
