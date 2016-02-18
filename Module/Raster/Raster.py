@@ -18,7 +18,7 @@ def genauigkeit(box):
     :type box: QtGui.QDoubleSpinBox
     """
     box.setSingleStep(0.01)
-    box.setDecimals(0.0000001)
+    box.setDecimals(10)
 
 
 class Raster(Canvas):
@@ -57,8 +57,8 @@ class Raster(Canvas):
         horizontal.addWidget(self.box_prozentual)
         horizontal.addItem(QtGui.QSpacerItem(40, 20, QtGui.QSizePolicy.Expanding, QtGui.QSizePolicy.Minimum))
 
-        self.box_min.valueChanged.connect(self.akt_bereich)
-        self.box_max.valueChanged.connect(self.akt_bereich)
+        self.box_min.valueChanged.connect(self.aktualisiere)
+        self.box_max.valueChanged.connect(self.aktualisiere)
         self.box_fehler.clicked.connect(self.akt_fehler)
         self.box_prozentual.clicked.connect(self.aktualisiere)
 
@@ -97,11 +97,6 @@ class Raster(Canvas):
         self.box_min.setValue(neu.normal_min)
         self.box_max.setValue(neu.normal_max)
         Canvas.set_werte(self, neu)
-
-    def akt_bereich(self):
-        self.box_min.setMaximum(self.box_max.value() - bereich_schritt)
-        self.box_max.setMinimum(self.box_min.value() + bereich_schritt)
-        self.aktualisiere()
 
     def akt_fehler(self):
         self.box_prozentual.setEnabled(self.box_fehler.isChecked())
