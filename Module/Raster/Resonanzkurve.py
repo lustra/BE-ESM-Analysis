@@ -64,13 +64,21 @@ class Resonanzkurve(Canvas):
             par = self.gui.fit.par
             x_von = (self.koord[0].value() + 1) * par.messpunkte
             x_bis = x_von + par.messpunkte
+            frequenzen = np.arange(  # Frequenz auf der x-Achse
+                start=par.fmin,
+                stop=par.fmax,
+                step=(par.fmax - par.fmin) / par.messpunkte
+            )
             self.plotter.axes.plot(
-                np.arange(  # Frequenz auf der x-Achse
-                    start=par.fmin,
-                    stop=par.fmax,
-                    step=(par.fmax - par.fmin) / par.messpunkte
-                ),
+                frequenzen,
                 self._werte[self.koord[1].value() + 1][x_von:x_bis],
+                antialiased=True
+            )
+            fit = self.gui.fit
+            """ :type: Module.Raster.Fit.Fit """
+            self.plotter.axes.plot(
+                frequenzen,
+                fit.best_fit,
                 antialiased=True
             )
             self.plotter.draw()

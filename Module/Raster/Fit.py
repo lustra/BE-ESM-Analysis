@@ -23,6 +23,7 @@ class Fit(AbstraktFit):
         """ :type: Messwerte """
         self.erg = None
         """ :type: Ergebnis """
+        self.best_fit = []
 
     def impl_fit(self):
         par = self.par
@@ -40,6 +41,7 @@ class Fit(AbstraktFit):
         fhlr_q = neu()
         erg_phase = neu()  # single phase point off resonance
         fhlr_phase = neu()
+        self.best_fit = neu()
 
         if Fit.debug_schnell:
             pixel = 0
@@ -58,7 +60,8 @@ class Fit(AbstraktFit):
             
             for x in range(pixel):
                 amp, ph = self.fit(amplituden[x], phasen[x])
-                
+
+                self.best_fit[y, x] = amp.best_fit
                 erg_resfreq[y, x] = amp.best_values['resfreq']
                 fhlr_resfreq[y, x] = amp.params['resfreq'].stderr
                 erg_amp[y, x] = amp.best_values['amp']
