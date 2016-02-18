@@ -76,9 +76,12 @@ class Resonanzkurve(Canvas):
             )
             fit = self.gui.fit
             """ :type: Module.Raster.Fit.Fit """
-            self.plotter.axes.plot(
-                frequenzen,
-                fit.best_fit,
-                antialiased=True
-            )
+            try:
+                self.plotter.axes.plot(
+                    frequenzen,
+                    fit.best_fit,
+                    antialiased=True
+                )
+            except ValueError:
+                pass
             self.plotter.draw()

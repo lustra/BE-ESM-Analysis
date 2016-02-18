@@ -41,7 +41,7 @@ class Fit(AbstraktFit):
         fhlr_q = neu()
         erg_phase = neu()  # single phase point off resonance
         fhlr_phase = neu()
-        self.best_fit = neu()
+        self.best_fit = np.ones((pixel, pixel, int((par.fmax-par.fmin)/par.df)))
 
         if Fit.debug_schnell:
             pixel = 0

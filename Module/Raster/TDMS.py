@@ -37,7 +37,7 @@ def lade_tdms(par, typ):
         if verbleibend != 0:
             verbleibend -= 1
             tdms_file = TdmsFile(tdms_fname)
-            channel = tdms_file.object('Unbenannt', 'Untitled')  # erster Name ist der Gruppenname, dann der Kanalname
+            channel = tdms_file.object('Untitled', 'Untitled')  # erster Name ist der Gruppenname, dann der Kanalname
             daten.append(np.array(channel.data))
             namen.append(tdms_fname.split(os.sep)[-1])
         else:
