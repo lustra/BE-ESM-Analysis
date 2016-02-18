@@ -185,6 +185,7 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         """ :type: Module.Raster.Ergebnis.Ergebnis """
         self.plt_raster_phase_schnitt.set_werte(erg.phase)
         self.plt_raster_amp_schnitt.set_werte(erg.amp)
+        self.plt_raster_freq_schnitt.set_werte(erg.resfreq)
         self.plt_raster_phase.set_werte(erg.phase)
         self.plt_raster_resfreq.set_werte(erg.resfreq)
         self.plt_raster_amplitude.set_werte(erg.amp)

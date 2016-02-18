@@ -10,6 +10,7 @@ from PyQt4 import QtGui
 from Module.Canvas import Canvas
 from Module.Plotter import Plotter
 from Module.Strings import *
+from FitFunktion import resonance_lorentz
 from ResonanzFit import lang
 
 
@@ -60,9 +61,11 @@ class Resonanzkurve(Canvas):
 
     def aktualisiere(self):
         if self._werte is not None:
+            x = self.koord[0].value()
+            y = self.koord[1].value()
             # Nur x,y wird betrachtet, aber es sind in dieser Liste alle Messpunkte pro Ort hintereinander
             par = self.gui.fit.par
-            x_von = (self.koord[0].value() + 1) * par.messpunkte
+            x_von = (x + 1) * par.messpunkte
             x_bis = x_von + par.messpunkte
             frequenzen = np.arange(  # Frequenz auf der x-Achse
                 start=par.fmin,
@@ -71,14 +74,23 @@ class Resonanzkurve(Canvas):
             )
             self.plotter.axes.plot(
                 frequenzen,
-                self._werte[self.koord[1].value() + 1][x_von:x_bis],
+                self._werte[y + 1][x_von:x_bis],
                 antialiased=True
             )
-            fit = self.gui.fit
-            """ :type: Module.Raster.Fit.Fit """
-            self.plotter.axes.plot(
-                frequenzen,
-                fit.best_fit,
-                antialiased=True
-            )
+            try:
+                fit = self.gui.fit
+                """ :type: Module.Raster.Fit.Fit """
+                self.plotter.axes.plot(
+                    frequenzen,
+                    [resonance_lorentz(
+                        frequenzen[n],
+                        fit.erg.resfreq.normal[y, x],
+                        fit.erg.amp.normal[y, x],
+                        fit.erg.q.normal[y, x],
+                        fit.offset[y, x]
+                    ) for n in range(len(frequenzen))],
+                    antialiased=True
+                )
+            except AttributeError:
+                """ Fit noch nicht fertig """
             self.plotter.draw()
