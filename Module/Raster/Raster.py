@@ -17,8 +17,10 @@ def genauigkeit(box):
     """
     :type box: QtGui.QDoubleSpinBox
     """
-    box.setSingleStep(0.01)
+    box.setSingleStep(0.00001)
     box.setDecimals(10)
+    box.setMaximum(2000000)
+    box.setMinimum(-2000000)
 
 
 class Raster(Canvas):
