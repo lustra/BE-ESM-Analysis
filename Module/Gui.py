@@ -53,6 +53,11 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
             titel=gui_amp_schnitt[lang],
             beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_amp[lang])
         )
+        self.plt_raster_freq_schnitt = Schnitt(
+            gui=self,
+            titel=gui_freq_schnitt[lang],
+            beschriftung=Achsenbeschriftung(x=achse_punkt_x[lang], y=achse_freq[lang])
+        )
         self.plt_raster_phase = Raster(
             gui=self,
             resonanzkurve=self.plt_raster_resonanzkurve,
