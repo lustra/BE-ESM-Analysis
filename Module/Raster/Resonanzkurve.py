@@ -10,7 +10,7 @@ from PyQt4 import QtGui
 from Module.Canvas import Canvas
 from Module.Plotter import Plotter
 from Module.Strings import *
-from FitFunktion import resonance_lorentz
+from Module.FitFunktion import resonance_lorentz
 from ResonanzFit import lang
 
 

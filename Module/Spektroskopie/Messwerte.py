@@ -68,9 +68,13 @@ class Messwerte(AbstraktMesswerte, Messreihe):
         :return: Die gemittelten Messwerte aus der angegebenen Datei
         :rtype: numpy.mutliarray.ndarray
         """
-        tdms = TdmsFile(datei).object('Unbenannt', 'Untitled')
         # Beschnittene Daten (links: positiv, rechts: negativ)
         daten = np.zeros(self.par.messpunkte - self.par.bereich_links + self.par.bereich_rechts)
+        try:
+            tdms = TdmsFile(datei).object('Unbenannt', 'Untitled')
+        except ValueError:
+            print('Datei ' + datei + ' nicht auslesbar')
+            return daten
         index_fehler = False
         for mittelung in range(self.par.mittelungen):
             try:
