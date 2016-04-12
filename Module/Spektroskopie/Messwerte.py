@@ -44,13 +44,13 @@ class Messwerte(AbstraktMesswerte, Messreihe):
             omega = int(name[0])
             name = name[1].split('G')
             ac = name[0]
-            dc = name[1].rstrip('V.tdms')
+            dc = name[1].rstrip('V.csv')
 
-            dat_phase = self.par.verzeichnis + 'phase' + str(omega) + 'w' + ac + 'G' + dc + 'V.tdms'
+            dat_phase = self.par.verzeichnis + 'phase' + str(omega) + 'w' + ac + 'G' + dc + 'V.csv'
 
             amplitude = self.lade_tdms(dat_amp) * 1000  # V -> mV
             """ :type: numpy.multiarray.ndarray """
-            phase = self.lade_tdms(dat_phase)
+            phase = amplitude
 
             self.add(omega, punkt(ac), punkt(dc), amplitude, phase)
 
@@ -60,7 +60,7 @@ class Messwerte(AbstraktMesswerte, Messreihe):
 
     @staticmethod
     def glob_amp(verzeichnis):
-        return glob(verzeichnis + 'amp*.tdms')
+        return glob(verzeichnis + 'amp*.csv')
 
     def lade_tdms(self, datei):
         """
@@ -70,11 +70,16 @@ class Messwerte(AbstraktMesswerte, Messreihe):
         """
         # Beschnittene Daten (links: positiv, rechts: negativ)
         daten = np.zeros(self.par.messpunkte - self.par.bereich_links + self.par.bereich_rechts)
-        try:
-            tdms = TdmsFile(datei).object('Unbenannt', 'Untitled')
-        except ValueError:
-            print('Datei ' + datei + ' nicht auslesbar')
-            return daten
+        #try:
+        tdms = open(datei)
+        data = []
+        zeile = tdms.readline()
+        while zeile != "":
+            data.append(float(zeile))
+            zeile = tdms.readline()
+        #except ValueError:
+            #print('Datei ' + datei + ' nicht auslesbar')
+            # return daten
         index_fehler = False
         for mittelung in range(self.par.mittelungen):
             try:
@@ -86,7 +91,7 @@ class Messwerte(AbstraktMesswerte, Messreihe):
                 start = mittelung * self.par.messpunkte
                 links = start + self.par.bereich_links
                 rechts = start + self.par.messpunkte + self.par.bereich_rechts
-                daten += tdms.data[links:rechts]
+                daten += data[links:rechts]
 
                 """if mittelung == 0:
                     name = raw_input('$')
