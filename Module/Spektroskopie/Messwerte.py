@@ -16,6 +16,10 @@ from Module.Sonstige import Fehler, punkt
 from Messreihe import *
 
 
+amp_pre = 'M-FFT'
+phase_pre = ''  # Muss nicht stimmen
+
+
 class Messwerte(AbstraktMesswerte, Messreihe):
     def __init__(self, par, signal_weiter):
         """
@@ -40,13 +44,13 @@ class Messwerte(AbstraktMesswerte, Messreihe):
         dateien = Messwerte.glob_amp(self.par.verzeichnis)
         for dat_amp in dateien:
 
-            name = dat_amp.split(os.sep + 'amp')[-1].split('w')
+            name = dat_amp.split(os.sep + amp_pre)[-1].split('w')
             omega = int(name[0])
             name = name[1].split('G')
             ac = name[0]
             dc = name[1].rstrip('V.tdms')
 
-            dat_phase = self.par.verzeichnis + 'phase' + str(omega) + 'w' + ac + 'G' + dc + 'V.tdms'
+            dat_phase = self.par.verzeichnis + phase_pre + str(omega) + 'w' + ac + 'G' + dc + 'V.tdms'
 
             amplitude = self.lade_tdms(dat_amp) * 1000  # V -> mV
             """ :type: numpy.multiarray.ndarray """
@@ -60,7 +64,7 @@ class Messwerte(AbstraktMesswerte, Messreihe):
 
     @staticmethod
     def glob_amp(verzeichnis):
-        return glob(verzeichnis + 'amp*.tdms')
+        return glob(verzeichnis + amp_pre + '*.tdms')
 
     def lade_tdms(self, datei):
         """
@@ -71,8 +75,9 @@ class Messwerte(AbstraktMesswerte, Messreihe):
         # Beschnittene Daten (links: positiv, rechts: negativ)
         daten = np.zeros(self.par.messpunkte - self.par.bereich_links + self.par.bereich_rechts)
         try:
-            tdms = TdmsFile(datei).object('Unbenannt', 'Untitled')
-        except ValueError:
+            tdat = TdmsFile(datei)
+            tdms = tdat.object(tdat.groups()[0], 'Untitled')
+        except (ValueError, IOError):
             print('Datei ' + datei + ' nicht auslesbar')
             return daten
         index_fehler = False
@@ -181,6 +186,7 @@ class Messwerte(AbstraktMesswerte, Messreihe):
         datei_speichern(wohin + '.amp', reihen, 'Amp. (mV)', lambda r, n: str(r.amp_dc[n]))
         datei_speichern(wohin + '.freq', reihen, 'Resfreq. (Hz)', lambda r, n: str(r.resfreq_dc[n]))
         datei_speichern(wohin + '.phase', reihen, 'Phase (Grad)', lambda r, n: str(r.phase_dc[n]))
+        datei_speichern(wohin + '.q', reihen, 'Guete', lambda r, n: str(r.guete[n]))
 
 
 def datei_speichern(wohin, reihen, bezeichnung, messwert):
@@ -201,7 +207,10 @@ def datei_speichern(wohin, reihen, bezeichnung, messwert):
     for dc_index in range(len(reihen[0].dc)):
         zeile = str(reihen[0].dc[dc_index])
         for reihe in reihen:
-            zeile += '\t' + messwert(reihe, dc_index)
+            try:
+                zeile += '\t' + messwert(reihe, dc_index)
+            except IndexError:
+                pass
         datei.write(zeile + '\n')
 
     datei.close()

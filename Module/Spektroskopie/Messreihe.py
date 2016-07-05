@@ -61,6 +61,7 @@ class AC(Omega):
         self.amp_dc = []
         self.resfreq_dc = []
         self.phase_dc = []
+        self.guete = []
 
     def alle(self):
         """

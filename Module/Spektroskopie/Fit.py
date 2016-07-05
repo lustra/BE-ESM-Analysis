@@ -30,6 +30,7 @@ class Fit(AbstraktFit):
             anz_dc = len(reihe.dc)
             reihe.amp_dc = np.ndarray((anz_dc,))
             reihe.resfreq_dc = np.ndarray((anz_dc,))
+            reihe.guete = np.ndarray((anz_dc,))
             reihe.phase_dc = np.ndarray((anz_dc,))
 
             for dc in range(anz_dc):  # Indizes zu den bestimmten DC-Werten
@@ -39,6 +40,7 @@ class Fit(AbstraktFit):
                 # Amplitude auswerten:
                 reihe.amp_dc[dc] = amp.best_values['amp']
                 reihe.resfreq_dc[dc] = amp.best_values['resfreq']
+                reihe.guete[dc] = amp.best_values['guete']
 
                 # Phase auswerten:
                 reihe.phase_dc[dc] = phase.mit_versatz
