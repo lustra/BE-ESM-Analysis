@@ -59,9 +59,12 @@ class AC(Omega):
 
         # Diese Listen werden erst beim Fit mit den Fitparametern (konst.) gefüllt
         self.amp_dc = []
+        self.amp_fhlr_dc = []
         self.resfreq_dc = []
+        self.resfreq_fhlr_dc = []
         self.phase_dc = []
         self.guete = []
+        self.guete_fhlr = []
 
     def alle(self):
         """

@@ -162,6 +162,10 @@ class Fit(QtCore.QThread):
             ph.mit_versatz = ph.best_fit[len(ph.best_fit) // 2]
         ph.frequenzen = wahl_frequenz
 
+#        print '0,' + str(amp.params['amp'].value) + ',' + str(amp.params['amp'].stderr) + ',' +\
+#              str(amp.params['resfreq'].value) + ',' + str(amp.params['resfreq'].stderr) + ',' +\
+#              str(amp.params['guete'].value ) + ',' + str(amp.params['guete'].stderr) + ',' + str(ph.mit_versatz)
+
         return amp, ph
 
     def freq_index(self, freq):

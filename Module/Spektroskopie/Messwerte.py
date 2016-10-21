@@ -16,7 +16,7 @@ from Module.Sonstige import Fehler, punkt
 from Messreihe import *
 
 
-amp_pre = 'M-FFT'
+amp_pre = 'amp'
 phase_pre = ''  # Muss nicht stimmen
 
 
@@ -42,31 +42,48 @@ class Messwerte(AbstraktMesswerte, Messreihe):
             self.frequenzen = self.frequenzen[par.bereich_links:par.bereich_rechts]
 
         dateien = Messwerte.glob_amp(self.par.verzeichnis)
-        for dat_amp in dateien:
+        if False:
+            for dat_amp in dateien:
 
-            name = dat_amp.split(os.sep + amp_pre)[-1].split('w')
-            omega = int(name[0])
-            name = name[1].split('G')
-            ac = name[0]
-            dc = name[1].rstrip('V.tdms')
+                name = dat_amp.split(os.sep + amp_pre)[-1].split('w')
+                omega = int(name[0])
+                name = name[1].split('G')
+                ac = name[0]
+                dc = name[1].rstrip('V.tdms')
 
-            dat_phase = self.par.verzeichnis + phase_pre + str(omega) + 'w' + ac + 'G' + dc + 'V.tdms'
+                dat_phase = self.par.verzeichnis + phase_pre + str(omega) + 'w' + ac + 'G' + dc + 'V.tdms'
 
-            amplitude = self.lade_tdms(dat_amp) * 1000  # V -> mV
-            """ :type: numpy.multiarray.ndarray """
-            phase = self.lade_tdms(dat_phase)
+                amplitude = self.lade_tdms(dat_amp) * 1000  # V -> mV
+                """ :type: numpy.multiarray.ndarray """
+                phase = self.lade_tdms(dat_phase)
 
-            self.add(omega, punkt(ac), punkt(dc), amplitude, phase)
+                self.add(omega, punkt(ac), punkt(dc), amplitude, phase)
 
-            self.amplitude_namen.append(dat_amp.split(os.sep)[-1])
-            self.phase_namen.append(dat_phase.split(os.sep)[-1])
-            signal_weiter()
+                self.amplitude_namen.append(dat_amp.split(os.sep)[-1])
+                self.phase_namen.append(dat_phase.split(os.sep)[-1])
+                signal_weiter()
+        else:
+            datei = '/home/sebadur/Dokumente/BaTiO3/2016-10-20/16-10-20-13-46-14.tdms'
+            kanal = 'elmech'
+            N = 81
+
+            omega = 1
+            amplitude = TdmsFile(datei).channel_data(kanal, 'amp') * 1000  # V -> mV
+            phase = TdmsFile(datei).channel_data(kanal, 'phase')
+            for u in range(N):
+                xf = (self.par.fmax - self.par.fmin) / self.par.df
+                links = u * xf + self.par.bereich_links
+                rechts = (u + 1) * xf + self.par.bereich_rechts
+                self.add(omega, 1., u, amplitude[links:rechts], phase[links:rechts])
+                self.amplitude_namen.append('debug')
+                self.phase_namen.append('debug')
+                signal_weiter()
 
     @staticmethod
     def glob_amp(verzeichnis):
         return glob(verzeichnis + amp_pre + '*.tdms')
 
-    def lade_tdms(self, datei):
+    def lade_tdms(self, datei, kanal='Untitled'):
         """
         :type datei: str
         :return: Die gemittelten Messwerte aus der angegebenen Datei
@@ -76,7 +93,8 @@ class Messwerte(AbstraktMesswerte, Messreihe):
         daten = np.zeros(self.par.messpunkte - self.par.bereich_links + self.par.bereich_rechts)
         try:
             tdat = TdmsFile(datei)
-            tdms = tdat.object(tdat.groups()[0], 'Untitled')
+            # tdms = tdat.object(tdat.groups()[0], kanal)
+            tdms = tdat.object('elstat', kanal)
         except (ValueError, IOError):
             print('Datei ' + datei + ' nicht auslesbar')
             return daten
@@ -176,26 +194,26 @@ class Messwerte(AbstraktMesswerte, Messreihe):
         """
         :type wohin: str
         """
-        reihen = self.alle()
-        """for reihe in reihen:
-            # Sortieren nach DC (weil die Daten beim ersten Speichern noch ungeordnet vorliegen)
-            abh_dc = zip(reihe.dc, reihe.amp_dc, reihe.resfreq_dc, reihe.phase_dc)
-            abh_dc.sort()
-            reihe.dc, reihe.amp_dc, reihe.resfreq_dc, reihe.phase_dc = zip(*abh_dc)"""
+        # TODO derzeit nur ein AC:
+        fit = self.alle()[0]
 
-        datei_speichern(wohin + '.amp', reihen, 'Amp. (mV)', lambda r, n: str(r.amp_dc[n]))
-        datei_speichern(wohin + '.freq', reihen, 'Resfreq. (Hz)', lambda r, n: str(r.resfreq_dc[n]))
-        datei_speichern(wohin + '.phase', reihen, 'Phase (Grad)', lambda r, n: str(r.phase_dc[n]))
-        datei_speichern(wohin + '.q', reihen, 'Guete', lambda r, n: str(r.guete[n]))
+        datei = open(wohin, 'w')
+        for n in range(len(fit.dc)):
+            datei.write(
+                str(fit.dc[n]) + ',' + str(fit.amp_dc[n]) + ',' + str(fit.amp_fhlr_dc[n]) + ',' +
+                str(fit.resfreq_dc[n]) + ',' + str(fit.resfreq_fhlr_dc[n]) + ',' + str(fit.guete[n]) + ',' +
+                str(fit.guete_fhlr[n]) + ',' + str(fit.phase_dc[n]) + '\n'
+            )
+        datei.close()
 
-
+"""
 def datei_speichern(wohin, reihen, bezeichnung, messwert):
-    """
+    ""
     :type wohin: str
     :type reihen: list[AC]
     :type bezeichnung: str
     :type messwert: (AC, int) -> str
-    """
+    ""
     datei = open(wohin, 'w')
 
     zeile = 'DC/V'
@@ -214,3 +232,4 @@ def datei_speichern(wohin, reihen, bezeichnung, messwert):
         datei.write(zeile + '\n')
 
     datei.close()
+"""
