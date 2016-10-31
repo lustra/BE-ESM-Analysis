@@ -13,10 +13,10 @@ from Module.Sonstige import Fehler
 
 class Parameter:
     """ Alle für den Fit einer Rastermessung nötigen Messparameter """
-    def __init__(self, verzeichnis, fmin, fmax, fitfunktion, fenster, ordnung, phase_modus, phase_versatz,
+    def __init__(self, datei, fmin, fmax, fitfunktion, fenster, ordnung, phase_modus, phase_versatz,
                  df, bereich_links, bereich_rechts, amp_min, amp_max, guete_min, guete_max, off_min, off_max):
         """
-        :type verzeichnis: str
+        :type datei: str
         :type fmin: int
         :type fmax: int
         :param fitfunktion: Mit den Parametern Frequenz, Resonanzfrequenz, Amplitude, Güte und Offset
@@ -43,7 +43,7 @@ class Parameter:
         if fmin >= fmax or amp_min >= amp_max or guete_min >= guete_max or off_min >= off_max:
             raise Fehler()
 
-        self.verzeichnis = verzeichnis if verzeichnis.endswith(os.sep) else verzeichnis + os.sep
+        self.datei = datei
         """ Pfad zum Ordner, der alle Messdateien enthält """
         self.fmin = fmin
         """ Anfangsfrequenz des Spektrums der Bandanregung in Hz """

@@ -67,7 +67,7 @@ class GuiRasterLaden(GuiAbstraktLaden, Ui_RasterLaden):
 
             # Fitten
             parameter = Parameter(
-                verzeichnis=str(self.edit_pfad.text()),
+                datei=str(self.edit_pfad.text()),
                 fmin=1000*self.box_fmin.value(),
                 fmax=1000*self.box_fmax.value(),
                 fitfunktion=FitFunktion.errorfunc[self.box_methode.currentIndex()],

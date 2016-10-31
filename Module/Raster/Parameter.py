@@ -9,10 +9,10 @@ from Module.Abstrakt.Parameter import Parameter as AbstraktParameter
 
 class Parameter(AbstraktParameter):
     """ Alle für den Fit einer Rastermessung nötigen Messparameter """
-    def __init__(self, verzeichnis, fmin, fmax, fitfunktion, fenster, ordnung, phase_modus, phase_versatz,
+    def __init__(self, datei, fmin, fmax, fitfunktion, fenster, ordnung, phase_modus, phase_versatz,
                  df, pixel, bereich_links, bereich_rechts, amp_min, amp_max, guete_min, guete_max, off_min, off_max):
         """
-        :type verzeichnis: str
+        :type datei: str
         :type fmin: int
         :type fmax: int
         :type fitfunktion: (float, float, float, float, float) -> float
@@ -37,7 +37,7 @@ class Parameter(AbstraktParameter):
         :type off_max: float
         """
         AbstraktParameter.__init__(
-            self, verzeichnis, fmin, fmax, fitfunktion, fenster, ordnung, phase_modus, phase_versatz,
+            self, datei, fmin, fmax, fitfunktion, fenster, ordnung, phase_modus, phase_versatz,
             df, bereich_links, bereich_rechts, amp_min, amp_max, guete_min, guete_max, off_min, off_max
         )
 

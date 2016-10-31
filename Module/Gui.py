@@ -144,7 +144,7 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
 
     def importiert(self):
         #  Name der Messung anzeigen
-        self.label_name.setText(os.path.basename(self.fit.par.verzeichnis))
+        self.label_name.setText(os.path.basename(self.fit.par.datei))
 
         #  Dateiliste befüllen
         def model(namen):
@@ -174,7 +174,7 @@ class Gui(QtGui.QMainWindow, Ui_Gui):
         self.gui_spektr_laden.raise_()
 
     def speichern(self):
-        wohin = QtGui.QFileDialog().getSaveFileName(self, rf_ordner[lang], self.fit.par.verzeichnis)
+        wohin = QtGui.QFileDialog().getSaveFileName(self, rf_ordner[lang], self.fit.par.datei.rsplit(os.path.pathsep, 1)[0])
         self.fit.speichern(str(wohin))
         hinweis(self, gui_gespeichert[lang] + wohin)
 

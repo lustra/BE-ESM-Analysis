@@ -84,7 +84,7 @@ class GuiSpektrLaden(GuiAbstraktLaden, Ui_SpektrLaden):
 
     def packe_parameter(self):
         return Parameter(
-            verzeichnis=str(self.edit_pfad.text()),
+            datei=str(self.edit_pfad.text()),
             fitfunktion=FitFunktion.errorfunc[self.box_methode.currentIndex()],
             fenster=self.box_fenster.value(),
             ordnung=self.box_ordnung.value(),

@@ -21,7 +21,7 @@ class Fit(AbstraktFit):
         AbstraktFit.__init__(self, laden, par)
         self.messwerte = None
         """ :type: Messwerte.Messwerte """
-        self.anzahl = len(Messwerte.glob_amp(par.verzeichnis))
+        self.anzahl = 1  # len(Messwerte.glob_amp(par.datei))
 
     def impl_fit(self):
         for reihe in self.messwerte.alle():
