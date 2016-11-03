@@ -16,8 +16,8 @@ from Module.Sonstige import Fehler, punkt
 from Messreihe import *
 
 
-amp_pre = 'M-FFT'
-phase_pre = ''  # Muss nicht stimmen
+amp_pre = 'amp'
+phase_pre = 'amp'  # Muss nicht stimmen
 
 
 class Messwerte(AbstraktMesswerte, Messreihe):
